@@ -505,14 +505,23 @@ function rcard(r, rem, feat) {
   let cls = 'rcard';
   if(!earned) cls += ' locked';
   if(feat) cls += ' featured';
-  return `<div class="${cls}" onclick="onRcard('${r._cat}','${r.id}',${r.cost},${earned})">
-    ${S.editing?'<div style="position:absolute;top:4px;right:4px;"><button onclick="event.stopPropagation();editR(\\'${r._cat}\\',\\'${r.id}\\')" style="font-size:11px;padding:2px 6px;border:1px solid var(--secondary);border-radius:4px;background:#fff;color:var(--secondary);cursor:pointer;">✏️</button> <button onclick="event.stopPropagation();delR(\\'${r._cat}\\',\\'${r.id}\\')" style="font-size:11px;padding:2px 6px;border:1px solid var(--danger);border-radius:4px;background:#fff;color:var(--danger);cursor:pointer;">🗑</button></div>':''}
-    <div class="ricon">${r.icon||'⭐'}</div>
-    <div class="rname">${r.name}</div>
-    <div class="rcost">🏅 ${r.cost}</div>
-    <div class="rprog"><div class="rprogbar" style="width:${pct}%;background:${earned?'var(--accent)':'var(--primary)'};"></div></div>
-    <div class="rpct">${rem}/${r.cost}（${pct}%）</div>
-  </div>`;
+  // Build edit buttons safely without nested template interpolation
+  var eb = '';
+  if(S.editing) {
+    eb = '<div style="position:absolute;top:4px;right:4px;">' +
+      '<button onclick="event.stopPropagation();editR(&quot;' + r._cat + '&quot;,&quot;' + r.id + '&quot;)" style="font-size:11px;padding:2px 6px;border:1px solid var(--secondary);border-radius:4px;background:#fff;color:var(--secondary);cursor:pointer;">✏️</button> ' +
+      '<button onclick="event.stopPropagation();delR(&quot;' + r._cat + '&quot;,&quot;' + r.id + '&quot;)" style="font-size:11px;padding:2px 6px;border:1px solid var(--danger);border-radius:4px;background:#fff;color:var(--danger);cursor:pointer;">🗑</button>' +
+      '</div>';
+  }
+  var oc = 'onRcard(&quot;' + r._cat + '&quot;,&quot;' + r.id + '&quot;,' + r.cost + ',' + earned + ')';
+  return '<div class="' + cls + '" onclick="' + oc + '">' +
+    eb +
+    '<div class="ricon">' + (r.icon||'⭐') + '</div>' +
+    '<div class="rname">' + r.name + '</div>' +
+    '<div class="rcost">🏅 ' + r.cost + '</div>' +
+    '<div class="rprog"><div class="rprogbar" style="width:' + pct + '%;background:' + (earned?'var(--accent)':'var(--primary)') + ';"></div></div>' +
+    '<div class="rpct">' + rem + '/' + r.cost + '（' + pct + '%）</div>' +
+  '</div>';
 }
 
 function onRcard(cat, id, cost, earned) {
