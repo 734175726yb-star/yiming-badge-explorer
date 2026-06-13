@@ -6,145 +6,353 @@
 <title>奕铭探险家</title>
 <style>
 :root {
-  --primary: #F5A623;
-  --secondary: #4A90D9;
-  --accent: #7ED321;
-  --danger: #E8697C;
-  --bg: #FFF9E8;
+  --sun: #FF9A3C;
+  --sky: #4FC3F7;
+  --leaf: #66BB6A;
+  --pink: #F48FB1;
+  --bg: #FFF8E1;
   --card: #FFFFFF;
-  --text: #3D2C1A;
-  --text-light: #9A8A7A;
-  --border: #F0E0C0;
-  --shadow: 0 2px 8px rgba(60,40,10,0.08);
-  --radius: 16px;
-  --radius-sm: 10px;
+  --text: #3E2723;
+  --text-light: #8D6E63;
+  --border: #FFE0B2;
+  --shadow: 0 3px 12px rgba(255,152,0,0.10);
+  --radius: 18px;
+  --radius-sm: 12px;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: -apple-system, 'PingFang SC', sans-serif; background: var(--bg); color: var(--text); margin: 0; }
+body { font-family: -apple-system, 'PingFang SC', 'Hiragino Sans GB', sans-serif; background: var(--bg); color: var(--text); margin: 0; }
 
 #app { max-width: 420px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; }
-header { background: linear-gradient(135deg, var(--primary), #F7C948); padding: 12px 16px 8px; color: #fff; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
-header h1 { font-size: 17px; font-weight: 700; }
-header .sub { font-size: 11px; opacity: 0.85; }
-.header-btns { display: flex; gap: 6px; }
-.header-btns button { background: rgba(255,255,255,0.25); border: none; color: #fff; width: 32px; height: 32px; border-radius: 50%; font-size: 15px; cursor: pointer; }
 
-.page { flex: 1; overflow-y: auto; padding: 16px; display: none; }
+/* ── Header ── */
+header {
+  background: linear-gradient(135deg, #FFB74D 0%, #FFA726 40%, #FF9800 100%);
+  padding: 14px 16px 12px;
+  color: #fff;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-shrink: 0;
+  border-radius: 0 0 24px 24px;
+  box-shadow: 0 4px 16px rgba(255,152,0,0.25);
+}
+header h1 { font-size: 18px; font-weight: 800; letter-spacing: 1px; }
+header .sub { font-size: 11px; opacity: 0.9; margin-top: 2px; }
+.header-btns { display: flex; gap: 6px; }
+.header-btns button {
+  background: rgba(255,255,255,0.28); border: none;
+  color: #fff; width: 34px; height: 34px;
+  border-radius: 50%; font-size: 16px; cursor: pointer;
+  transition: background 0.2s;
+}
+.header-btns button:active { background: rgba(255,255,255,0.5); }
+
+/* ── Pages ── */
+.page { flex:1; overflow-y: auto; padding: 16px; display: none; }
 .page.active { display: block; }
 
-/* Balance */
-.balance-bar { display: flex; gap: 8px; margin-bottom: 16px; }
-.b-item { flex: 1; background: var(--card); border-radius: var(--radius-sm); padding: 10px 8px; text-align: center; box-shadow: var(--shadow); }
-.b-item .b-num { font-size: 20px; font-weight: 700; }
-.b-item .b-label { font-size: 10px; color: var(--text-light); }
-.b-earned .b-num { color: var(--accent); }
-.b-redeemed .b-num { color: var(--danger); }
-.b-remaining .b-num { color: var(--primary); }
+/* ── Welcome Hero (Home) ── */
+.hero {
+  background: linear-gradient(135deg, #FFF3E0 0%, #FFFFFF 100%);
+  border-radius: var(--radius);
+  padding: 20px 16px 16px;
+  text-align: center;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; top: -20px; right: -20px;
+  width: 80px; height: 80px;
+  background: radial-gradient(circle, rgba(255,183,77,0.18) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.hero-emoji { font-size: 52px; margin-bottom: 6px; }
+.hero-name { font-size: 20px; font-weight: 800; color: #E65100; }
+.hero-sub { font-size: 12px; color: var(--text-light); margin-top: 4px; }
+.hero-stars { margin-top: 8px; font-size: 22px; letter-spacing: 4px; }
 
-/* Badge lines */
+/* ── Badge Lines Card ── */
 .blines { display: flex; gap: 10px; margin-bottom: 16px; }
-.bline { flex: 1; background: var(--card); border-radius: var(--radius); padding: 14px 8px; text-align: center; box-shadow: var(--shadow); position: relative; }
-.bline .animal { font-size: 32px; }
-.bline .bname { font-size: 11px; font-weight: 600; margin: 4px 0 2px; }
-.bline .bdesc { font-size: 9px; color: var(--text-light); }
-.bline .earned { position: absolute; top: 6px; right: 6px; font-size: 14px; }
+.bline {
+  flex: 1; background: var(--card); border-radius: var(--radius);
+  padding: 14px 6px 12px; text-align: center;
+  box-shadow: var(--shadow); position: relative;
+  transition: transform 0.2s;
+}
+.bline:active { transform: scale(0.96); }
+.bline .animal { font-size: 34px; }
+.bline .bname { font-size: 11px; font-weight: 700; margin: 4px 0 2px; color: #5D4037; }
+.bline .bdesc { font-size: 9px; color: var(--text-light); line-height: 1.3; }
+.bline .vote-badge {
+  position: absolute; top: 6px; right: 6px;
+  background: #E8F5E9; color: #2E7D32;
+  font-size: 10px; font-weight: 700;
+  padding: 2px 6px; border-radius: 8px;
+}
+.bline .vote-badge.zero { background: #FFF3E0; color: #E65100; }
 
-/* Vote progress */
-.vcard { background: var(--card); border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow); margin-bottom: 16px; }
-.vcard h3 { font-size: 14px; margin-bottom: 10px; }
-.vavatars { display: flex; gap: 8px; }
+/* ── Balance Bar ── */
+.balance-bar { display: flex; gap: 8px; margin-bottom: 16px; }
+.b-item {
+  flex: 1; background: var(--card); border-radius: var(--radius-sm);
+  padding: 10px 6px; text-align: center; box-shadow: var(--shadow);
+}
+.b-item .b-num { font-size: 22px; font-weight: 800; }
+.b-item .b-label { font-size: 10px; color: var(--text-light); }
+.b-earned .b-num { color: var(--leaf); }
+.b-redeemed .b-num { color: var(--pink); }
+.b-remaining .b-num { color: var(--sun); }
+
+/* ── Today Status Card ── */
+.today-card {
+  background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%);
+  border-radius: var(--radius); padding: 16px; text-align: center;
+  box-shadow: var(--shadow); margin-bottom: 16px;
+  border: 2px solid #C8E6C9;
+}
+.today-card .tc-emoji { font-size: 40px; }
+.today-card .tc-title { font-size: 15px; font-weight: 700; color: #2E7D32; margin: 6px 0 2px; }
+.today-card .tc-sub { font-size: 12px; color: #689F38; }
+
+/* ── Vote Progress ── */
+.vcard {
+  background: var(--card); border-radius: var(--radius);
+  padding: 14px; box-shadow: var(--shadow); margin-bottom: 16px;
+}
+.vcard h3 { font-size: 14px; font-weight: 700; margin-bottom: 10px; color: #E65100; }
+.vavatars { display: flex; gap: 8px; justify-content: center; }
 .vavatar { display: flex; flex-direction: column; align-items: center; gap: 3px; }
-.vcircle { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; border: 2px solid var(--border); background: var(--bg); }
-.vcircle.voted { border-color: var(--accent); background: #F0FFF0; }
+.vcircle {
+  width: 42px; height: 42px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  border: 2.5px solid var(--border); background: #FFF8E1;
+  transition: all 0.3s;
+}
+.vcircle.voted { border-color: var(--leaf); background: #E8F5E9; transform: scale(1.08); }
 .vname { font-size: 10px; color: var(--text-light); }
+.vname.voted-name { color: var(--leaf); font-weight: 600; }
 
-/* Today result */
-.tresult { background: linear-gradient(135deg, #FFF8E1, #FFFDE7); border-radius: var(--radius); padding: 16px; text-align: center; box-shadow: var(--shadow); margin-bottom: 16px; }
+/* ── Notes Preview ── */
+.notes-card {
+  background: var(--card); border-radius: var(--radius);
+  padding: 12px 14px; box-shadow: var(--shadow); margin-bottom: 16px;
+}
+.notes-card .nc-title { font-size: 13px; font-weight: 700; margin-bottom: 6px; color: #5D4037; }
+.note-item {
+  font-size: 12px; padding: 5px 0;
+  border-bottom: 1px dashed var(--border);
+  display: flex; align-items: flex-start; gap: 6px;
+}
+.note-item:last-child { border-bottom: none; }
+.note-emoji { font-size: 16px; flex-shrink: 0; }
+.note-text { color: #5D4037; line-height: 1.5; }
 
-/* Vote page */
+/* ── Vote Page ── */
 .mselect { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-.mcard { background: var(--card); border-radius: var(--radius); padding: 16px 10px; text-align: center; box-shadow: var(--shadow); border: 2px solid transparent; cursor: pointer; }
-.mcard.sel { border-color: var(--primary); background: #FFF8E1; }
-.mcard .emoji { font-size: 32px; }
-.mcard .name { font-size: 13px; font-weight: 600; margin-top: 4px; }
+.mcard {
+  background: var(--card); border-radius: var(--radius);
+  padding: 18px 10px; text-align: center;
+  box-shadow: var(--shadow); border: 2.5px solid transparent;
+  cursor: pointer; transition: all 0.2s;
+}
+.mcard:active { transform: scale(0.96); }
+.mcard.sel { border-color: var(--sun); background: #FFF8E1; }
+.mcard .emoji { font-size: 36px; }
+.mcard .name { font-size: 14px; font-weight: 700; margin-top: 4px; }
+.mcard .done-tag { font-size: 10px; color: var(--leaf); font-weight: 600; margin-top: 2px; }
 
 .vlines { margin-bottom: 20px; }
-.vline { background: var(--card); border-radius: var(--radius); padding: 14px; margin-bottom: 10px; box-shadow: var(--shadow); display: flex; align-items: center; gap: 12px; }
-.vline .vicon { font-size: 28px; }
+.vline {
+  background: var(--card); border-radius: var(--radius);
+  padding: 14px; margin-bottom: 10px;
+  box-shadow: var(--shadow);
+  display: flex; align-items: center; gap: 12px;
+}
+.vline .vicon { font-size: 30px; }
 .vline .vinfo { flex: 1; }
-.vline .vname { font-size: 13px; font-weight: 600; }
+.vline .vname { font-size: 14px; font-weight: 700; }
 .vline .vdesc { font-size: 10px; color: var(--text-light); }
 .vbtns { display: flex; gap: 8px; }
-.vbtn { width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--border); background: var(--card); font-size: 20px; cursor: pointer; }
-.vbtn.yes { border-color: var(--accent); }
-.vbtn.no { border-color: var(--danger); }
+.vbtn {
+  width: 46px; height: 46px; border-radius: 50%;
+  border: 2.5px solid var(--border); background: var(--card);
+  font-size: 22px; cursor: pointer; transition: all 0.2s;
+}
+.vbtn:active { transform: scale(0.9); }
+.vbtn.yes { border-color: var(--leaf); }
+.vbtn.yes.active { background: #E8F5E9; }
+.vbtn.no { border-color: var(--pink); }
+.vbtn.no.active { background: #FCE4EC; }
 
-/* Note */
-.note-wrap { background: var(--card); border-radius: var(--radius); padding: 14px; margin-bottom: 20px; box-shadow: var(--shadow); }
-.note-wrap label { font-size: 13px; font-weight: 600; display: block; margin-bottom: 8px; }
-.note-wrap textarea { width: 100%; border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 10px; font-size: 14px; resize: none; height: 80px; font-family: inherit; }
+.note-wrap {
+  background: var(--card); border-radius: var(--radius);
+  padding: 14px; margin-bottom: 20px; box-shadow: var(--shadow);
+}
+.note-wrap label { font-size: 13px; font-weight: 700; display: block; margin-bottom: 8px; color: #5D4037; }
+.note-wrap textarea {
+  width: 100%; border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm); padding: 10px;
+  font-size: 14px; resize: none; height: 80px; font-family: inherit;
+  outline: none; transition: border-color 0.2s;
+}
+.note-wrap textarea:focus { border-color: var(--sun); }
 
-.sbtn { width: 100%; padding: 14px; border: none; border-radius: var(--radius); background: linear-gradient(135deg, var(--primary), #F7C948); color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(245,166,35,0.4); }
-.sbtn:disabled { opacity: 0.5; }
+.sbtn {
+  width: 100%; padding: 15px; border: none; border-radius: var(--radius);
+  background: linear-gradient(135deg, #FFB74D, #FF9800);
+  color: #fff; font-size: 17px; font-weight: 800;
+  cursor: pointer; box-shadow: 0 4px 14px rgba(255,152,0,0.35);
+  transition: transform 0.15s;
+}
+.sbtn:active { transform: scale(0.97); }
+.sbtn:disabled { opacity: 0.45; }
 
-/* Shop */
+/* ── Shop ── */
 .shop-balance { display: flex; gap: 6px; margin-bottom: 12px; }
-.sb-item { flex: 1; background: var(--card); border-radius: var(--radius-sm); padding: 8px 6px; text-align: center; box-shadow: var(--shadow); font-size: 11px; }
-.sb-item .sb-num { font-size: 18px; font-weight: 700; display: block; }
-.sb-earned .sb-num { color: var(--accent); }
-.sb-redeemed .sb-num { color: var(--danger); }
-.sb-remaining .sb-num { color: var(--primary); }
+.sb-item {
+  flex: 1; background: var(--card); border-radius: var(--radius-sm);
+  padding: 8px 4px; text-align: center; box-shadow: var(--shadow);
+  font-size: 11px;
+}
+.sb-item .sb-num { font-size: 20px; font-weight: 800; display: block; }
+.sb-earned .sb-num { color: var(--leaf); }
+.sb-redeemed .sb-num { color: var(--pink); }
+.sb-remaining .sb-num { color: var(--sun); }
 
 .sadmin { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
-.sadmin button { padding: 6px 12px; border: 1.5px solid var(--primary); border-radius: 20px; background: #fff; color: var(--primary); font-size: 12px; cursor: pointer; }
-.sadmin button.active { background: var(--primary); color: #fff; }
+.sadmin button {
+  padding: 7px 14px; border: 2px solid var(--sun);
+  border-radius: 20px; background: #fff;
+  color: var(--sun); font-size: 12px; font-weight: 600; cursor: pointer;
+}
+.sadmin button.active { background: var(--sun); color: #fff; }
 
 /* Reward cards */
 .rgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.rcard { background: var(--card); border-radius: var(--radius); padding: 12px 8px; text-align: center; box-shadow: var(--shadow); position: relative; cursor: pointer; }
-.rcard .ricon { font-size: 28px; }
-.rcard .rname { font-size: 12px; font-weight: 600; margin-top: 4px; }
-.rcard .rcost { font-size: 11px; color: var(--primary); font-weight: 700; margin-top: 2px; }
-.rcard .rprog { height: 4px; background: #EEE; border-radius: 2px; margin: 6px 4px 2px; overflow: hidden; }
-.rcard .rprogbar { height: 100%; background: var(--primary); border-radius: 2px; }
+.rcard {
+  background: var(--card); border-radius: var(--radius);
+  padding: 14px 8px; text-align: center;
+  box-shadow: var(--shadow); position: relative;
+  cursor: pointer; transition: transform 0.2s;
+  border: 2px solid transparent;
+}
+.rcard:active { transform: scale(0.95); }
+.rcard .ricon { font-size: 32px; }
+.rcard .rname { font-size: 12px; font-weight: 700; margin-top: 4px; color: #4E342E; }
+.rcard .rcost { font-size: 11px; color: var(--sun); font-weight: 700; margin-top: 2px; }
+.rcard .rprog { height: 5px; background: #EFEBE9; border-radius: 3px; margin: 7px 4px 3px; overflow: hidden; }
+.rcard .rprogbar { height: 100%; background: var(--sun); border-radius: 3px; transition: width 0.5s; }
 .rcard .rpct { font-size: 9px; color: var(--text-light); }
 
-.rcard.locked { opacity: 0.55; }
-.rcard.locked .ricon { filter: grayscale(0.8); }
+.rcard.locked { opacity: 0.5; }
+.rcard.locked .ricon { filter: grayscale(0.7); }
 .rcard.locked .rname { color: var(--text-light); }
 .rcard.locked .rcost { color: var(--text-light); }
 
-.rcard.featured { border: 2px solid var(--primary); background: linear-gradient(135deg, #FFF8E1, #FFFDE7); }
+.rcard.featured {
+  border-color: var(--sun);
+  background: linear-gradient(135deg, #FFF8E1, #FFECB3);
+}
 
-.cat-header { font-size: 14px; font-weight: 700; margin: 16px 0 8px; }
-.cat-desc { font-size: 11px; color: var(--text-light); margin-bottom: 8px; }
+.cat-header {
+  font-size: 15px; font-weight: 800; margin: 18px 0 4px;
+  display: flex; align-items: center; gap: 6px;
+}
+.cat-desc { font-size: 11px; color: var(--text-light); margin-bottom: 10px; }
 
-/* Modal */
-.moverlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; display: flex; align-items: center; justify-content: center; padding: 20px; }
+/* ── Modals ── */
+.moverlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.45);
+  z-index: 100; display: flex; align-items: center;
+  justify-content: center; padding: 20px;
+}
 .moverlay.hide { display: none; }
-.modal { background: var(--card); border-radius: var(--radius); padding: 20px; width: 100%; max-width: 380px; max-height: 80vh; overflow-y: auto; }
-.modal h2 { font-size: 16px; margin-bottom: 14px; }
-.mfield { margin-bottom: 12px; }
-.mfield label { font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px; }
-.mfield input, .mfield textarea, .mfield select { width: 100%; border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 8px 10px; font-size: 14px; outline: none; font-family: inherit; }
-.mbtns { display: flex; gap: 8px; margin-top: 14px; }
-.mbtns button { flex: 1; padding: 10px; border: none; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; cursor: pointer; }
-.mconfirm { background: var(--primary); color: #fff; }
-.mcancel { background: var(--bg); color: var(--text); }
+.modal {
+  background: var(--card); border-radius: var(--radius);
+  padding: 22px 18px; width: 100%; max-width: 380px;
+  max-height: 85vh; overflow-y: auto;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+}
+.modal h2 { font-size: 17px; font-weight: 800; margin-bottom: 16px; color: #E65100; }
+.mfield { margin-bottom: 14px; }
+.mfield label { font-size: 12px; font-weight: 700; display: block; margin-bottom: 5px; color: #5D4037; }
+.mfield input, .mfield textarea, .mfield select {
+  width: 100%; border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm); padding: 9px 11px;
+  font-size: 14px; outline: none; font-family: inherit;
+  transition: border-color 0.2s;
+}
+.mfield input:focus, .mfield select:focus { border-color: var(--sun); }
+.mbtns { display: flex; gap: 8px; margin-top: 16px; }
+.mbtns button {
+  flex: 1; padding: 11px; border: none;
+  border-radius: var(--radius-sm); font-size: 14px;
+  font-weight: 700; cursor: pointer; transition: transform 0.15s;
+}
+.mbtns button:active { transform: scale(0.96); }
+.mconfirm { background: linear-gradient(135deg, #FFB74D, #FF9800); color: #fff; }
+.mcancel { background: #EFEBE9; color: var(--text); }
 
-/* Log */
-.lnav { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 12px; }
-.lnav button { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 4px 12px; font-size: 13px; cursor: pointer; }
-.lday { background: var(--card); border-radius: var(--radius); padding: 12px; margin-bottom: 8px; box-shadow: var(--shadow); }
+/* ── Log ── */
+.lnav {
+  display: flex; align-items: center; justify-content: center;
+  gap: 14px; margin-bottom: 14px;
+}
+.lnav button {
+  background: var(--card); border: 1.5px solid var(--border);
+  border-radius: 20px; padding: 5px 14px;
+  font-size: 14px; cursor: pointer; font-weight: 600;
+  color: #5D4037;
+}
+.lnav span { font-size: 14px; font-weight: 700; color: #4E342E; }
+.lday {
+  background: var(--card); border-radius: var(--radius);
+  padding: 13px; margin-bottom: 10px; box-shadow: var(--shadow);
+}
 
-/* Nav */
-.nav { display: flex; background: var(--card); border-top: 1px solid var(--border); flex-shrink: 0; }
-.nitem { flex: 1; text-align: center; padding: 6px 0 4px; cursor: pointer; color: var(--text-light); font-size: 10px; border: none; background: none; }
-.nitem .ni { font-size: 20px; display: block; }
-.nitem.active { color: var(--primary); }
+/* ── Nav ── */
+.nav {
+  display: flex; background: var(--card);
+  border-top: 1.5px solid var(--border);
+  flex-shrink: 0;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.04);
+}
+.nitem {
+  flex: 1; text-align: center; padding: 8px 0 6px;
+  cursor: pointer; color: var(--text-light);
+  font-size: 10px; border: none; background: none;
+  font-weight: 600; transition: color 0.2s;
+}
+.nitem .ni { font-size: 22px; display: block; }
+.nitem.active { color: var(--sun); }
 
-.toast { position: fixed; top: 60px; left: 50%; transform: translateX(-50%); background: #333; color: #fff; padding: 8px 18px; border-radius: 20px; font-size: 13px; z-index: 200; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+/* ── Toast ── */
+.toast {
+  position: fixed; top: 60px; left: 50%; transform: translateX(-50%);
+  background: #333; color: #fff; padding: 9px 20px;
+  border-radius: 20px; font-size: 13px; z-index: 200;
+  opacity: 0; transition: opacity 0.3s; pointer-events: none;
+  white-space: nowrap;
+}
 .toast.show { opacity: 1; }
+.toast.ok { background: linear-gradient(135deg, #66BB6A, #43A047); }
+.toast.err { background: linear-gradient(135deg, #EF5350, #E53935); }
+
+/* ── Philosophy Modal ── */
+.phil-section { margin-bottom: 12px; }
+.phil-section h3 { font-size: 13px; font-weight: 700; margin-bottom: 6px; color: #E65100; }
+.phil-card {
+  background: #FFF8E1; border-radius: var(--radius-sm);
+  padding: 10px 12px; font-size: 12px; line-height: 1.8;
+  color: #4E342E;
+}
+.phil-badge {
+  display: inline-block; background: #FFE0B2; color: #BF360C;
+  border-radius: 10px; padding: 2px 8px; font-size: 11px; font-weight: 600;
+  margin: 2px 3px;
+}
 </style>
 </head>
 <body>
@@ -152,101 +360,133 @@ header .sub { font-size: 11px; opacity: 0.85; }
 <div id="app">
   <header>
     <div>
-      <h1>🏴‍☠️ 奕铭探险家</h1>
-      <div class="sub" id="subtitle">徽章成长系统</div>
+      <h1>⭐ 奕铭探险家</h1>
+      <div class="sub" id="subtitle">每日成长探险</div>
     </div>
     <div class="header-btns">
-      <button onclick="showPhilosophy()">💡</button>
-      <button onclick="showSettings()">⚙️</button>
+      <button onclick="showPhilosophy()" title="设计理念">💡</button>
+      <button onclick="showSettings()" title="管理员设置">⚙️</button>
     </div>
   </header>
 
-  <div class="page active" id="pHA">
-    <div class="balance-bar">
-      <div class="b-item b-earned"><span class="b-num" id="bEarned">0</span><span class="b-label">累计获得</span></div>
-      <div class="b-item b-redeemed"><span class="b-num" id="bRedeemed">0</span><span class="b-label">已兑换</span></div>
-      <div class="b-item b-remaining"><span class="b-num" id="bRemaining">0</span><span class="b-label">剩余可用</span></div>
+  <!-- Home -->
+  <div class="page active" id="pHome">
+    <!-- Hero -->
+    <div class="hero" id="heroSection">
+      <div class="hero-emoji" id="heroEmoji">🌟</div>
+      <div class="hero-name" id="heroName">奕铭探险家</div>
+      <div class="hero-sub" id="heroSub">今天也要加油哦！</div>
+      <div class="hero-stars" id="heroStars">⭐⭐⭐</div>
     </div>
+
+    <!-- Balance -->
+    <div class="balance-bar">
+      <div class="b-item b-earned"><span class="b-num" id="bEarned">0</span><span class="b-label">🏅 累计获得</span></div>
+      <div class="b-item b-redeemed"><span class="b-num" id="bRedeemed">0</span><span class="b-label">🎁 已兑换</span></div>
+      <div class="b-item b-remaining"><span class="b-num" id="bRemaining">0</span><span class="b-label">✨ 剩余可用</span></div>
+    </div>
+
+    <!-- Badge Lines -->
     <div class="blines" id="blines"></div>
-    <div class="vcard" id="vcard">
+
+    <!-- Today Result -->
+    <div class="today-card" id="tresult" style="display:none;">
+      <div class="tc-emoji" id="tcEmoji">🎉</div>
+      <div class="tc-title" id="tcTitle">今日探险成果</div>
+      <div class="tc-sub" id="tcSub"></div>
+    </div>
+
+    <!-- Vote Progress -->
+    <div class="vcard" id="vcard" style="display:none;">
       <h3>🗳️ 今日投票进度</h3>
       <div class="vavatars" id="vavatars"></div>
     </div>
-    <div class="tresult" id="tresult" style="display:none;"></div>
-    <div id="notesPrev" style="display:none;"></div>
+
+    <!-- Notes -->
+    <div class="notes-card" id="notesCard" style="display:none;">
+      <div class="nc-title">📝 今日探险日记</div>
+      <div id="notesContent"></div>
+    </div>
   </div>
 
+  <!-- Vote -->
   <div class="page" id="pVote">
-    <div style="text-align:center;margin-bottom:20px;">
-      <div style="font-size:48px;">🏴‍☠️</div>
-      <div style="font-size:14px;color:var(--text-light);">选择身份，为奕铭投票</div>
+    <div style="text-align:center;margin-bottom:22px;">
+      <div style="font-size:50px;">🌟</div>
+      <div style="font-size:15px;font-weight:700;color:#E65100;">选择你的身份，为奕铭投票</div>
+      <div style="font-size:12px;color:var(--text-light);margin-top:4px;">每位家庭成员投一次，三个方向都要评哦</div>
     </div>
     <div class="mselect" id="mselect"></div>
     <div class="vlines" id="vlines"></div>
     <div class="note-wrap">
-      <label>📝 今日记录（可选）</label>
-      <textarea id="vnote" placeholder="记录今天奕铭的表现..."></textarea>
+      <label>📝 记录今天的小故事（可选）</label>
+      <textarea id="vnote" placeholder="比如：今天奕铭主动收拾玩具，很棒！"></textarea>
     </div>
     <button class="sbtn" id="vsubmit" onclick="submitVote()" disabled>✨ 提交投票</button>
   </div>
 
+  <!-- Shop -->
   <div class="page" id="pShop">
     <div class="shop-balance">
-      <div class="sb-item sb-earned"><span class="sb-num" id="sbEarned">0</span>累计</div>
-      <div class="sb-item sb-redeemed"><span class="sb-num" id="sbRedeemed">0</span>已兑</div>
-      <div class="sb-item sb-remaining"><span class="sb-num" id="sbRemaining">0</span>剩余</div>
+      <div class="sb-item sb-earned"><span class="sb-num" id="sbEarned">0</span>🏅 累计</div>
+      <div class="sb-item sb-redeemed"><span class="sb-num" id="sbRedeemed">0</span>🎁 已兑</div>
+      <div class="sb-item sb-remaining"><span class="sb-num" id="sbRemaining">0</span>✨ 剩余</div>
     </div>
     <div class="sadmin" id="sadmin" style="display:none;">
-      <button onclick="toggleEdit()" id="editBtn">✏️ 编辑</button>
-      <button onclick="showAdd()" id="addBtn" style="display:none;background:var(--primary);color:#fff;">➕ 添加</button>
-      <button onclick="showFeature()" id="featBtn" style="display:none;">⭐ 置顶</button>
+      <button onclick="toggleEdit()" id="editBtn">✏️ 编辑宝藏</button>
+      <button onclick="showAdd()" id="addBtn" style="display:none;background:var(--sun);color:#fff;">➕ 添加宝藏</button>
+      <button onclick="showFeature()" id="featBtn" style="display:none;">⭐ 置顶推荐</button>
     </div>
     <div id="scontent"></div>
   </div>
 
+  <!-- Log -->
   <div class="page" id="pLog">
     <div class="lnav">
-      <button onclick="chgMonth(-1)">◀</button>
+      <button onclick="chgMonth(-1)">◀ 上月</button>
       <span id="lmonth"></span>
-      <button onclick="chgMonth(1)">▶</button>
+      <button onclick="chgMonth(1)">下月 ▶</button>
     </div>
     <div id="lcontent"></div>
   </div>
 
+  <!-- Nav -->
   <nav class="nav">
     <button class="nitem active" onclick="goPage('home',event)"><span class="ni">🏠</span>首页</button>
     <button class="nitem" onclick="goPage('vote',event)"><span class="ni">🗳️</span>投票</button>
     <button class="nitem" onclick="goPage('shop',event)"><span class="ni">🎁</span>宝藏</button>
-    <button class="nitem" onclick="goPage('log',event)"><span class="ni">📜</span>日志</button>
+    <button class="nitem" onclick="goPage('log',event)"><span class="ni">📖</span>日记</button>
   </nav>
 </div>
 
-<!-- Modals -->
+<!-- Philosophy Modal -->
 <div class="moverlay hide" id="mPhilosophy">
   <div class="modal" style="max-width:400px;">
-    <h2>💡 设计理念</h2>
-    <div style="font-size:13px;line-height:1.7;">
-      <p style="font-size:12px;color:var(--text-light);margin-bottom:10px;">不是积分工资制，而是<strong>人格成长日评分模型</strong>。</p>
-      <p style="font-weight:700;margin:10px 0 4px;">🦁 三条成长线</p>
-      <div style="background:var(--bg);border-radius:8px;padding:8px;margin-bottom:6px;font-size:12px;">
-        🦁 <strong>勇敢小狮子</strong>（情绪）— 情绪稳定·能听引导<br>
-        🐘 <strong>合作小象</strong>（行为）— 整体配合·流程顺利<br>
-        🦅 <strong>探索小鹰</strong>（探索）— 主动提问·认真读书
-      </div>
-      <p style="font-weight:700;margin:10px 0 4px;">📋 六大原则</p>
-      <div style="background:var(--bg);border-radius:8px;padding:8px;font-size:12px;line-height:1.8;">
-        ① 积分是游戏，不是工资<br>
-        ② 多加分少扣分，前期只加不扣<br>
-        ③ 家庭投票仪式，3票以上得星<br>
-        ④ 奖励分三类：特权 > 体验 > 物品<br>
-        ⑤ 存钱利息机制，培养延迟满足<br>
-        ⑥ 梦想大奖，长期积累目标
+    <h2>💡 探险家成长理念</h2>
+    <div class="phil-section">
+      <h3>🦁 三条成长线</h3>
+      <div class="phil-card">
+        🦁 <strong>勇敢小狮子</strong>（情绪）— 情绪稳定，能听引导<br>
+        🐘 <strong>合作小象</strong>（行为）— 整体配合，流程顺利<br>
+        🦅 <strong>探索小鹰</strong>（探索）— 主动提问，认真读书
       </div>
     </div>
-    <div class="mbtns"><button class="mconfirm" onclick="closeM('mPhilosophy')">知道了</button></div>
+    <div class="phil-section">
+      <h3>📋 核心原则</h3>
+      <div class="phil-card">
+        <span class="phil-badge">① 积分是游戏不是工资</span>
+        <span class="phil-badge">② 多加分少扣分</span>
+        <span class="phil-badge">③ 家庭投票仪式</span><br>
+        <span class="phil-badge">④ 奖励：特权&gt;体验&gt;物品</span>
+        <span class="phil-badge">⑤ 存钱利息机制</span>
+        <span class="phil-badge">⑥ 梦想大奖</span>
+      </div>
+    </div>
+    <div class="mbtns"><button class="mconfirm" onclick="closeM('mPhilosophy')">知道啦 😊</button></div>
   </div>
 </div>
 
+<!-- Settings Modal -->
 <div class="moverlay hide" id="mSettings">
   <div class="modal">
     <h2>⚙️ 管理员设置</h2>
@@ -255,30 +495,32 @@ header .sub { font-size: 11px; opacity: 0.85; }
   </div>
 </div>
 
+<!-- Redeem Modal -->
 <div class="moverlay hide" id="mRedeem">
   <div class="modal">
-    <h2>兑换确认</h2>
-    <div style="text-align:center;padding:16px;">
-      <div style="font-size:48px;" id="rIcon"></div>
-      <div style="font-size:16px;font-weight:700;margin:6px 0;" id="rName"></div>
-      <div style="font-size:18px;color:var(--primary);font-weight:700;" id="rCost"></div>
-      <div style="font-size:12px;color:var(--text-light);margin-top:8px;" id="rWarn"></div>
+    <h2>🎁 确认兑换</h2>
+    <div style="text-align:center;padding:16px 0;">
+      <div style="font-size:52px;" id="rIcon"></div>
+      <div style="font-size:17px;font-weight:800;margin:8px 0;color:#4E342E;" id="rName"></div>
+      <div style="font-size:18px;color:var(--sun);font-weight:800;" id="rCost"></div>
+      <div style="font-size:12px;color:var(--text-light);margin-top:10px;" id="rWarn"></div>
     </div>
     <div class="mbtns">
-      <button class="mcancel" onclick="closeM('mRedeem')">取消</button>
-      <button class="mconfirm" id="rConfirm" onclick="doRedeem()">确认兑换</button>
+      <button class="mcancel" onclick="closeM('mRedeem')">再想想</button>
+      <button class="mconfirm" id="rConfirm" onclick="doRedeem()">确认兑换 🎉</button>
     </div>
   </div>
 </div>
 
+<!-- Reward Edit Modal -->
 <div class="moverlay hide" id="mReward">
   <div class="modal">
-    <h2 id="mrTitle">编辑奖励</h2>
-    <div class="mfield"><label>名称</label><input type="text" id="mrName"></div>
-    <div class="mfield"><label>图标（emoji）</label><input type="text" id="mrIcon" maxlength="4"></div>
-    <div class="mfield"><label>徽章数</label><input type="number" id="mrCost" min="1"></div>
+    <h2 id="mrTitle">编辑宝藏</h2>
+    <div class="mfield"><label>宝藏名称</label><input type="text" id="mrName" placeholder="比如：去公园玩"></div>
+    <div class="mfield"><label>图标（输入一个 emoji）</label><input type="text" id="mrIcon" maxlength="4" placeholder="🎈"></div>
+    <div class="mfield"><label>需要徽章数</label><input type="number" id="mrCost" min="1" placeholder="5"></div>
     <div class="mfield" id="mrCatField"><label>分类</label>
-      <select id="mrCat" style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:var(--radius-sm);">
+      <select id="mrCat">
         <option value="privileges">🎫 特权奖励</option>
         <option value="experiences">🎪 体验奖励</option>
         <option value="items">🎁 物品奖励</option>
@@ -286,19 +528,21 @@ header .sub { font-size: 11px; opacity: 0.85; }
     </div>
     <div class="mbtns">
       <button class="mcancel" onclick="closeM('mReward')">取消</button>
-      <button class="mconfirm" onclick="saveReward()">保存</button>
+      <button class="mconfirm" onclick="saveReward()">保存 ✅</button>
     </div>
   </div>
 </div>
 
+<!-- Toast -->
 <div class="toast" id="toast"></div>
+
 </div>
 
 <script>
 const API = '';
 let S = {
   info: null, today: null, rewards: null, balance: null,
-  curMember: null, votes: {emotion:null,behavior:null,explore:null},
+  curMember: null, votes: {emotion:null, behavior:null, explore:null},
   editing: false, curMonth: new Date().toISOString().slice(0,7),
   _redeem: null, _editReward: null,
 };
@@ -306,241 +550,342 @@ let S = {
 async function api(path, opt={}) {
   try {
     const h = {'Content-Type':'application/json', ...(opt.headers||{})};
-    const r = await fetch(API+path, {...opt, headers:h});
+    const r = await fetch(API+path, {...opt, headers: h});
     return await r.json();
-  } catch(e) { toast('网络错误'); return null; }
+  } catch(e) { toast('网络有点问题，稍后再试哦 🌸', 'err'); return null; }
 }
 
 async function init() {
   S.info = await api('/api/info');
-  if (S.info) document.getElementById('subtitle').textContent = (S.info.badgeName||'探险家') + ' · ' + (S.info.childName||'奕铭');
+  if (S.info) {
+    var iname = S.info.childName || '奕铭';
+    var bname = S.info.badgeName || '探险家';
+    document.getElementById('subtitle').textContent = iname + ' 的 ' + bname + ' 成长日记';
+    document.getElementById('heroName').textContent = iname + ' ' + bname;
+  }
   goPage('home');
 }
 init();
 
 function goPage(p, evt) {
-  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
-  var pgEl = document.getElementById('p'+p.charAt(0).toUpperCase()+p.slice(1));
-  if(pgEl) pgEl.classList.add('active');
-  document.querySelectorAll('.nitem').forEach(x=>x.classList.remove('active'));
-  if(evt && evt.currentTarget) evt.currentTarget.classList.add('active');
-  if(p==='home') loadHome();
-  if(p==='vote') loadVote();
-  if(p==='shop') loadShop();
-  if(p==='log') loadLog();
+  document.querySelectorAll('.page').forEach(function(x){ x.classList.remove('active'); });
+  var pgEl = document.getElementById('p' + p.charAt(0).toUpperCase() + p.slice(1));
+  if (pgEl) pgEl.classList.add('active');
+  document.querySelectorAll('.nitem').forEach(function(x){ x.classList.remove('active'); });
+  if (evt && evt.currentTarget) evt.currentTarget.classList.add('active');
+  if (p === 'home') loadHome();
+  if (p === 'vote') loadVote();
+  if (p === 'shop') loadShop();
+  if (p === 'log') loadLog();
 }
 
-// ── Home ──
+// ─── Home ───
 async function loadHome() {
-  const [td, bal] = await Promise.all([api('/api/today'), api('/api/balance')]);
-  if(!td) return;
-  S.today = td; S.balance = bal;
+  var td = await api('/api/today');
+  var bal = await api('/api/balance');
+  if (!td || !bal) {
+    // API failed, show a friendly empty state
+    document.getElementById('heroEmoji').textContent = '🌈';
+    document.getElementById('heroSub').textContent = '加载中，请稍候...';
+    return;
+  }
+  S.today = td;
+  S.balance = bal;
+
+  // Balance
   document.getElementById('bEarned').textContent = bal.totalEarned;
   document.getElementById('bRedeemed').textContent = bal.totalRedeemed;
   document.getElementById('bRemaining').textContent = bal.remaining;
 
+  // Hero dynamic
+  var totalBadges = bal.remaining + bal.totalRedeemed;
+  if (totalBadges === 0) {
+    document.getElementById('heroEmoji').textContent = '🌱';
+    document.getElementById('heroSub').textContent = '今天开始新的探险吧！';
+    document.getElementById('heroStars').textContent = '🌟🌟🌟';
+  } else if (totalBadges < 5) {
+    document.getElementById('heroEmoji').textContent = '🐣';
+    document.getElementById('heroSub').textContent = '已经获得 ' + totalBadges + ' 枚徽章，继续加油！';
+    document.getElementById('heroStars').textContent = '⭐'.repeat(Math.min(totalBadges,3)) + '☆'.repeat(3-Math.min(totalBadges,3));
+  } else if (totalBadges < 15) {
+    document.getElementById('heroEmoji').textContent = '🦁';
+    document.getElementById('heroSub').textContent = '太棒了！已经获得 ' + totalBadges + ' 枚徽章！';
+    document.getElementById('heroStars').textContent = '⭐⭐⭐ ✨';
+  } else {
+    document.getElementById('heroEmoji').textContent = '🦅';
+    document.getElementById('heroSub').textContent = '探险大师！已获得 ' + totalBadges + ' 枚徽章！';
+    document.getElementById('heroStars').textContent = '⭐⭐⭐ 🏆';
+  }
+
   // Badge lines
-  const lines = (S.info?.badgeLines||[]).map(l => {
-    const vc = td.voteCounts?.[l.id]||{yes:0,total:0};
-    const e = td.badgeResults?.[l.id]||0;
-    return `<div class="bline">
-      ${e?'<span class="earned">⭐</span>':''}
-      <div class="animal">${l.icon}</div>
-      <div class="bname">${l.label}</div>
-      <div class="bdesc">${l.desc}</div>
-      <div style="font-size:10px;margin-top:4px;padding:2px 6px;border-radius:8px;display:inline-block;background:${vc.yes>=3?'#E8F5E9':'#FFF3E0'};color:${vc.yes>=3?'#2E7D32':'#E65100'}">
-        ${vc.yes}/${vc.total}票
-      </div>
-    </div>`;
+  var lines = (S.info.badgeLines||[]).map(function(l) {
+    var vc = (td.voteCounts&&td.voteCounts[l.id])||{yes:0,total:0};
+    var e = (td.badgeResults&&td.badgeResults[l.id])||0;
+    var cls = vc.yes >= 3 ? 'vote-badge' : 'vote-badge zero';
+    return '<div class="bline">' +
+      '<span class="' + cls + '">' + (e?'✅ 已得':'🗳️ '+vc.yes+'/'+vc.total) + '</span>' +
+      '<div class="animal">' + l.icon + '</div>' +
+      '<div class="bname">' + l.label + '</div>' +
+      '<div class="bdesc">' + l.desc + '</div>' +
+    '</div>';
   }).join('');
   document.getElementById('blines').innerHTML = lines;
 
-  // Avatars
-  const mems = S.info?.members||[];
-  document.getElementById('vavatars').innerHTML = mems.map(m => {
-    const v = (td.whoVoted||[]).includes(m.id);
-    return `<div class="vavatar">
-      <div class="vcircle ${v?'voted':''}">${m.emoji}</div>
-      <div class="vname">${m.name}${v?'✅':''}</div>
-    </div>`;
-  }).join('');
+  // Vote progress
+  var mems = S.info?S.info.members:[];
+  var whoVoted = td.whoVoted||[];
+  if (mems.length > 0) {
+    document.getElementById('vcard').style.display = 'block';
+    document.getElementById('vavatars').innerHTML = mems.map(function(m) {
+      var v = whoVoted.indexOf(m.id) >= 0;
+      return '<div class="vavatar">' +
+        '<div class="vcircle ' + (v?'voted':'') + '">' + m.emoji + '</div>' +
+        '<div class="vname ' + (v?'voted-name':'') + '">' + m.name + (v?' ✅':'') + '</div>' +
+      '</div>';
+    }).join('');
+  } else {
+    document.getElementById('vcard').style.display = 'none';
+  }
 
   // Today result
-  const rEl = document.getElementById('tresult');
-  if(td.allVoted) {
+  var rEl = document.getElementById('tresult');
+  if (td.allVoted) {
     rEl.style.display = 'block';
-    const b = td.badgeResults||{};
-    const str = ['emotion','behavior','explore'].map(k=>b[k]?(S.info.badgeLines.find(l=>l.id===k)||{}).icon||'⭐':'').filter(Boolean).join(' ');
-    rEl.innerHTML = `<div style="font-size:12px;color:var(--text-light);">🎉 今日获得</div><div style="font-size:36px;margin:6px 0;">${str||'暂无'}</div><div style="font-size:12px;color:var(--text-light);">今日${td.todayEarned||0}枚，利息+${td.interestBonus||0}</div>`;
-  } else rEl.style.display = 'none';
+    var b = td.badgeResults||{};
+    var earned = ['emotion','behavior','explore'].map(function(k){
+      return b[k] ? ((S.info&&S.info.badgeLines||[]).find(function(l){return l.id===k;})||{}).icon||'⭐' : '';
+    }).filter(Boolean);
+    document.getElementById('tcEmoji').textContent = earned.length > 0 ? '🎉' : '💪';
+    document.getElementById('tcTitle').textContent = earned.length > 0 ? '今日探险成功！' : '今日暂未获得徽章';
+    document.getElementById('tcSub').innerHTML =
+      (earned.length > 0 ? '获得：' + earned.join(' ') + '<br>' : '') +
+      '今日获得 ' + (td.todayEarned||0) + ' 枚徽章' +
+      (td.interestBonus>0 ? '（利息奖励 +' + td.interestBonus + ' 🎁）' : '');
+  } else {
+    rEl.style.display = 'none';
+  }
 
   // Notes
-  const notes = td.allNotes||[];
-  const nEl = document.getElementById('notesPrev');
-  if(notes.length) {
-    nEl.style.display = 'block';
-    nEl.innerHTML = '<div style="font-size:13px;font-weight:600;margin-bottom:6px;">📝 今日记录</div>' +
-      notes.map(n=>`<div style="font-size:12px;padding:4px 0;border-bottom:1px solid var(--border);"><span style="font-size:16px;">${n.memberEmoji}</span> <strong>${n.memberName}：</strong>${n.note}</div>`).join('');
-  } else nEl.style.display = 'none';
+  var notes = td.allNotes||[];
+  var nCard = document.getElementById('notesCard');
+  if (notes.length > 0) {
+    nCard.style.display = 'block';
+    document.getElementById('notesContent').innerHTML = notes.map(function(n){
+      return '<div class="note-item"><span class="note-emoji">' + (n.memberEmoji||'📝') + '</span>' +
+        '<span class="note-text"><strong>' + (n.memberName||'') + '：</strong>' + (n.note||'') + '</span></div>';
+    }).join('');
+  } else {
+    nCard.style.display = 'none';
+  }
 }
 
-// ── Vote ──
+// ─── Vote ───
 function loadVote() {
   S.curMember = null;
-  S.votes = {emotion:null,behavior:null,explore:null};
-  const voted = S.today?.whoVoted||[];
-  const mems = S.info?.members||[];
-  document.getElementById('mselect').innerHTML = mems.map(m => {
-    const v = voted.includes(m.id);
-    return `<div class="mcard ${v?'sel':''}" onclick="selMember('${m.id}')" id="mc-${m.id}">
-      <div class="emoji">${m.emoji}</div>
-      <div class="name">${m.name}</div>
-      ${v?'<div style="font-size:10px;color:var(--accent);">已投票</div>':''}
-    </div>`;
+  S.votes = {emotion:null, behavior:null, explore:null};
+  var voted = (S.today&&S.today.whoVoted)||[];
+  var mems = (S.info&&S.info.members)||[];
+  document.getElementById('mselect').innerHTML = mems.map(function(m) {
+    var v = voted.indexOf(m.id) >= 0;
+    return '<div class="mcard ' + (v?'sel':'') + '" onclick="selMember(\'' + m.id + '\')" id="mc-' + m.id + '">' +
+      '<div class="emoji">' + m.emoji + '</div>' +
+      '<div class="name">' + m.name + '</div>' +
+      (v ? '<div class="done-tag">✅ 已投票</div>' : '') +
+    '</div>';
   }).join('');
-  document.getElementById('vlines').innerHTML = (S.info?.badgeLines||[]).map(l => `
-    <div class="vline">
-      <div class="vicon">${l.icon}</div>
-      <div class="vinfo"><div class="vname">${l.label}</div><div class="vdesc">${l.desc}</div></div>
-      <div class="vbtns">
-        <button class="vbtn" id="vb-${l.id}-y" onclick="setVote('${l.id}',true)">👍</button>
-        <button class="vbtn" id="vb-${l.id}-n" onclick="setVote('${l.id}',false)">👎</button>
-      </div>
-    </div>`).join('');
+
+  document.getElementById('vlines').innerHTML = (S.info&&S.info.badgeLines||[]).map(function(l) {
+    return '<div class="vline">' +
+      '<div class="vicon">' + l.icon + '</div>' +
+      '<div class="vinfo"><div class="vname">' + l.label + '</div><div class="vdesc">' + l.desc + '</div></div>' +
+      '<div class="vbtns">' +
+        '<button class="vbtn yes" id="vb-' + l.id + '-y" onclick="setVote(\'' + l.id + '\',true)">👍 可以</button>' +
+        '<button class="vbtn no" id="vb-' + l.id + '-n" onclick="setVote(\'' + l.id + '\',false)">🤔 再加油</button>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+
   document.getElementById('vnote').value = '';
   document.getElementById('vsubmit').disabled = true;
 }
 
 function selMember(id) {
-  if((S.today?.whoVoted||[]).includes(id)) { toast('已投过票了！'); return; }
+  if ((S.today&&S.today.whoVoted||[]).indexOf(id) >= 0) { toast('你已经投过票啦！😊'); return; }
   S.curMember = id;
-  document.querySelectorAll('.mcard').forEach(c=>c.classList.remove('sel'));
-  document.getElementById('mc-'+id).classList.add('sel');
+  document.querySelectorAll('.mcard').forEach(function(c){ c.classList.remove('sel'); });
+  var el = document.getElementById('mc-' + id);
+  if (el) el.classList.add('sel');
   updSubmit();
 }
 
 function setVote(line, val) {
   S.votes[line] = val;
-  document.getElementById('vb-'+line+'-y').classList.toggle('yes', val===true);
-  document.getElementById('vb-'+line+'-n').classList.toggle('no', val===false);
+  var yel = document.getElementById('vb-' + line + '-y');
+  var nel = document.getElementById('vb-' + line + '-n');
+  if (yel) yel.classList.toggle('active', val === true);
+  if (nel) nel.classList.toggle('active', val === false);
   updSubmit();
 }
 
 function updSubmit() {
-  document.getElementById('vsubmit').disabled = !S.curMember || S.votes.emotion===null || S.votes.behavior===null || S.votes.explore===null;
+  document.getElementById('vsubmit').disabled =
+    !S.curMember ||
+    S.votes.emotion === null ||
+    S.votes.behavior === null ||
+    S.votes.explore === null;
 }
 
 async function submitVote() {
-  const res = await api('/api/vote', {method:'POST', body:JSON.stringify({memberId:S.curMember, votes:S.votes, note:document.getElementById('vnote').value.trim()})});
-  if(res?.success) { toast('🎉 投票成功！'); await loadHome(); goPage('home'); }
-  else toast(res?.error||'失败', 'err');
+  var note = document.getElementById('vnote').value.trim();
+  var res = await api('/api/vote', {
+    method:'POST',
+    body: JSON.stringify({memberId:S.curMember, votes:S.votes, note:note})
+  });
+  if (res&&res.success) {
+    toast('🎉 投票成功！奕铭今天表现真棒！', 'ok');
+    await loadHome();
+    goPage('home');
+  } else {
+    toast(res&&res.error||'投票失败了，再试一次吧', 'err');
+  }
 }
 
-// ── Shop ──
+// ─── Shop ───
 async function loadShop() {
-  const [rw, bal] = await Promise.all([api('/api/rewards'), api('/api/balance')]);
-  S.rewards = rw; S.balance = bal;
+  var rw = await api('/api/rewards');
+  var bal = await api('/api/balance');
+  if (!rw || !bal) return;
+  S.rewards = rw;
+  S.balance = bal;
+
   document.getElementById('sbEarned').textContent = bal.totalEarned;
   document.getElementById('sbRedeemed').textContent = bal.totalRedeemed;
   document.getElementById('sbRemaining').textContent = bal.remaining;
 
   renderShop(rw, bal);
 
-  const isA = localStorage.getItem('badge_admin')==='true';
-  document.getElementById('sadmin').style.display = isA?'flex':'none';
-  if(isA) {
-    document.getElementById('editBtn').style.display = S.editing?'none':'inline-block';
-    document.getElementById('addBtn').style.display = S.editing?'inline-block':'none';
+  var isA = localStorage.getItem('badge_admin') === 'true';
+  document.getElementById('sadmin').style.display = isA ? 'flex' : 'none';
+  if (isA) {
+    document.getElementById('editBtn').style.display = S.editing ? 'none' : 'inline-block';
+    document.getElementById('addBtn').style.display = S.editing ? 'inline-block' : 'none';
     document.getElementById('featBtn').style.display = 'inline-block';
   }
 }
 
 function renderShop(rw, bal) {
-  const rem = bal?bal.remaining:0;
-  let h = '';
-  // All rewards flat list
-  const all = [];
-  if(rw.dream) all.push({...rw.dream, _cat:'dream'});
-  ['privileges','experiences','items'].forEach(c => (rw[c]||[]).forEach(r => all.push({...r, _cat:c})));
+  var rem = bal ? bal.remaining : 0;
+  var h = '';
+
+  // Flatten all rewards
+  var all = [];
+  if (rw.dream) all.push({_cat:'dream', _isDream:true, id:rw.dream.id, name:rw.dream.name, icon:rw.dream.icon, cost:rw.dream.cost});
+  ['privileges','experiences','items'].forEach(function(c) {
+    (rw[c]||[]).forEach(function(r) { all.push({_cat:c, id:r.id, name:r.name, icon:r.icon, cost:r.cost}); });
+  });
 
   // Featured
-  const feat = S.info?.featuredReward;
-  let featR = null;
-  if(feat) featR = all.find(r => r._cat===feat.category && r.id===feat.id);
-  if(featR) {
-    h += '<div style="margin-bottom:8px;"><strong>⭐ 置顶推荐</strong></div><div class="rgid">' + rcard(featR, rem, true) + '</div>';
-    const idx = all.findIndex(r => r._cat===feat.category && r.id===feat.id);
-    if(idx>=0) all.splice(idx,1);
+  var feat = S.info&&S.info.featuredReward;
+  var featR = null;
+  if (feat) {
+    featR = all.find(function(r){ return r._cat===feat.category && r.id===feat.id; });
+  }
+  if (featR) {
+    h += '<div class="cat-header">⭐ 推荐宝藏</div>';
+    h += '<div style="font-size:11px;color:var(--text-light);margin-bottom:10px;">管理员推荐的宝藏，快去收集徽章吧！</div>';
+    h += '<div class="rrid" style="margin-bottom:14px;">' + renderRcard(featR, rem, true) + '</div>';
+    all = all.filter(function(r){ return !(r._cat===feat.category && r.id===feat.id); });
   }
 
   // Categories
-  const cats = [
-    {k:'dream',n:'🏆 梦想大奖',d:'长期目标'},
-    {k:'privileges',n:'🎫 特权奖励',d:'训练自主决策力'},
-    {k:'experiences',n:'🎪 体验奖励',d:'体验比玩具更有价值'},
-    {k:'items',n:'🎁 物品奖励',d:'少量物质奖励'},
+  var cats = [
+    {k:'dream',      n:'🏆 梦想大奖',  d:'长期目标，坚持到底！'},
+    {k:'privileges', n:'🎫 特权奖励',  d:'训练自主决策力'},
+    {k:'experiences',n:'🎪 体验奖励',  d:'体验比玩具更有价值'},
+    {k:'items',      n:'🎁 物品奖励',  d:'少量物质奖励'},
   ];
-  cats.forEach(c => {
-    let items = c.k==='dream' ? (rw.dream?[rw.dream]:[]) : (rw[c.k]||[]);
-    if(c.k==='dream' && !rw.dream) return;
-    // Skip featured
-    if(feat) items = items.filter(r => !(r._cat===feat.category && r.id===feat.id));
-    if(items.length===0 && c.k!=='dream') return;
-    if(c.k==='dream') items = rw.dream?[rw.dream]:[];
-    h += `<div class="cat-header"><span style="font-size:16px;">${c.n.split(' ')[0]}</span> ${c.n.split(' ').slice(1).join(' ')}</div>`;
-    h += `<div style="font-size:11px;color:var(--text-light);margin-bottom:8px;">${c.d}</div>`;
-    h += '<div class="rgid">';
-    items.forEach(r => {
-      const rr = c.k==='dream' ? {...rw.dream, _cat:'dream'} : {...r, _cat:c.k};
-      h += rcard(rr, rem, false);
+  cats.forEach(function(c) {
+    var items = [];
+    if (c.k === 'dream') {
+      if (rw.dream) items = [rw.dream];
+    } else {
+      items = rw[c.k]||[];
+    }
+    if (c.k !== 'dream' && items.length === 0) return;
+    // Filter out featured
+    if (feat) {
+      items = items.filter(function(r){ return !(r._cat===feat.category && r.id===feat.id); });
+      if (c.k==='dream' && rw.dream && feat.category==='dream' && feat.id===rw.dream.id) return;
+    }
+    h += '<div class="cat-header"><span>' + c.n.split(' ')[0] + '</span> ' + c.n.split(' ').slice(1).join(' ') + '</div>';
+    h += '<div style="font-size:11px;color:var(--text-light);margin-bottom:10px;">' + c.d + '</div>';
+    h += '<div class="rrid">';
+    items.forEach(function(r) {
+      var rr = c.k==='dream' ? {_cat:'dream',_isDream:true, id:r.id,name:r.name,icon:r.icon,cost:r.cost} : {_cat:c.k, id:r.id, name:r.name, icon:r.icon, cost:r.cost};
+      h += renderRcard(rr, rem, false);
     });
     h += '</div>';
   });
+
   document.getElementById('scontent').innerHTML = h;
 }
 
-function rcard(r, rem, feat) {
-  const earned = rem >= r.cost;
-  const pct = Math.min(100, Math.round(rem / r.cost * 100));
-  let cls = 'rcard';
-  if(!earned) cls += ' locked';
-  if(feat) cls += ' featured';
-  // Build edit buttons safely without nested template interpolation
+function renderRcard(r, rem, feat) {
+  var earned = rem >= r.cost;
+  var pct = r.cost > 0 ? Math.min(100, Math.round(rem / r.cost * 100)) : 0;
+  var cls = 'rcard';
+  if (!earned) cls += ' locked';
+  if (feat) cls += ' featured';
+
+  // Safely encode cat and id for attribute
+  var catAttr = (r._cat||'');
+  var idAttr = (r.id||'');
+  var safeOnclick = 'onRcard(\'' + escAttr(catAttr) + '\',\'' + escAttr(idAttr) + '\',' + (r.cost||0) + ',' + (earned?'true':'false') + ')';
+
   var eb = '';
-  if(S.editing) {
+  if (S.editing) {
     eb = '<div style="position:absolute;top:4px;right:4px;">' +
-      '<button onclick="event.stopPropagation();editR(&quot;' + r._cat + '&quot;,&quot;' + r.id + '&quot;)" style="font-size:11px;padding:2px 6px;border:1px solid var(--secondary);border-radius:4px;background:#fff;color:var(--secondary);cursor:pointer;">✏️</button> ' +
-      '<button onclick="event.stopPropagation();delR(&quot;' + r._cat + '&quot;,&quot;' + r.id + '&quot;)" style="font-size:11px;padding:2px 6px;border:1px solid var(--danger);border-radius:4px;background:#fff;color:var(--danger);cursor:pointer;">🗑</button>' +
+      '<button onclick="event.stopPropagation();editR(\'' + escAttr(catAttr) + '\',\'' + escAttr(idAttr) + '\')" style="font-size:11px;padding:2px 6px;border:1.5px solid #4FC3F7;border-radius:5px;background:#fff;color:#4FC3F7;cursor:pointer;margin-right:2px;">✏️</button>' +
+      '<button onclick="event.stopPropagation();delR(\'' + escAttr(catAttr) + '\',\'' + escAttr(idAttr) + '\')" style="font-size:11px;padding:2px 6px;border:1.5px solid #EF5350;border-radius:5px;background:#fff;color:#EF5350;cursor:pointer;">🗑</button>' +
       '</div>';
   }
-  var oc = 'onRcard(&quot;' + r._cat + '&quot;,&quot;' + r.id + '&quot;,' + r.cost + ',' + earned + ')';
-  return '<div class="' + cls + '" onclick="' + oc + '">' +
+
+  return '<div class="' + cls + '" onclick="' + safeOnclick + '">' +
     eb +
     '<div class="ricon">' + (r.icon||'⭐') + '</div>' +
-    '<div class="rname">' + r.name + '</div>' +
-    '<div class="rcost">🏅 ' + r.cost + '</div>' +
-    '<div class="rprog"><div class="rprogbar" style="width:' + pct + '%;background:' + (earned?'var(--accent)':'var(--primary)') + ';"></div></div>' +
+    '<div class="rname">' + (r.name||'宝藏') + '</div>' +
+    '<div class="rcost">🏅 ' + r.cost + ' 枚</div>' +
+    '<div class="rprog"><div class="rprogbar" style="width:' + pct + '%;background:' + (earned?'var(--leaf)':'var(--sun)') + ';"></div></div>' +
     '<div class="rpct">' + rem + '/' + r.cost + '（' + pct + '%）</div>' +
   '</div>';
 }
 
+function escAttr(s) {
+  return (s||'').replace(/\\/g,'\\\\').replace(/'/g,'\\\'');
+}
+
 function onRcard(cat, id, cost, earned) {
-  if(!earned) { toast('继续努力💪 还差一点徽章哦！'); return; }
-  S._redeem = {category:cat, id, cost};
-  const rw = S.rewards;
-  let r = null;
-  if(cat==='dream') r = rw.dream;
-  else r = (rw[cat]||[]).find(x=>x.id===id);
-  if(!r) return;
+  if (!earned) {
+    toast('还差一点徽章哦，继续努力💪！');
+    return;
+  }
+  S._redeem = {category:cat, id:id, cost:cost};
+  var rw = S.rewards;
+  var r = null;
+  if (cat === 'dream') r = rw.dream;
+  else if (rw[cat]) r = rw[cat].find(function(x){ return x.id === id; });
+  if (!r) return;
+
   document.getElementById('rIcon').textContent = r.icon||'⭐';
   document.getElementById('rName').textContent = r.name;
-  document.getElementById('rCost').textContent = `需要 ${r.cost} 🏅`;
-  const rem = S.balance.remaining;
-  if(rem < r.cost) {
-    document.getElementById('rWarn').textContent = `徽章不足！剩余${rem}，需要${r.cost}`;
+  document.getElementById('rCost').textContent = '需要 ' + r.cost + ' 🏅';
+  var rem = S.balance.remaining;
+  if (rem < r.cost) {
+    document.getElementById('rWarn').textContent = '徽章不够哦！剩余 ' + rem + ' 枚，需要 ' + r.cost + ' 枚';
+    document.getElementById('rWarn').style.color = '#EF5350';
     document.getElementById('rConfirm').disabled = true;
   } else {
-    document.getElementById('rWarn').textContent = `兑换后剩余 ${rem - r.cost} 🏅`;
+    document.getElementById('rWarn').textContent = '兑换后剩余 ' + (rem - r.cost) + ' 🏅';
     document.getElementById('rWarn').style.color = 'var(--text-light)';
     document.getElementById('rConfirm').disabled = false;
   }
@@ -548,21 +893,31 @@ function onRcard(cat, id, cost, earned) {
 }
 
 async function doRedeem() {
-  const r = S._redeem;
-  if(!r) return;
-  const pwd = localStorage.getItem('badge_admin_pwd')||'';
-  if(!pwd) { toast('需要管理员密码', 'err'); closeM('mRedeem'); return; }
-  const res = await api('/api/redeem', {method:'POST', headers:{'x-admin-password':pwd}, body:JSON.stringify({rewardId:r.id, rewardName:r.name||'', cost:r.cost, category:r.category})});
-  if(res?.success) { toast('🎉 兑换成功！'); closeM('mRedeem'); await loadShop(); await loadHome(); }
-  else toast(res?.error||'失败', 'err');
+  var r = S._redeem;
+  if (!r) return;
+  var pwd = localStorage.getItem('badge_admin_pwd')||'';
+  if (!pwd) { toast('需要管理员密码哦 😊', 'err'); closeM('mRedeem'); return; }
+  var res = await api('/api/redeem', {
+    method:'POST',
+    headers:{'x-admin-password':pwd},
+    body: JSON.stringify({rewardId:r.id, rewardName:r.name||'', cost:r.cost, category:r.category})
+  });
+  if (res&&res.success) {
+    toast('🎉 兑换成功！快去享受奖励吧！', 'ok');
+    closeM('mRedeem');
+    await loadShop();
+    await loadHome();
+  } else {
+    toast(res&&res.error||'兑换失败了', 'err');
+  }
 }
 
-// ── Shop edit ──
+// ─── Shop Edit ───
 function toggleEdit() { S.editing = !S.editing; loadShop(); }
 
 function showAdd() {
   S._editReward = null;
-  document.getElementById('mrTitle').textContent = '添加奖励';
+  document.getElementById('mrTitle').textContent = '添加宝藏 🎁';
   document.getElementById('mrName').value = '';
   document.getElementById('mrIcon').value = '⭐';
   document.getElementById('mrCost').value = '';
@@ -572,155 +927,211 @@ function showAdd() {
 }
 
 function editR(cat, id) {
-  let r = null;
-  if(cat==='dream') r = S.rewards.dream;
-  else r = (S.rewards[cat]||[]).find(x=>x.id===id);
-  if(!r) return;
-  S._editReward = {category:cat, id};
-  document.getElementById('mrTitle').textContent = '编辑奖励';
-  document.getElementById('mrName').value = r.name;
+  var rw = S.rewards;
+  var r = null;
+  if (cat === 'dream') r = rw.dream;
+  else if (rw[cat]) r = rw[cat].find(function(x){ return x.id === id; });
+  if (!r) return;
+  S._editReward = {category:cat, id:id};
+  document.getElementById('mrTitle').textContent = '编辑宝藏 ✏️';
+  document.getElementById('mrName').value = r.name||'';
   document.getElementById('mrIcon').value = r.icon||'⭐';
-  document.getElementById('mrCost').value = r.cost;
-  document.getElementById('mrCatField').style.display = cat==='dream'?'none':'block';
-  if(cat!=='dream') document.getElementById('mrCat').value = cat;
+  document.getElementById('mrCost').value = r.cost||'';
+  document.getElementById('mrCatField').style.display = cat==='dream' ? 'none' : 'block';
+  if (cat !== 'dream') document.getElementById('mrCat').value = cat;
   document.getElementById('mReward').classList.remove('hide');
 }
 
 async function saveReward() {
-  const name = document.getElementById('mrName').value.trim();
-  const icon = document.getElementById('mrIcon').value.trim()||'⭐';
-  const cost = parseInt(document.getElementById('mrCost').value);
-  if(!name||!cost) { toast('名称和徽章数必填', 'err'); return; }
-  const ed = S._editReward;
-  const pwd = localStorage.getItem('badge_admin_pwd')||'';
-  let cat, reward;
-  if(ed) {
+  var name = document.getElementById('mrName').value.trim();
+  var icon = document.getElementById('mrIcon').value.trim()||'⭐';
+  var cost = parseInt(document.getElementById('mrCost').value);
+  if (!name || !cost) { toast('名称和徽章数都要填哦 📝', 'err'); return; }
+  var ed = S._editReward;
+  var pwd = localStorage.getItem('badge_admin_pwd')||'';
+  var cat, reward;
+  if (ed) {
     cat = ed.category;
-    reward = {id:ed.id, name, icon, cost};
+    reward = {id:ed.id, name:name, icon:icon, cost:cost};
   } else {
     cat = document.getElementById('mrCat').value;
-    reward = {id:cat[0]+Date.now(), name, icon, cost};
+    reward = {id:cat.charAt(0)+Date.now(), name:name, icon:icon, cost:cost};
   }
-  const res = await api('/api/rewards', {method:'POST', headers:{'x-admin-password':pwd}, body:JSON.stringify({category:cat, reward})});
-  if(res?.success) { toast('保存成功！'); closeM('mReward'); await loadShop(); }
-  else toast(res?.error||'失败', 'err');
+  var res = await api('/api/rewards', {
+    method:'POST',
+    headers:{'x-admin-password':pwd},
+    body: JSON.stringify({category:cat, reward:reward})
+  });
+  if (res&&res.success) {
+    toast('保存成功！🎉', 'ok');
+    closeM('mReward');
+    await loadShop();
+  } else {
+    toast(res&&res.error||'保存失败了', 'err');
+  }
 }
 
 async function delR(cat, id) {
-  if(!confirm('确定删除？')) return;
-  const pwd = localStorage.getItem('badge_admin_pwd')||'';
-  const res = await api(`/api/rewards/${cat}/${id}`, {method:'DELETE', headers:{'x-admin-password':pwd}});
-  if(res?.success) { toast('已删除'); await loadShop(); }
-  else toast(res?.error||'失败', 'err');
+  if (!confirm('确定要删除这个宝藏吗？')) return;
+  var pwd = localStorage.getItem('badge_admin_pwd')||'';
+  var res = await api('/api/rewards/' + cat + '/' + id, {
+    method:'DELETE',
+    headers:{'x-admin-password':pwd}
+  });
+  if (res&&res.success) { toast('已删除 ✅', 'ok'); await loadShop(); }
+  else toast(res&&res.error||'删除失败了', 'err');
 }
 
 function showFeature() {
-  // Build list from current rewards
-  const rw = S.rewards;
-  const all = [];
-  if(rw.dream) all.push({...rw.dream, _cat:'dream', _name:rw.dream.name+'(梦想大奖)'});
-  ['privileges','experiences','items'].forEach(c => (rw[c]||[]).forEach(r => all.push({...r, _cat:c})));
-  const opts = all.map((r,i) => `${i+1}. ${r.icon||'⭐'} ${r.name}（${r.cost}徽章）`).join('\n');
-  const choice = prompt(`输入要置顶的奖励编号（输入0取消置顶）：\n\n${opts}`, '1');
-  if(choice===null) return;
-  const idx = parseInt(choice)-1;
-  const pwd = localStorage.getItem('badge_admin_pwd')||'';
-  if(idx>=0 && idx<all.length) {
-    const r = all[idx];
-    api('/api/settings', {method:'PUT', headers:{'x-admin-password':pwd}, body:JSON.stringify({featuredReward:{category:r._cat, id:r.id}})})
-      .then(res => { if(res?.success) { toast('已置顶！'); S.info.featuredReward={category:r._cat,id:r.id}; loadShop(); }});
+  var rw = S.rewards;
+  var all = [];
+  if (rw.dream) all.push({_cat:'dream', name:rw.dream.name, icon:rw.dream.icon, cost:rw.dream.cost, id:rw.dream.id});
+  ['privileges','experiences','items'].forEach(function(c) {
+    (rw[c]||[]).forEach(function(r) { all.push({_cat:c, name:r.name, icon:r.icon, cost:r.cost, id:r.id}); });
+  });
+  if (all.length === 0) { toast('还没有宝藏哦，先添加一些吧 🎁'); return; }
+  var opts = all.map(function(r,i){ return (i+1) + '. ' + (r.icon||'⭐') + ' ' + r.name + '（' + r.cost + '枚）'; }).join('\n');
+  var choice = prompt('输入要置顶推荐的宝藏编号（输入 0 取消置顶）：\n\n' + opts, '1');
+  if (choice === null) return;
+  var idx = parseInt(choice)-1;
+  var pwd = localStorage.getItem('badge_admin_pwd')||'';
+  if (idx >= 0 && idx < all.length) {
+    var target = all[idx];
+    api('/api/settings', {
+      method:'PUT',
+      headers:{'x-admin-password':pwd},
+      body: JSON.stringify({featuredReward:{category:target._cat, id:target.id}})
+    }).then(function(res) {
+      if (res&&res.success) { toast('已置顶推荐！⭐', 'ok'); S.info.featuredReward={category:target._cat,id:target.id}; loadShop(); }
+    });
   } else {
-    api('/api/settings', {method:'PUT', headers:{'x-admin-password':pwd}, body:JSON.stringify({featuredReward:null})})
-      .then(res => { if(res?.success) { toast('已取消置顶'); S.info.featuredReward=null; loadShop(); }});
+    api('/api/settings', {
+      method:'PUT',
+      headers:{'x-admin-password':pwd},
+      body: JSON.stringify({featuredReward:null})
+    }).then(function(res) {
+      if (res&&res.success) { toast('已取消置顶', 'ok'); S.info.featuredReward=null; loadShop(); }
+    });
   }
 }
 
-// ── Log ──
+// ─── Log ───
 async function loadLog() {
   document.getElementById('lmonth').textContent = S.curMonth;
-  const res = await api('/api/history?month='+S.curMonth);
-  if(!res) return;
-  const content = document.getElementById('lcontent');
-  if(!res.history?.length) { content.innerHTML = '<div style="text-align:center;color:var(--text-light);padding:30px;">暂无记录</div>'; return; }
-  content.innerHTML = res.history.map(h => {
-    const b = h.badges||{};
-    const strs = [];
-    (S.info?.badgeLines||[]).forEach(l => { if(b[l.id]) strs.push(l.icon+' '+l.label); });
-    const notes = (h.notes||[]).map(n => `<div style="font-size:11px;color:var(--text-light);">${n.emoji} <strong>${n.member}：</strong>${n.note}</div>`).join('');
-    return `<div class="lday">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-        <span style="font-size:13px;font-weight:600;">${h.date}</span>
-        <span style="font-size:18px;">${'⭐'.repeat(h.total)}${'☆'.repeat(3-h.total)}</span>
-      </div>
-      <div style="font-size:12px;color:var(--text-light);">${strs.join('  ')||'暂无'}</div>
-      ${notes?'<div style="border-top:1px solid var(--border);padding-top:6px;margin-top:6px;">'+notes+'</div>':''}
-    </div>`;
+  var res = await api('/api/history?month=' + S.curMonth);
+  if (!res) return;
+  var content = document.getElementById('lcontent');
+  if (!res.history || res.history.length === 0) {
+    content.innerHTML = '<div style="text-align:center;color:var(--text-light);padding:40px 0;">📭 这个月还没有探险记录哦<br><span style="font-size:11px;">去投票页面开始今天的探险吧！</span></div>';
+    return;
+  }
+  content.innerHTML = res.history.map(function(h) {
+    var b = h.badges||{};
+    var strs = [];
+    (S.info&&S.info.badgeLines||[]).forEach(function(l) {
+      if (b[l.id]) strs.push(l.icon + ' ' + l.label);
+    });
+    var notes = (h.notes||[]).map(function(n) {
+      return '<div style="font-size:11px;color:var(--text-light);padding:3px 0;"><span style="font-size:14px;">' + (n.emoji||'📝') + '</span> <strong>' + (n.member||'') + '：</strong>' + (n.note||'') + '</div>';
+    }).join('');
+    return '<div class="lday">' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">' +
+        '<span style="font-size:14px;font-weight:700;color:#4E342E;">📅 ' + h.date + '</span>' +
+        '<span style="font-size:18px;">' + '⭐'.repeat(h.total||0) + '☆'.repeat(3-(h.total||0)) + '</span>' +
+      '</div>' +
+      '<div style="font-size:13px;color:#5D4037;">' + (strs.join('  ')||'暂未获得徽章') + '</div>' +
+      (notes ? '<div style="border-top:1px dashed var(--border);padding-top:8px;margin-top:8px;">' + notes + '</div>' : '') +
+    '</div>';
   }).join('');
 }
 
 function chgMonth(d) {
-  const [y,m] = S.curMonth.split('-').map(Number);
-  const dt = new Date(y, m-1+d);
-  S.curMonth = dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0');
+  var parts = S.curMonth.split('-').map(Number);
+  var dt = new Date(parts[0], parts[1]-1+d);
+  S.curMonth = dt.getFullYear() + '-' + String(dt.getMonth()+1).padStart(2,'0');
   loadLog();
 }
 
-// ── Settings ──
+// ─── Settings ───
 function showSettings() {
-  if(localStorage.getItem('badge_admin')==='true') loadSettings();
-  else {
-    const pwd = prompt('请输入管理员密码：');
-    if(pwd===null) return;
-    api('/api/auth/check', {method:'POST', body:JSON.stringify({password:pwd})}).then(res => {
-      if(res?.valid) { localStorage.setItem('badge_admin','true'); localStorage.setItem('badge_admin_pwd', pwd); toast('登录成功！'); loadSettings(); }
-      else toast('密码错误', 'err');
+  if (localStorage.getItem('badge_admin') === 'true') {
+    loadSettings();
+  } else {
+    var pwd = prompt('请输入管理员密码（默认：yiming2024）：');
+    if (pwd === null) return;
+    api('/api/auth/check', {method:'POST', body:JSON.stringify({password:pwd})}).then(function(res) {
+      if (res&&res.valid) {
+        localStorage.setItem('badge_admin','true');
+        localStorage.setItem('badge_admin_pwd', pwd);
+        toast('登录成功！欢迎回来 😊', 'ok');
+        loadSettings();
+      } else {
+        toast('密码不正确哦，再想想？🔒', 'err');
+      }
     });
   }
 }
 
 async function loadSettings() {
-  const pwd = localStorage.getItem('badge_admin_pwd')||'';
-  const res = await api('/api/settings?'+(pwd?`pwd=${encodeURIComponent(pwd)}`:''));
-  if(!res) return;
-  document.getElementById('scontent2').innerHTML = `
-    <div class="mfield"><label>孩子名字</label><input type="text" id="sName" value="${res.childName||'奕铭'}"></div>
-    <div class="mfield"><label>孩子年龄</label><input type="text" id="sAge" value="${res.childAge||'3岁半'}"></div>
-    <div class="mfield"><label>徽章名称</label><input type="text" id="sBadge" value="${res.badgeName||'探险家徽章'}"></div>
-    <div class="mfield"><label>利息规则（满N枚加M枚）</label><input type="number" id="sIt" value="${res.interestRate?.threshold||30}" style="width:60px;display:inline-block;">枚 加 <input type="number" id="sIb" value="${res.interestRate?.bonus||3}" style="width:60px;display:inline-block;">枚</div>
-    <div class="mfield"><label>新密码（留空不修改）</label><input type="password" id="sPwd"></div>
-    <div class="mbtns"><button class="mconfirm" onclick="saveSettings('${pwd}')">保存</button></div>
-  `;
+  var pwd = localStorage.getItem('badge_admin_pwd')||'';
+  var res = await api('/api/settings?' + (pwd?'pwd='+encodeURIComponent(pwd):''));
+  if (!res) return;
+  document.getElementById('scontent2').innerHTML =
+    '<div class="mfield"><label>👶 孩子名字</label><input type="text" id="sName" value="' + (res.childName||'奕铭') + '"></div>' +
+    '<div class="mfield"><label>🎂 孩子年龄</label><input type="text" id="sAge" value="' + (res.childAge||'3岁半') + '"></div>' +
+    '<div class="mfield"><label>⭐ 徽章系统名称</label><input type="text" id="sBadge" value="' + (res.badgeName||'探险家徽章') + '"></div>' +
+    '<div class="mfield"><label>🏦 利息规则（满多少枚奖励多少枚）</label>' +
+      '<div style="display:flex;align-items:center;gap:8px;">' +
+        '<span style="font-size:13px;">满</span><input type="number" id="sIt" value="' + ((res.interestRate&&res.interestRate.threshold)||30) + '" style="width:70px;">' +
+        '<span style="font-size:13px;">枚，奖励</span><input type="number" id="sIb" value="' + ((res.interestRate&&res.interestRate.bonus)||3) + '" style="width:70px;">' +
+        '<span style="font-size:13px;">枚</span>' +
+      '</div>' +
+    '</div>' +
+    '<div class="mfield"><label>🔒 新密码（留空不修改）</label><input type="password" id="sPwd" placeholder="输入新密码"></div>' +
+    '<div class="mbtns"><button class="mconfirm" onclick="saveSettings(\'' + escAttr(pwd) + '\')">保存 ✅</button></div>';
   document.getElementById('mSettings').classList.remove('hide');
 }
 
 async function saveSettings(pwd) {
-  const body = {
+  var body = {
     childName: document.getElementById('sName').value.trim(),
     childAge: document.getElementById('sAge').value.trim(),
     badgeName: document.getElementById('sBadge').value.trim(),
-    interestRate: {threshold:parseInt(document.getElementById('sIt').value)||30, bonus:parseInt(document.getElementById('sIb').value)||3},
+    interestRate: {
+      threshold: parseInt(document.getElementById('sIt').value)||30,
+      bonus: parseInt(document.getElementById('sIb').value)||3
+    }
   };
-  const newPwd = document.getElementById('sPwd').value;
-  if(newPwd) body.adminPassword = newPwd;
-  const res = await api('/api/settings', {method:'PUT', headers:{'x-admin-password':pwd}, body:JSON.stringify(body)});
-  if(res?.success) {
-    toast('保存成功！');
-    if(newPwd) { localStorage.setItem('badge_admin_pwd', newPwd); toast('密码已更新'); }
-    closeM('mSettings'); init();
-  } else toast(res?.error||'失败', 'err');
+  var newPwd = document.getElementById('sPwd').value;
+  if (newPwd) body.adminPassword = newPwd;
+  var res = await api('/api/settings', {
+    method:'PUT',
+    headers:{'x-admin-password':pwd},
+    body: JSON.stringify(body)
+  });
+  if (res&&res.success) {
+    toast('保存成功！🎉', 'ok');
+    if (newPwd) {
+      localStorage.setItem('badge_admin_pwd', newPwd);
+      toast('密码已更新 🔒', 'ok');
+    }
+    closeM('mSettings');
+    init();
+  } else {
+    toast(res&&res.error||'保存失败了', 'err');
+  }
 }
 
-// ── Modal ──
+// ─── Modals ───
 function closeM(id) { document.getElementById(id).classList.add('hide'); }
 function showPhilosophy() { document.getElementById('mPhilosophy').classList.remove('hide'); }
 
-// ── Toast ──
+// ─── Toast ───
 function toast(msg, type) {
-  const el = document.getElementById('toast');
+  var el = document.getElementById('toast');
   el.textContent = msg;
-  el.style.background = type==='err'?'#E8697C':'#333';
-  el.classList.add('show');
-  setTimeout(()=>el.classList.remove('show'), 2500);
+  el.className = 'toast show' + (type==='ok'?' ok':'') + (type==='err'?' err':'');
+  setTimeout(function(){ el.classList.remove('show','ok','err'); }, 2800);
 }
 </script>
 </body>
