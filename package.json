@@ -1,0 +1,13 @@
+{
+  "name": "badge-explorer-v2",
+  "version": "2.0.0",
+  "description": "奕铭探险家徽章成长系统",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
