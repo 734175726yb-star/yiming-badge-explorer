@@ -31,7 +31,7 @@ body {
   user-select: none;
   -webkit-user-select: none;
 }
-/* ── Background decoration ── */
+/* Background decoration */
 body::before {
   content: '';
   position: fixed; top:0; left:0; right:0; bottom:0;
@@ -41,7 +41,7 @@ body::before {
     radial-gradient(circle at 50% 80%, rgba(126,211,33,.04) 0%, transparent 50%);
   pointer-events: none; z-index:0;
 }
-/* ── Header ── */
+/* Header */
 .app-header {
   position: sticky; top:0; z-index:100;
   background: linear-gradient(135deg, #FF9F43, #F5A623);
@@ -70,11 +70,11 @@ body::before {
 }
 .header-btn:active { transform:scale(.9); background:rgba(255,255,255,.35); }
 
-/* ── Tab content ── */
+/* Tab content */
 .tab-content { display:none; padding:16px 16px 100px; position:relative; z-index:1; }
 .tab-content.active { display:block; }
 
-/* ── Bottom nav ── */
+/* Bottom nav */
 .bottom-nav {
   position: fixed; bottom:0; left:0; right:0; z-index:100;
   background: rgba(255,255,255,.95);
@@ -101,7 +101,7 @@ body::before {
   background: var(--gold);
 }
 
-/* ── Cards ── */
+/* Cards */
 .card {
   background: var(--card); border-radius: var(--radius);
   padding: 18px 20px; margin-bottom: 14px;
@@ -111,7 +111,7 @@ body::before {
 }
 .card:active { transform: scale(.98); }
 
-/* ── Badge line cards on home ── */
+/* Badge line cards on home */
 .badge-line-card {
   display:flex; align-items:center; gap:14px;
   padding: 16px 18px; border-radius: var(--radius);
@@ -148,7 +148,7 @@ body::before {
 .badge-not-earned { font-size:28px; opacity:.25; }
 .badge-status-text { font-size:11px; font-weight:600; }
 
-/* ── Vote progress ── */
+/* Vote progress */
 .vote-progress {
   display:flex; gap:6px; margin-top:10px; justify-content:center;
 }
@@ -160,7 +160,7 @@ body::before {
 }
 .vote-dot.voted { background: #FFE8CC; font-size:18px; animation: badgePop .4s ease; }
 
-/* ── Today summary card ── */
+/* Today summary card */
 .today-badge-card {
   text-align:center; padding:24px 20px;
   background: linear-gradient(135deg, #FFF8E7, #FFFDF5);
@@ -179,7 +179,7 @@ body::before {
 }
 .all-total strong { color: var(--gold); font-size:18px; }
 
-/* ── Vote page ── */
+/* Vote page */
 .member-selector {
   display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px;
 }
@@ -229,7 +229,7 @@ body::before {
 }
 .note-input:focus { outline:none; border-color: var(--gold); background:#fff; }
 
-/* ── Buttons ── */
+/* Buttons */
 .btn-primary {
   width:100%; padding:16px; border:none; border-radius:50px;
   background: linear-gradient(135deg, #FF9F43, #F5A623);
@@ -255,7 +255,7 @@ body::before {
   transition:all .2s;
 }
 
-/* ── Reward shop ── */
+/* Reward shop */
 .shop-category { margin-bottom:18px; }
 .shop-cat-header {
   display:flex; align-items:center; gap:8px;
@@ -270,6 +270,7 @@ body::before {
   padding:14px; box-shadow: 0 2px 12px rgba(0,0,0,.04);
   text-align:center; position:relative;
   transition:all .2s;
+  border: 2px solid transparent;
 }
 .reward-card .reward-icon { font-size:32px; margin-bottom:6px; }
 .reward-card .reward-name { font-size:13px; font-weight:600; line-height:1.3; }
@@ -286,7 +287,35 @@ body::before {
 }
 .reward-card.editing .reward-actions { display:flex; }
 
-/* ── Dream reward ── */
+/* Locked reward style */
+.reward-locked {
+  opacity: 0.45;
+  filter: grayscale(0.8);
+}
+.reward-locked .reward-icon {
+  filter: grayscale(1);
+}
+.dream-locked {
+  opacity: 0.5;
+  filter: grayscale(0.8);
+}
+
+/* Reward progress bar (for non-dream rewards) */
+.reward-progress {
+  height: 8px;
+  background: #f0f0f0;
+  border-radius: 8px;
+  margin-top: 8px;
+  overflow: hidden;
+}
+.reward-progress-bar {
+  height: 100%;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #FF9F43, #F5A623);
+  transition: width .8s ease;
+}
+
+/* Dream reward */
 .dream-card {
   background: linear-gradient(135deg, #FFF4E6, #FFE0B2, #FFF4E6);
   border: 2px dashed var(--gold);
@@ -319,7 +348,7 @@ body::before {
   transition:width .8s ease;
 }
 
-/* ── Adventure log ── */
+/* Adventure log */
 .month-selector {
   display:flex; align-items:center; justify-content:center; gap:12px;
   margin-bottom:16px; font-size:16px; font-weight:700;
@@ -356,7 +385,7 @@ body::before {
 .log-note-item .ln-text { color: var(--text); line-height:1.4; }
 .log-note-item .ln-author { font-size:11px; color: var(--text-light); }
 
-/* ── Modal ── */
+/* Modal */
 .modal-overlay {
   display:none; position:fixed; top:0; left:0; right:0; bottom:0;
   background:rgba(0,0,0,.5); z-index:200;
@@ -379,7 +408,7 @@ body::before {
 }
 .modal-title { font-size:18px; font-weight:800; margin-bottom:16px; text-align:center; }
 
-/* ── Philosophy section ── */
+/* Philosophy section */
 .philosophy-section { margin-bottom:16px; }
 .philosophy-section h3 {
   font-size:15px; font-weight:700; margin-bottom:6px;
@@ -387,17 +416,18 @@ body::before {
 }
 .philosophy-section p { font-size:13px; color: var(--text-light); line-height:1.6; }
 
-/* ── Admin panel ── */
+/* Admin panel */
 .admin-section { margin-bottom:20px; }
 .admin-section h3 { font-size:15px; font-weight:700; margin-bottom:10px; }
 .input-group { margin-bottom:12px; }
 .input-group label { display:block; font-size:13px; font-weight:600; margin-bottom:4px; color: var(--text-light); }
-.input-group input, .input-group textarea {
+.input-group input, .input-group textarea, .input-group select {
   width:100%; padding:10px 14px; border-radius:10px;
   border:2px solid #e0e0e0; font-size:14px; font-family:inherit;
-  transition:border-color .2s;
+  transition:border-color .2s; box-sizing:border-box;
 }
-.input-group input:focus, .input-group textarea:focus { outline:none; border-color: var(--gold); }
+.input-group input:focus, .input-group textarea:focus, .input-group select:focus { outline:none; border-color: var(--gold); background:#fff; }
+.input-group select { background:#fafafa; cursor:pointer; }
 .admin-reward-row {
   display:flex; align-items:center; gap:8px; padding:8px 0;
   border-bottom:1px solid #f5f5f5;
@@ -408,7 +438,7 @@ body::before {
 .admin-reward-row .ar-cost { font-size:11px; color: var(--text-light); }
 .admin-reward-row .ar-actions { display:flex; gap:4px; }
 
-/* ── Toast ── */
+/* Toast */
 .toast {
   position:fixed; top:80px; left:50%; transform:translateX(-50%); z-index:300;
   padding:12px 24px; border-radius:50px; background: #333; color:#fff;
@@ -419,7 +449,7 @@ body::before {
 .toast.success { background: #7ED321; }
 .toast.error { background: #E8697C; }
 
-/* ── Confetti particles ── */
+/* Confetti particles */
 .confetti-container { position:fixed; top:0; left:0; right:0; bottom:0; pointer-events:none; z-index:150; }
 .confetti-piece {
   position:absolute; width:10px; height:10px; border-radius:3px;
@@ -430,7 +460,7 @@ body::before {
   100% { transform:translateY(100vh) rotate(720deg); opacity:0; }
 }
 
-/* ── Today's notes preview on home ── */
+/* Today's notes preview on home */
 .notes-preview { margin-top:12px; }
 .note-bubble {
   display:inline-flex; align-items:center; gap:4px;
@@ -442,7 +472,7 @@ body::before {
   max-width:120px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
 }
 
-/* ── Password input ── */
+/* Password input */
 .pwd-section { text-align:center; padding:40px 0; }
 .pwd-section h2 { margin-bottom:20px; }
 .pwd-input {
@@ -452,7 +482,7 @@ body::before {
 }
 .pwd-input:focus { outline:none; border-color: var(--gold); }
 
-/* ── Stats cards ── */
+/* Stats cards */
 .stats-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px; }
 .stat-card {
   background:#fff; border-radius: var(--radius-sm);
@@ -466,7 +496,7 @@ body::before {
 .empty-state .empty-icon { font-size:52px; margin-bottom:10px; opacity:.4; }
 .empty-state .empty-text { font-size:14px; }
 
-/* ── Star decoration on home ── */
+/* Star decoration on home */
 .star-deco {
   position:absolute; pointer-events:none; opacity:.15;
   font-size:24px; animation: floatStar 4s ease infinite;
@@ -484,7 +514,7 @@ body::before {
 </head>
 <body>
 
-<!-- ── App Header ── -->
+<!-- Header -->
 <header class="app-header" id="appHeader">
   <div class="header-left">
     <div class="header-avatar">🧒</div>
@@ -499,7 +529,7 @@ body::before {
   </div>
 </header>
 
-<!-- ── Tab: Home ── -->
+<!-- Tab: Home -->
 <div class="tab-content active" id="tab-home">
   <!-- Today's badge summary -->
   <div class="card today-badge-card" id="todaySummaryCard">
@@ -557,7 +587,7 @@ body::before {
   </button>
 </div>
 
-<!-- ── Tab: Vote ── -->
+<!-- Tab: Vote -->
 <div class="tab-content" id="tab-vote">
   <div style="text-align:center; margin-bottom:16px;">
     <div style="font-size:28px; font-weight:800;">今日家庭评议</div>
@@ -586,7 +616,7 @@ body::before {
   </div>
 </div>
 
-<!-- ── Tab: Treasure Shop ── -->
+<!-- Tab: Treasure Shop -->
 <div class="tab-content" id="tab-shop">
   <div style="text-align:center; margin-bottom:16px;">
     <div style="font-size:28px; font-weight:800;">🏴‍☠️ 宝藏兑换处</div>
@@ -600,7 +630,7 @@ body::before {
   </div>
 </div>
 
-<!-- ── Tab: Adventure Log ── -->
+<!-- Tab: Adventure Log -->
 <div class="tab-content" id="tab-log">
   <div style="font-size:22px; font-weight:800; text-align:center; margin-bottom:4px;">📜 冒险日志</div>
   <div class="month-selector">
@@ -611,7 +641,7 @@ body::before {
   <div id="logContent"></div>
 </div>
 
-<!-- ── Bottom Nav ── -->
+<!-- Bottom Nav -->
 <nav class="bottom-nav">
   <button class="nav-item active" onclick="switchTab('home')" data-tab="home">
     <span class="nav-icon">🏠</span> 首页
@@ -627,7 +657,7 @@ body::before {
   </button>
 </nav>
 
-<!-- ── Modal: Philosophy ── -->
+<!-- Modal: Philosophy -->
 <div class="modal-overlay" id="modalPhilosophy">
   <div class="modal-sheet">
     <div class="modal-handle"></div>
@@ -659,7 +689,7 @@ body::before {
   </div>
 </div>
 
-<!-- ── Modal: Admin ── -->
+<!-- Modal: Admin -->
 <div class="modal-overlay" id="modalAdmin">
   <div class="modal-sheet" id="adminSheet">
     <div class="modal-handle"></div>
@@ -668,7 +698,7 @@ body::before {
   </div>
 </div>
 
-<!-- ── Modal: Add/Edit Reward ── -->
+<!-- Modal: Add/Edit Reward -->
 <div class="modal-overlay" id="modalReward">
   <div class="modal-sheet">
     <div class="modal-handle"></div>
@@ -748,12 +778,26 @@ document.addEventListener('DOMContentLoaded', () => {
 // ── API calls ──
 async function api(path, options = {}) {
   try {
+    const mergedHeaders = {
+      'Content-Type': 'application/json',
+      ...(options.headers || {}),
+    };
     const res = await fetch(API + path, {
-      headers: { 'Content-Type': 'application/json', ...(options.headers||{}) },
       ...options,
+      headers: mergedHeaders,
     });
-    return await res.json();
-  } catch(e) { toast('网络连接失败，请重试', 'error'); return null; }
+    const text = await res.text();
+    try {
+      return JSON.parse(text);
+    } catch(e) {
+      console.error('API response not JSON:', path, text.slice(0, 200));
+      toast('服务器响应异常，请重试', 'error');
+      return null;
+    }
+  } catch(e) {
+    toast('网络连接失败，请重试', 'error');
+    return null;
+  }
 }
 
 // ── Load today's data ──
@@ -770,13 +814,13 @@ async function loadToday() {
 function renderHome(data) {
   document.getElementById('todayBadgeNum').textContent = data.todayEarned;
   document.getElementById('allTimeTotal').textContent = data.allTimeTotal;
-  document.getElementById('headerBadgeTotal').textContent = '🏅 累计 ' + data.allTimeTotal + ' 枚';
+  document.getElementById('headerBadgeTotal').textContent = '⭐ 累计 ' + data.allTimeTotal + ' 枚';
 
   // Interest bonus
   const ib = document.getElementById('interestBadge');
   if (data.interestBonus > 0) {
     ib.style.display = 'block';
-    ib.textContent = '💰 利息加成 +' + data.interestBonus + ' 枚（每满30枚奖3枚）';
+    ib.textContent = '💰 利息加成 +' + data.interestBonus + ' 枚（每满' + (settingsDB?.interestRate?.threshold||30) + '枚奖' + (settingsDB?.interestRate?.bonus||3) + '枚）';
   } else {
     ib.style.display = 'none';
   }
@@ -791,19 +835,19 @@ function renderHome(data) {
         : '<span class="badge-not-earned">⚪</span><span class="badge-status-text" style="color:#aaa">未获得</span>';
     } else {
       const vc = data.voteCounts[line.id];
-      statusEl.innerHTML = '<span style="font-size:13px;color:var(--text-light)">投票中</span><span style="font-size:11px;color:var(--text-light)">'+vc.yes+'/'+vc.total+' 赞成</span>';
+      statusEl.innerHTML = '<span style="font-size:13px;color:var(--text-light)">投票中</span><span style="font-size:11px;color:var(--text-light)">'+(vc?vc.yes:0)+'/'+(vc?vc.total:0)+' 赞成</span>';
     }
   });
 
   // Vote progress
   const vp = document.getElementById('voteProgress');
   vp.innerHTML = MEMBERS.map(m => {
-    const voted = data.whoVoted.includes(m.id);
+    const voted = data.whoVoted && data.whoVoted.includes(m.id);
     return '<div class="vote-dot' + (voted ? ' voted' : '') + '" title="'+m.name+'">' + (voted ? m.emoji : '?') + '</div>';
   }).join('');
 
   document.getElementById('voteStatusText').textContent =
-    data.membersVoted === 0 ? '等待投票...' :
+    (!data.membersVoted || data.membersVoted === 0) ? '等待投票...' :
     data.allVoted ? '✅ 今日投票已完成！' :
     '已投票 ' + data.membersVoted + '/' + data.membersTotal + ' 人';
 }
@@ -817,12 +861,11 @@ function renderTodayNotes(data) {
   }
   card.style.display = 'block';
   content.innerHTML = data.allNotes.map(n =>
-    '<div class="note-bubble" title="'+n.note+'"><span class="nb-emoji">'+n.memberEmoji+'</span><span class="nb-text">'+n.note+'</span></div>'
+    '<div class="note-bubble" title="'+escapeHtml(n.note)+'"><span class="nb-emoji">'+n.memberEmoji+'</span><span class="nb-text">'+escapeHtml(n.note)+'</span></div>'
   ).join('');
 }
 
 function checkAllVoted(data) {
-  // If all voted, show confetti
   if (data.allVoted && data.todayEarned > 0) {
     const stored = sessionStorage.getItem('confetti_' + data.date);
     if (!stored) {
@@ -850,8 +893,8 @@ function buildVoteLines() {
     '<span class="vl-animal">'+line.icon+'</span>' +
     '<div class="vl-info"><div class="vl-name">'+line.name+'</div><div class="vl-desc">'+line.desc+'</div></div>' +
     '<div class="vote-toggle">' +
-    '<button class="vote-btn yes" data-line="'+line.id+'" data-val="yes" onclick="toggleVote(\''+line.id+'\',true)">👍</button>' +
-    '<button class="vote-btn no" data-line="'+line.id+'" data-val="no" onclick="toggleVote(\''+line.id+'\',false)">👎</button>' +
+    '<button class="vote-btn yes" data-line="'+line.id+'" onclick="toggleVote(\''+line.id+'\',true)">👍</button>' +
+    '<button class="vote-btn no" data-line="'+line.id+'" onclick="toggleVote(\''+line.id+'\',false)">👎</button>' +
     '</div></div>'
   ).join('');
 }
@@ -943,22 +986,22 @@ async function loadRewards() {
 
 function renderShop(data) {
   if (!data) return;
-  // Update total
   const total = state.todayData ? state.todayData.allTimeTotal : 0;
   document.getElementById('shopTotal').textContent = total;
 
   const content = document.getElementById('shopContent');
   let html = '';
 
-  // Dream reward
+  // Dream reward with progress bar
   if (data.dream) {
     const pct = Math.min(100, Math.round(total / data.dream.cost * 100));
-    html += '<div class="dream-card">' +
-      '<div class="dream-icon">'+data.dream.icon+'</div>' +
-      '<div class="dream-name">'+data.dream.name+'</div>' +
-      '<div class="dream-cost">'+data.dream.cost+' 🏅</div>' +
-      '<div class="dream-progress"><div class="dream-progress-bar" style="width:'+pct+'%"></div></div>' +
-      '<div style="font-size:11px;color:var(--text-light);margin-top:4px;">进度 '+pct+'%</div>' +
+    const earned = total >= data.dream.cost;
+    html += '<div class="dream-card' + (earned ? '' : ' dream-locked') + '">' +
+      '<div class="dream-icon">' + (earned ? data.dream.icon : '🔒') + '</div>' +
+      '<div class="dream-name">' + data.dream.name + '</div>' +
+      '<div class="dream-cost">' + data.dream.cost + ' 🏅</div>' +
+      '<div class="dream-progress"><div class="dream-progress-bar" style="width:' + pct + '%"></div></div>' +
+      '<div style="font-size:11px;color:var(--text-light);margin-top:4px;">进度 ' + pct + '%（' + total + '/' + data.dream.cost + '）</div>' +
       (state.shopEditing ? '<div style="margin-top:8px;"><button class="btn-sm" style="background:#FF9F43;color:#fff;" onclick="editDream()">✏️ 编辑</button></div>' : '') +
       '</div>';
   }
@@ -973,18 +1016,22 @@ function renderShop(data) {
   cats.forEach(cat => {
     const items = data[cat.key] || [];
     html += '<div class="shop-category">' +
-      '<div class="shop-cat-header"><span class="cat-icon">'+cat.name.slice(0,2)+'</span>'+cat.name.slice(3)+'</div>' +
-      '<div style="font-size:11px;color:var(--text-light);margin-bottom:8px;">'+cat.desc+'</div>' +
+      '<div class="shop-cat-header"><span class="cat-icon">' + cat.name.slice(0,2) + '</span>' + cat.name.slice(2) + '</div>' +
+      '<div style="font-size:11px;color:var(--text-light);margin-bottom:8px;">' + cat.desc + '</div>' +
       '<div class="reward-grid">';
     items.forEach(item => {
-      html += '<div class="reward-card'+(state.shopEditing?' editing':'')+'">' +
+      const earned = total >= item.cost;
+      const pct = Math.min(100, Math.round(total / item.cost * 100));
+      html += '<div class="reward-card' + (earned ? '' : ' reward-locked') + (state.shopEditing?' editing':'') + '">' +
         (state.shopEditing ? '<div class="reward-actions">' +
-          '<button class="btn-sm" style="background:#4A90D9;color:#fff;" onclick="editReward(\''+cat.key+'\',\''+item.id+'\')">✏️</button>' +
-          '<button class="btn-sm" style="background:#E8697C;color:#fff;" onclick="deleteReward(\''+cat.key+'\',\''+item.id+'\')">🗑</button>' +
+          '<button class="btn-sm" style="background:#4A90D9;color:#fff;" onclick="editReward(\'' + cat.key + '\',\'' + item.id + '\')">✏️</button>' +
+          '<button class="btn-sm" style="background:#E8697C;color:#fff;" onclick="deleteReward(\'' + cat.key + '\',\'' + item.id + '\')">🗑</button>' +
         '</div>' : '') +
-        '<div class="reward-icon">'+(item.icon||'⭐')+'</div>' +
-        '<div class="reward-name">'+item.name+'</div>' +
-        '<div class="reward-cost"><span class="rc-icon">🏅</span> '+item.cost+'</div>' +
+        '<div class="reward-icon">' + (earned ? (item.icon||'⭐') : '🔒') + '</div>' +
+        '<div class="reward-name">' + item.name + '</div>' +
+        '<div class="reward-cost"><span class="rc-icon">🏅</span> ' + item.cost + '</div>' +
+        '<div class="reward-progress"><div class="reward-progress-bar" style="width:' + pct + '%"></div></div>' +
+        '<div style="font-size:10px;color:var(--text-light);margin-top:2px;">' + total + '/' + item.cost + '（' + pct + '%）</div>' +
         '</div>';
     });
     html += '</div></div>';
@@ -1018,7 +1065,7 @@ function showAddReward() {
 }
 
 function editReward(category, id) {
-  const item = state.rewards[category].find(r => r.id === id);
+  const item = state.rewards[category] ? state.rewards[category].find(r => r.id === id) : null;
   if (!item) return;
   state.editingReward = { category, id };
   document.getElementById('modalRewardTitle').textContent = '编辑奖励';
@@ -1051,8 +1098,8 @@ async function saveReward() {
   const reward = { icon, name, cost };
   if (state.editingReward?.id) reward.id = state.editingReward.id;
 
+  const pwd = localStorage.getItem('badge_admin_pwd') || '';
   const headers = {};
-  const pwd = localStorage.getItem('badge_admin_pwd');
   if (pwd) headers['x-admin-password'] = pwd;
 
   const res = await api('/api/rewards', {
@@ -1071,8 +1118,8 @@ async function saveReward() {
 
 async function deleteReward(category, id) {
   if (!confirm('确定删除这个奖励吗？')) return;
+  const pwd = localStorage.getItem('badge_admin_pwd') || '';
   const headers = {};
-  const pwd = localStorage.getItem('badge_admin_pwd');
   if (pwd) headers['x-admin-password'] = pwd;
 
   const res = await api('/api/rewards/' + category + '/' + id, { method: 'DELETE', headers });
@@ -1116,7 +1163,7 @@ function renderLog(data) {
     let notesHtml = '';
     if (entry.notes && entry.notes.length > 0) {
       notesHtml = entry.notes.map(n =>
-        '<div class="log-note-item"><span class="ln-avatar">'+n.emoji+'</span><div><span class="ln-author">'+n.member+'</span><div class="ln-text">'+n.note+'</div></div></div>'
+        '<div class="log-note-item"><span class="ln-avatar">'+n.emoji+'</span><div><span class="ln-author">'+n.member+'</span><div class="ln-text">'+escapeHtml(n.note)+'</div></div></div>'
       ).join('');
     }
 
@@ -1178,21 +1225,22 @@ async function adminLogin() {
   state.isAdmin = true;
   toast('✅ 管理员登录成功', 'success');
   renderAdminPanel();
-  loadRewards(); // Refresh shop to show admin controls
+  loadRewards();
 }
 
 function renderAdminPanel() {
+  const settings = state.settingsCache || {};
   document.getElementById('adminContent').innerHTML =
     '<div class="admin-section">' +
     '<h3>👶 孩子信息</h3>' +
-    '<div class="input-group"><label>孩子名字</label><input id="setChildName" placeholder="奕铭"></div>' +
-    '<div class="input-group"><label>年龄</label><input id="setChildAge" placeholder="3岁半"></div>' +
+    '<div class="input-group"><label>孩子名字</label><input id="setChildName" placeholder="奕铭" value="' + escapeAttr(settings.childName||'奕铭') + '"></div>' +
+    '<div class="input-group"><label>年龄</label><input id="setChildAge" placeholder="3岁半" value="' + escapeAttr(settings.childAge||'') + '"></div>' +
     '</div>' +
     '<div class="admin-section">' +
     '<h3>🏅 系统设置</h3>' +
-    '<div class="input-group"><label>徽章名称</label><input id="setBadgeName" placeholder="探险家徽章"></div>' +
-    '<div class="input-group"><label>利息门槛（满X枚）</label><input id="setThreshold" type="number" placeholder="30"></div>' +
-    '<div class="input-group"><label>利息奖励（+X枚）</label><input id="setBonus" type="number" placeholder="3"></div>' +
+    '<div class="input-group"><label>徽章名称</label><input id="setBadgeName" placeholder="探险家徽章" value="' + escapeAttr(settings.badgeName||'探险家徽章') + '"></div>' +
+    '<div class="input-group"><label>利息门槛（满X枚）</label><input id="setThreshold" type="number" placeholder="30" value="' + (settings.interestRate?.threshold||30) + '"></div>' +
+    '<div class="input-group"><label>利息奖励（+X枚）</label><input id="setBonus" type="number" placeholder="3" value="' + (settings.interestRate?.bonus||3) + '"></div>' +
     '</div>' +
     '<div class="admin-section">' +
     '<h3>🔐 修改密码</h3>' +
@@ -1200,30 +1248,22 @@ function renderAdminPanel() {
     '</div>' +
     '<button class="btn-primary" onclick="saveSettings()">💾 保存设置</button>' +
     '<button class="btn-secondary" style="margin-top:8px;width:100%;" onclick="adminLogout()">🚪 退出管理员</button>';
-
-  // Pre-fill current settings
-  if (state.todayData) {
-    // Will be filled after loading settings
-  }
-  loadSettingsForAdmin();
 }
 
 async function loadSettingsForAdmin() {
-  const pwd = localStorage.getItem('badge_admin_pwd');
-  const res = await api('/api/settings?pwd=' + encodeURIComponent(pwd || ''));
-  if (!res || res.error) return;
-  document.getElementById('setChildName').value = res.childName || '奕铭';
-  document.getElementById('setChildAge').value = res.childAge || '';
-  document.getElementById('setBadgeName').value = res.badgeName || '探险家徽章';
-  document.getElementById('setThreshold').value = res.interestRate?.threshold || 30;
-  document.getElementById('setBonus').value = res.interestRate?.bonus || 3;
-
-  // Update header
+  const pwd = localStorage.getItem('badge_admin_pwd') || '';
+  const res = await api('/api/settings?pwd=' + encodeURIComponent(pwd));
+  if (!res || res.error) {
+    // If settings load fails, use defaults
+    state.settingsCache = { childName:'奕铭', badgeName:'探险家徽章', interestRate:{ threshold:30, bonus:3 } };
+    return;
+  }
+  state.settingsCache = res;
   document.getElementById('headerName').textContent = (res.childName || '奕铭') + '的探险之旅';
 }
 
 async function saveSettings() {
-  const pwd = localStorage.getItem('badge_admin_pwd');
+  const pwd = localStorage.getItem('badge_admin_pwd') || '';
   const headers = {};
   if (pwd) headers['x-admin-password'] = pwd;
 
@@ -1240,7 +1280,6 @@ async function saveSettings() {
   const newPwd = document.getElementById('setNewPwd').value.trim();
   if (newPwd) {
     body.adminPassword = newPwd;
-    localStorage.setItem('badge_admin_pwd', newPwd);
   }
 
   const res = await api('/api/settings', {
@@ -1251,8 +1290,17 @@ async function saveSettings() {
   if (!res) return;
   if (res.error) return toast(res.error, 'error');
 
+  // Update cache and local storage
+  if (newPwd) {
+    localStorage.setItem('badge_admin_pwd', newPwd);
+    toast('✅ 设置已保存，密码已更新！', 'success');
+  } else {
+    toast('✅ 设置已保存', 'success');
+  }
+
+  state.settingsCache = res.settings || res;
   document.getElementById('headerName').textContent = (body.childName || '奕铭') + '的探险之旅';
-  toast('✅ 设置已保存', 'success');
+  document.getElementById('setNewPwd').value = '';
   closeModal('modalAdmin');
   await loadToday();
 }
@@ -1262,6 +1310,7 @@ function adminLogout() {
   localStorage.removeItem('badge_admin_pwd');
   state.isAdmin = false;
   state.shopEditing = false;
+  state.settingsCache = null;
   closeModal('modalAdmin');
   loadRewards();
   toast('已退出管理员', 'success');
@@ -1277,9 +1326,8 @@ function switchTab(tab) {
   const nav = document.querySelector('.nav-item[data-tab="' + tab + '"]');
   if (nav) nav.classList.add('active');
 
-  // Load data for tab
   if (tab === 'home') loadToday();
-  if (tab === 'shop') loadRewards();
+  if (tab === 'shop') { loadRewards(); }
   if (tab === 'log') loadLog(state.currentMonth);
   if (tab === 'vote') {
     state.selectedMember = null;
@@ -1288,10 +1336,9 @@ function switchTab(tab) {
     document.getElementById('voteNote').value = '';
     updateVoteButtons();
     updateSubmitBtn();
-    loadToday(); // To check if already voted
+    loadToday();
   }
 
-  // Scroll to top
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -1341,6 +1388,16 @@ function confetti() {
     container.appendChild(piece);
     setTimeout(() => piece.remove(), 2500);
   }
+}
+
+// ── Helpers ──
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function escapeAttr(str) {
+  if (!str) return '';
+  return str.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 </script>
 </body>
