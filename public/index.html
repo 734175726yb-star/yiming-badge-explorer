@@ -214,10 +214,10 @@ header .sub { font-size: 11px; opacity: 0.85; }
   </div>
 
   <nav class="nav">
-    <button class="nitem active" onclick="goPage('home')"><span class="ni">🏠</span>首页</button>
-    <button class="nitem" onclick="goPage('vote')"><span class="ni">🗳️</span>投票</button>
-    <button class="nitem" onclick="goPage('shop')"><span class="ni">🎁</span>宝藏</button>
-    <button class="nitem" onclick="goPage('log')"><span class="ni">📜</span>日志</button>
+    <button class="nitem active" onclick="goPage('home',event)"><span class="ni">🏠</span>首页</button>
+    <button class="nitem" onclick="goPage('vote',event)"><span class="ni">🗳️</span>投票</button>
+    <button class="nitem" onclick="goPage('shop',event)"><span class="ni">🎁</span>宝藏</button>
+    <button class="nitem" onclick="goPage('log',event)"><span class="ni">📜</span>日志</button>
   </nav>
 </div>
 
@@ -318,11 +318,12 @@ async function init() {
 }
 init();
 
-function goPage(p) {
+function goPage(p, evt) {
   document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
-  document.getElementById('p'+p.charAt(0).toUpperCase()+p.slice(1)).classList.add('active');
+  var pgEl = document.getElementById('p'+p.charAt(0).toUpperCase()+p.slice(1));
+  if(pgEl) pgEl.classList.add('active');
   document.querySelectorAll('.nitem').forEach(x=>x.classList.remove('active'));
-  event.currentTarget.classList.add('active');
+  if(evt && evt.currentTarget) evt.currentTarget.classList.add('active');
   if(p==='home') loadHome();
   if(p==='vote') loadVote();
   if(p==='shop') loadShop();
