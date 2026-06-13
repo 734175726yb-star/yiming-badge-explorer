@@ -3,12 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>奕铭探险家徽章</title>
+<title>奕铭探险家</title>
 <style>
-/* ── CSS Variables & Reset ── */
 :root {
   --primary: #F5A623;
-  --primary-dark: #D4891A;
   --secondary: #4A90D9;
   --accent: #7ED321;
   --danger: #E8697C;
@@ -18,1058 +16,702 @@
   --text-light: #9A8A7A;
   --border: #F0E0C0;
   --shadow: 0 2px 8px rgba(60,40,10,0.08);
-  --shadow-lg: 0 4px 16px rgba(60,40,10,0.12);
   --radius: 16px;
   --radius-sm: 10px;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { height: 100%; font-family: -apple-system, 'PingFang SC', 'Hiragino Sans GB', sans-serif; background: var(--bg); color: var(--text); overflow: hidden; }
+body { font-family: -apple-system, 'PingFang SC', sans-serif; background: var(--bg); color: var(--text); margin: 0; }
 
-/* ── App Shell ── */
-#app { display: flex; flex-direction: column; height: 100%; max-width: 420px; margin: 0 auto; position: relative; }
-header { background: linear-gradient(135deg, var(--primary), #F7C948); padding: 12px 16px 8px; color: #fff; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; box-shadow: 0 2px 8px rgba(245,166,35,0.3); position: relative; z-index: 10; }
-header h1 { font-size: 17px; font-weight: 700; text-shadow: 0 1px 2px rgba(0,0,0,0.1); }
-header .subtitle { font-size: 11px; opacity: 0.85; margin-top: 1px; }
+#app { max-width: 420px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; }
+header { background: linear-gradient(135deg, var(--primary), #F7C948); padding: 12px 16px 8px; color: #fff; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+header h1 { font-size: 17px; font-weight: 700; }
+header .sub { font-size: 11px; opacity: 0.85; }
 .header-btns { display: flex; gap: 6px; }
-.header-btns button { background: rgba(255,255,255,0.25); border: none; color: #fff; width: 32px; height: 32px; border-radius: 50%; font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
-.header-btns button:active { background: rgba(255,255,255,0.5); }
+.header-btns button { background: rgba(255,255,255,0.25); border: none; color: #fff; width: 32px; height: 32px; border-radius: 50%; font-size: 15px; cursor: pointer; }
 
-/* ── Pages ── */
-.page { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 16px; display: none; }
+.page { flex: 1; overflow-y: auto; padding: 16px; display: none; }
 .page.active { display: block; }
 
-/* ── Home Page ── */
-.date-display { text-align: center; font-size: 12px; color: var(--text-light); margin-bottom: 12px; }
-.total-badges { text-align: center; margin-bottom: 16px; }
-.total-badges .number { font-size: 48px; font-weight: 800; color: var(--primary); line-height: 1; }
-.total-badges .label { font-size: 13px; color: var(--text-light); margin-top: 2px; }
+/* Balance */
 .balance-bar { display: flex; gap: 8px; margin-bottom: 16px; }
-.balance-item { flex: 1; background: var(--card); border-radius: var(--radius-sm); padding: 10px 8px; text-align: center; box-shadow: var(--shadow); }
-.balance-item .b-num { font-size: 20px; font-weight: 700; }
-.balance-item .b-label { font-size: 10px; color: var(--text-light); margin-top: 2px; }
-.balance-item.earned .b-num { color: var(--accent); }
-.balance-item.redeemed .b-num { color: var(--danger); }
-.balance-item.remaining .b-num { color: var(--primary); }
+.b-item { flex: 1; background: var(--card); border-radius: var(--radius-sm); padding: 10px 8px; text-align: center; box-shadow: var(--shadow); }
+.b-item .b-num { font-size: 20px; font-weight: 700; }
+.b-item .b-label { font-size: 10px; color: var(--text-light); }
+.b-earned .b-num { color: var(--accent); }
+.b-redeemed .b-num { color: var(--danger); }
+.b-remaining .b-num { color: var(--primary); }
 
-/* ── Badge Lines (Home) ── */
-.badge-lines { display: flex; gap: 10px; margin-bottom: 16px; }
-.badge-line-card { flex: 1; background: var(--card); border-radius: var(--radius); padding: 14px 8px; text-align: center; box-shadow: var(--shadow); position: relative; overflow: hidden; }
-.badge-line-card .animal { font-size: 32px; line-height: 1.2; }
-.badge-line-card .line-name { font-size: 11px; font-weight: 600; margin: 4px 0 2px; }
-.badge-line-card .line-desc { font-size: 9px; color: var(--text-light); line-height: 1.3; }
-.badge-line-card .vote-status { margin-top: 6px; font-size: 10px; padding: 2px 6px; border-radius: 8px; display: inline-block; }
-.badge-line-card .vote-status.done { background: #E8F5E9; color: #2E7D32; }
-.badge-line-card .vote-status.waiting { background: #FFF3E0; color: #E65100; }
-.badge-line-card .earned-badge { position: absolute; top: 6px; right: 6px; font-size: 14px; }
+/* Badge lines */
+.blines { display: flex; gap: 10px; margin-bottom: 16px; }
+.bline { flex: 1; background: var(--card); border-radius: var(--radius); padding: 14px 8px; text-align: center; box-shadow: var(--shadow); position: relative; }
+.bline .animal { font-size: 32px; }
+.bline .bname { font-size: 11px; font-weight: 600; margin: 4px 0 2px; }
+.bline .bdesc { font-size: 9px; color: var(--text-light); }
+.bline .earned { position: absolute; top: 6px; right: 6px; font-size: 14px; }
 
-/* ── Vote Progress (Home) ── */
-.vote-progress-card { background: var(--card); border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow); margin-bottom: 16px; }
-.vote-progress-card h3 { font-size: 14px; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
-.progress-avatars { display: flex; gap: 8px; flex-wrap: wrap; }
-.avatar-item { display: flex; flex-direction: column; align-items: center; gap: 3px; }
-.avatar-circle { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; border: 2px solid var(--border); background: var(--bg); }
-.avatar-circle.voted { border-color: var(--accent); background: #F0FFF0; }
-.avatar-name { font-size: 10px; color: var(--text-light); }
+/* Vote progress */
+.vcard { background: var(--card); border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow); margin-bottom: 16px; }
+.vcard h3 { font-size: 14px; margin-bottom: 10px; }
+.vavatars { display: flex; gap: 8px; }
+.vavatar { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.vcircle { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; border: 2px solid var(--border); background: var(--bg); }
+.vcircle.voted { border-color: var(--accent); background: #F0FFF0; }
+.vname { font-size: 10px; color: var(--text-light); }
 
-/* ── Today Result ── */
-.today-result { background: linear-gradient(135deg, #FFF8E1, #FFFDE7); border-radius: var(--radius); padding: 16px; text-align: center; box-shadow: var(--shadow); margin-bottom: 16px; }
-.today-result .result-label { font-size: 12px; color: var(--text-light); }
-.today-result .result-badges { font-size: 36px; margin: 6px 0; }
-.today-result .result-detail { font-size: 12px; color: var(--text-light); }
+/* Today result */
+.tresult { background: linear-gradient(135deg, #FFF8E1, #FFFDE7); border-radius: var(--radius); padding: 16px; text-align: center; box-shadow: var(--shadow); margin-bottom: 16px; }
 
-/* ── Notes Preview (Home) ── */
-.notes-preview { background: var(--card); border-radius: var(--radius); padding: 12px; box-shadow: var(--shadow); }
-.notes-preview h3 { font-size: 13px; margin-bottom: 8px; }
-.note-item { display: flex; gap: 8px; align-items: flex-start; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 12px; }
-.note-item:last-child { border-bottom: none; }
-.note-emoji { font-size: 18px; flex-shrink: 0; }
-.note-member { font-weight: 600; color: var(--secondary); }
-.note-text { color: var(--text); line-height: 1.4; }
+/* Vote page */
+.mselect { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+.mcard { background: var(--card); border-radius: var(--radius); padding: 16px 10px; text-align: center; box-shadow: var(--shadow); border: 2px solid transparent; cursor: pointer; }
+.mcard.sel { border-color: var(--primary); background: #FFF8E1; }
+.mcard .emoji { font-size: 32px; }
+.mcard .name { font-size: 13px; font-weight: 600; margin-top: 4px; }
 
-/* ── Vote Page ── */
-.vote-hero { text-align: center; margin-bottom: 20px; }
-.vote-hero .hero-icon { font-size: 48px; }
-.vote-hero .hero-text { font-size: 14px; color: var(--text-light); margin-top: 6px; }
-.member-select { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-.member-card { background: var(--card); border-radius: var(--radius); padding: 16px 10px; text-align: center; box-shadow: var(--shadow); border: 2px solid transparent; cursor: pointer; transition: all 0.2s; }
-.member-card:active { transform: scale(0.97); }
-.member-card.selected { border-color: var(--primary); background: #FFF8E1; }
-.member-card .mc-emoji { font-size: 32px; }
-.member-card .mc-name { font-size: 13px; font-weight: 600; margin-top: 4px; }
+.vlines { margin-bottom: 20px; }
+.vline { background: var(--card); border-radius: var(--radius); padding: 14px; margin-bottom: 10px; box-shadow: var(--shadow); display: flex; align-items: center; gap: 12px; }
+.vline .vicon { font-size: 28px; }
+.vline .vinfo { flex: 1; }
+.vline .vname { font-size: 13px; font-weight: 600; }
+.vline .vdesc { font-size: 10px; color: var(--text-light); }
+.vbtns { display: flex; gap: 8px; }
+.vbtn { width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--border); background: var(--card); font-size: 20px; cursor: pointer; }
+.vbtn.yes { border-color: var(--accent); }
+.vbtn.no { border-color: var(--danger); }
 
-.vote-lines { margin-bottom: 20px; }
-.vote-line { background: var(--card); border-radius: var(--radius); padding: 14px; margin-bottom: 10px; box-shadow: var(--shadow); display: flex; align-items: center; gap: 12px; }
-.vote-line .vl-animal { font-size: 28px; flex-shrink: 0; }
-.vote-line .vl-info { flex: 1; }
-.vote-line .vl-name { font-size: 13px; font-weight: 600; }
-.vote-line .vl-desc { font-size: 10px; color: var(--text-light); }
-.vote-btns { display: flex; gap: 8px; flex-shrink: 0; }
-.vote-btn { width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--border); background: var(--card); font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
-.vote-btn.yes { border-color: var(--accent); background: #F0FFF0; }
-.vote-btn.no { border-color: var(--danger); background: #FFF0F0; }
+/* Note */
+.note-wrap { background: var(--card); border-radius: var(--radius); padding: 14px; margin-bottom: 20px; box-shadow: var(--shadow); }
+.note-wrap label { font-size: 13px; font-weight: 600; display: block; margin-bottom: 8px; }
+.note-wrap textarea { width: 100%; border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 10px; font-size: 14px; resize: none; height: 80px; font-family: inherit; }
 
-/* ── Note Input ── */
-.note-input-wrap { background: var(--card); border-radius: var(--radius); padding: 14px; margin-bottom: 20px; box-shadow: var(--shadow); }
-.note-input-wrap label { font-size: 13px; font-weight: 600; display: block; margin-bottom: 8px; }
-.note-input-wrap textarea { width: 100%; border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 10px; font-size: 14px; resize: none; height: 80px; font-family: inherit; outline: none; transition: border-color 0.2s; }
-.note-input-wrap textarea:focus { border-color: var(--primary); }
+.sbtn { width: 100%; padding: 14px; border: none; border-radius: var(--radius); background: linear-gradient(135deg, var(--primary), #F7C948); color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(245,166,35,0.4); }
+.sbtn:disabled { opacity: 0.5; }
 
-.submit-vote-btn { width: 100%; padding: 14px; border: none; border-radius: var(--radius); background: linear-gradient(135deg, var(--primary), #F7C948); color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(245,166,35,0.4); transition: transform 0.2s; }
-.submit-vote-btn:active { transform: scale(0.98); }
-.submit-vote-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
-/* ── Shop Page ── */
-.shop-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-.shop-total { font-size: 13px; color: var(--text-light); }
-.shop-total span { font-weight: 700; color: var(--primary); font-size: 18px; }
-
-/* Balance display in shop */
+/* Shop */
 .shop-balance { display: flex; gap: 6px; margin-bottom: 12px; }
-.shop-balance .sb-item { flex: 1; background: var(--card); border-radius: var(--radius-sm); padding: 8px 6px; text-align: center; box-shadow: var(--shadow); font-size: 11px; }
-.shop-balance .sb-num { font-size: 18px; font-weight: 700; display: block; }
-.sb-item.earned .sb-num { color: var(--accent); }
-.sb-item.redeemed .sb-num { color: var(--danger); }
-.sb-item.remaining .sb-num { color: var(--primary); }
+.sb-item { flex: 1; background: var(--card); border-radius: var(--radius-sm); padding: 8px 6px; text-align: center; box-shadow: var(--shadow); font-size: 11px; }
+.sb-item .sb-num { font-size: 18px; font-weight: 700; display: block; }
+.sb-earned .sb-num { color: var(--accent); }
+.sb-redeemed .sb-num { color: var(--danger); }
+.sb-remaining .sb-num { color: var(--primary); }
 
-.shop-admin-bar { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
-.shop-admin-bar button { padding: 6px 12px; border: 1.5px solid var(--primary); border-radius: 20px; background: #fff; color: var(--primary); font-size: 12px; cursor: pointer; }
-.shop-admin-bar button.active { background: var(--primary); color: #fff; }
-.shop-admin-bar .add-btn { background: var(--primary); color: #fff; border-color: var(--primary); }
+.sadmin { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+.sadmin button { padding: 6px 12px; border: 1.5px solid var(--primary); border-radius: 20px; background: #fff; color: var(--primary); font-size: 12px; cursor: pointer; }
+.sadmin button.active { background: var(--primary); color: #fff; }
 
-/* ── Reward Cards (Shop) ── */
-.reward-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.reward-card { background: var(--card); border-radius: var(--radius); padding: 12px 8px; text-align: center; box-shadow: var(--shadow); position: relative; transition: all 0.2s; cursor: pointer; }
-.reward-card:active { transform: scale(0.97); }
-.reward-card .reward-icon { font-size: 28px; line-height: 1.3; }
-.reward-card .reward-name { font-size: 12px; font-weight: 600; margin-top: 4px; line-height: 1.3; }
-.reward-card .reward-cost { font-size: 11px; color: var(--primary); font-weight: 700; margin-top: 2px; }
-.reward-card .reward-progress { height: 4px; background: #EEE; border-radius: 2px; margin: 6px 4px 2px; overflow: hidden; }
-.reward-card .reward-progress-bar { height: 100%; background: var(--primary); border-radius: 2px; transition: width 0.3s; }
-.reward-card .reward-pct { font-size: 9px; color: var(--text-light); }
+/* Reward cards */
+.rgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.rcard { background: var(--card); border-radius: var(--radius); padding: 12px 8px; text-align: center; box-shadow: var(--shadow); position: relative; cursor: pointer; }
+.rcard .ricon { font-size: 28px; }
+.rcard .rname { font-size: 12px; font-weight: 600; margin-top: 4px; }
+.rcard .rcost { font-size: 11px; color: var(--primary); font-weight: 700; margin-top: 2px; }
+.rcard .rprog { height: 4px; background: #EEE; border-radius: 2px; margin: 6px 4px 2px; overflow: hidden; }
+.rcard .rprogbar { height: 100%; background: var(--primary); border-radius: 2px; }
+.rcard .rpct { font-size: 9px; color: var(--text-light); }
 
-/* Locked state: greyed out but keep original icon */
-.reward-card.reward-locked { opacity: 0.55; }
-.reward-card.reward-locked .reward-icon { filter: grayscale(0.8); }
-.reward-card.reward-locked .reward-name { color: var(--text-light); }
-.reward-card.reward-locked .reward-cost { color: var(--text-light); }
+.rcard.locked { opacity: 0.55; }
+.rcard.locked .ricon { filter: grayscale(0.8); }
+.rcard.locked .rname { color: var(--text-light); }
+.rcard.locked .rcost { color: var(--text-light); }
 
-/* Featured reward card */
-.reward-card.featured { border: 2px solid var(--primary); background: linear-gradient(135deg, #FFF8E1, #FFFDE7); }
+.rcard.featured { border: 2px solid var(--primary); background: linear-gradient(135deg, #FFF8E1, #FFFDE7); }
 
-/* Dream card (full width) */
-.dream-card { background: linear-gradient(135deg, #FFF8E1, #FFECB3); border-radius: var(--radius); padding: 16px; text-align: center; margin-bottom: 12px; box-shadow: var(--shadow-lg); position: relative; }
-.dream-card .dream-icon { font-size: 36px; }
-.dream-card .dream-name { font-size: 15px; font-weight: 700; margin: 4px 0 2px; }
-.dream-card .dream-cost { font-size: 13px; color: var(--primary); font-weight: 700; }
-.dream-card .dream-progress { height: 8px; background: rgba(255,255,255,0.5); border-radius: 4px; margin: 8px 20px 4px; overflow: hidden; }
-.dream-card .dream-progress-bar { height: 100%; background: var(--primary); border-radius: 4px; transition: width 0.3s; }
-.dream-card .dream-pct { font-size: 11px; color: var(--text-light); }
+.cat-header { font-size: 14px; font-weight: 700; margin: 16px 0 8px; }
+.cat-desc { font-size: 11px; color: var(--text-light); margin-bottom: 8px; }
 
-/* Category header in shop */
-.shop-cat-header { font-size: 14px; font-weight: 700; margin: 16px 0 8px; display: flex; align-items: center; gap: 6px; }
-.shop-cat-desc { font-size: 11px; color: var(--text-light); margin-bottom: 8px; }
-
-/* ── Log Page ── */
-.log-month-nav { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 12px; }
-.log-month-nav button { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 4px 12px; font-size: 13px; cursor: pointer; }
-.log-month-nav span { font-size: 14px; font-weight: 600; }
-.log-day-card { background: var(--card); border-radius: var(--radius); padding: 12px; margin-bottom: 8px; box-shadow: var(--shadow); }
-.log-day-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-.log-day-date { font-size: 13px; font-weight: 600; }
-.log-day-total { font-size: 18px; }
-.log-day-badges { display: flex; gap: 4px; margin-bottom: 6px; }
-.log-day-badge { font-size: 11px; padding: 2px 6px; border-radius: 8px; background: var(--bg); }
-.log-day-notes { border-top: 1px solid var(--border); padding-top: 6px; }
-.log-note { font-size: 11px; color: var(--text-light); margin: 2px 0; }
-
-/* ── Settings Modal ── */
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; display: flex; align-items: center; justify-content: center; padding: 20px; }
-.modal-overlay.hidden { display: none; }
+/* Modal */
+.moverlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; display: flex; align-items: center; justify-content: center; padding: 20px; }
+.moverlay.hide { display: none; }
 .modal { background: var(--card); border-radius: var(--radius); padding: 20px; width: 100%; max-width: 380px; max-height: 80vh; overflow-y: auto; }
 .modal h2 { font-size: 16px; margin-bottom: 14px; }
-.modal-field { margin-bottom: 12px; }
-.modal-field label { font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px; }
-.modal-field input, .modal-field textarea { width: 100%; border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 8px 10px; font-size: 14px; outline: none; font-family: inherit; }
-.modal-field input:focus, .modal-field textarea:focus { border-color: var(--primary); }
-.modal-btns { display: flex; gap: 8px; margin-top: 14px; }
-.modal-btns button { flex: 1; padding: 10px; border: none; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; cursor: pointer; }
-.modal-btns .btn-confirm { background: var(--primary); color: #fff; }
-.modal-btns .btn-cancel { background: var(--bg); color: var(--text); }
+.mfield { margin-bottom: 12px; }
+.mfield label { font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px; }
+.mfield input, .mfield textarea, .mfield select { width: 100%; border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 8px 10px; font-size: 14px; outline: none; font-family: inherit; }
+.mbtns { display: flex; gap: 8px; margin-top: 14px; }
+.mbtns button { flex: 1; padding: 10px; border: none; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; cursor: pointer; }
+.mconfirm { background: var(--primary); color: #fff; }
+.mcancel { background: var(--bg); color: var(--text); }
 
-/* ── Redeem Modal ── */
-.redeem-modal .reward-preview { text-align: center; padding: 16px; }
-.redeem-modal .reward-preview .big-icon { font-size: 48px; }
-.redeem-modal .cost-display { text-align: center; font-size: 18px; font-weight: 700; color: var(--primary); margin: 8px 0; }
-.redeem-modal .balance-warn { text-align: center; font-size: 12px; color: var(--danger); margin: 8px 0; }
+/* Log */
+.lnav { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 12px; }
+.lnav button { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 4px 12px; font-size: 13px; cursor: pointer; }
+.lday { background: var(--card); border-radius: var(--radius); padding: 12px; margin-bottom: 8px; box-shadow: var(--shadow); }
 
-/* ──理念弹窗 ── */
-.philosophy-content { font-size: 13px; line-height: 1.7; }
-.philosophy-content h3 { font-size: 14px; margin: 12px 0 6px; color: var(--primary); }
-.philosophy-content .principle { background: var(--bg); border-radius: var(--radius-sm); padding: 10px; margin-bottom: 8px; }
-.philosophy-content .principle-title { font-weight: 700; font-size: 13px; }
-.philosophy-content .principle-desc { font-size: 12px; color: var(--text-light); margin-top: 2px; }
+/* Nav */
+.nav { display: flex; background: var(--card); border-top: 1px solid var(--border); flex-shrink: 0; }
+.nitem { flex: 1; text-align: center; padding: 6px 0 4px; cursor: pointer; color: var(--text-light); font-size: 10px; border: none; background: none; }
+.nitem .ni { font-size: 20px; display: block; }
+.nitem.active { color: var(--primary); }
 
-/* ── Toast ── */
-.toast { position: fixed; top: 60px; left: 50%; transform: translateX(-50%); background: #333; color: #fff; padding: 8px 18px; border-radius: 20px; font-size: 13px; z-index: 200; opacity: 0; transition: opacity 0.3s; pointer-events: none; white-space: nowrap; }
+.toast { position: fixed; top: 60px; left: 50%; transform: translateX(-50%); background: #333; color: #fff; padding: 8px 18px; border-radius: 20px; font-size: 13px; z-index: 200; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
 .toast.show { opacity: 1; }
-
-/* ── Bottom Nav ── */
-.bottom-nav { display: flex; background: var(--card); border-top: 1px solid var(--border); flex-shrink: 0; box-shadow: 0 -2px 8px rgba(0,0,0,0.04); }
-.nav-item { flex: 1; text-align: center; padding: 6px 0 4px; cursor: pointer; transition: color 0.2s; color: var(--text-light); font-size: 10px; border: none; background: none; }
-.nav-item .nav-icon { font-size: 20px; display: block; margin-bottom: 1px; }
-.nav-item.active { color: var(--primary); }
-.nav-item:active { opacity: 0.7; }
-
-/* ── Confetti ── */
-.confetti-container { position: fixed; inset: 0; pointer-events: none; z-index: 300; }
-.confetti { position: absolute; width: 8px; height: 8px; border-radius: 2px; }
-
-/* ── Responsive ── */
-@media (max-width: 420px) {
-  .page { padding: 12px; }
-}
 </style>
 </head>
 <body>
 
 <div id="app">
-  <!-- Header -->
   <header>
     <div>
       <h1>🏴‍☠️ 奕铭探险家</h1>
-      <div class="subtitle" id="headerSubtitle">徽章成长系统</div>
+      <div class="sub" id="subtitle">徽章成长系统</div>
     </div>
     <div class="header-btns">
-      <button onclick="showPhilosophy()" title="设计理念">💡</button>
-      <button onclick="showSettings()" title="管理员设置">⚙️</button>
+      <button onclick="showPhilosophy()">💡</button>
+      <button onclick="showSettings()">⚙️</button>
     </div>
   </header>
 
-  <!-- Home Page -->
-  <div class="page active" id="pageHome">
-    <div class="date-display" id="homeDate"></div>
-    <div class="total-badges">
-      <div class="number" id="homeTotal">—</div>
-      <div class="label">累计获得徽章（含利息）</div>
-    </div>
+  <div class="page active" id="pHA">
     <div class="balance-bar">
-      <div class="balance-item earned">
-        <div class="b-num" id="balanceEarned">0</div>
-        <div class="b-label">累计获得</div>
-      </div>
-      <div class="balance-item redeemed">
-        <div class="b-num" id="balanceRedeemed">0</div>
-        <div class="b-label">已兑换</div>
-      </div>
-      <div class="balance-item remaining">
-        <div class="b-num" id="balanceRemaining">0</div>
-        <div class="b-label">剩余可用</div>
-      </div>
+      <div class="b-item b-earned"><span class="b-num" id="bEarned">0</span><span class="b-label">累计获得</span></div>
+      <div class="b-item b-redeemed"><span class="b-num" id="bRedeemed">0</span><span class="b-label">已兑换</span></div>
+      <div class="b-item b-remaining"><span class="b-num" id="bRemaining">0</span><span class="b-label">剩余可用</span></div>
     </div>
-    <div class="badge-lines" id="homeBadgeLines"></div>
-    <div class="vote-progress-card" id="voteProgressCard">
+    <div class="blines" id="blines"></div>
+    <div class="vcard" id="vcard">
       <h3>🗳️ 今日投票进度</h3>
-      <div class="progress-avatars" id="voteAvatars"></div>
+      <div class="vavatars" id="vavatars"></div>
     </div>
-    <div class="today-result" id="todayResult" style="display:none;">
-      <div class="result-label">🎉 今日获得</div>
-      <div class="result-badges" id="todayBadges"></div>
-      <div class="result-detail" id="todayDetail"></div>
-    </div>
-    <div class="notes-preview" id="notesPreview" style="display:none;">
-      <h3>📝 今日记录</h3>
-      <div id="notesList"></div>
-    </div>
+    <div class="tresult" id="tresult" style="display:none;"></div>
+    <div id="notesPrev" style="display:none;"></div>
   </div>
 
-  <!-- Vote Page -->
-  <div class="page" id="pageVote">
-    <div class="vote-hero">
-      <div class="hero-icon">🏴‍☠️</div>
-      <div class="hero-text">选择你的身份，为奕铭今天的探险表现投票</div>
+  <div class="page" id="pVote">
+    <div style="text-align:center;margin-bottom:20px;">
+      <div style="font-size:48px;">🏴‍☠️</div>
+      <div style="font-size:14px;color:var(--text-light);">选择身份，为奕铭投票</div>
     </div>
-    <div class="member-select" id="memberSelect"></div>
-    <div class="vote-lines" id="voteLines"></div>
-    <div class="note-input-wrap">
+    <div class="mselect" id="mselect"></div>
+    <div class="vlines" id="vlines"></div>
+    <div class="note-wrap">
       <label>📝 今日记录（可选）</label>
-      <textarea id="voteNote" placeholder="记录今天奕铭的表现，比如：主动收拾玩具、情绪稳定…"></textarea>
+      <textarea id="vnote" placeholder="记录今天奕铭的表现..."></textarea>
     </div>
-    <button class="submit-vote-btn" id="submitVoteBtn" onclick="submitVote()" disabled>✨ 提交投票</button>
+    <button class="sbtn" id="vsubmit" onclick="submitVote()" disabled>✨ 提交投票</button>
   </div>
 
-  <!-- Shop Page -->
-  <div class="page" id="pageShop">
-    <div class="shop-header">
-      <div class="shop-total">剩余可用：<span id="shopRemaining">0</span> 🏅</div>
-    </div>
+  <div class="page" id="pShop">
     <div class="shop-balance">
-      <div class="sb-item earned"><span class="sb-num" id="sbEarned">0</span>累计获得</div>
-      <div class="sb-item redeemed"><span class="sb-num" id="sbRedeemed">0</span>已兑换</div>
-      <div class="sb-item remaining"><span class="sb-num" id="sbRemaining">0</span>剩余可用</div>
+      <div class="sb-item sb-earned"><span class="sb-num" id="sbEarned">0</span>累计</div>
+      <div class="sb-item sb-redeemed"><span class="sb-num" id="sbRedeemed">0</span>已兑</div>
+      <div class="sb-item sb-remaining"><span class="sb-num" id="sbRemaining">0</span>剩余</div>
     </div>
-    <div class="shop-admin-bar" id="shopAdminBar" style="display:none;">
-      <button onclick="toggleShopEditing()" id="shopEditBtn">✏️ 编辑奖励</button>
-      <button onclick="showAddReward()" class="add-btn" id="shopAddBtn" style="display:none;">➕ 添加奖励</button>
-      <button onclick="showFeatureReward()" id="shopFeatureBtn" style="display:none;">⭐ 置顶奖励</button>
+    <div class="sadmin" id="sadmin" style="display:none;">
+      <button onclick="toggleEdit()" id="editBtn">✏️ 编辑</button>
+      <button onclick="showAdd()" id="addBtn" style="display:none;background:var(--primary);color:#fff;">➕ 添加</button>
+      <button onclick="showFeature()" id="featBtn" style="display:none;">⭐ 置顶</button>
     </div>
-    <div id="shopContent"></div>
+    <div id="scontent"></div>
   </div>
 
-  <!-- Log Page -->
-  <div class="page" id="pageLog">
-    <div class="log-month-nav">
-      <button onclick="changeMonth(-1)">◀</button>
-      <span id="logMonthDisplay"></span>
-      <button onclick="changeMonth(1)">▶</button>
+  <div class="page" id="pLog">
+    <div class="lnav">
+      <button onclick="chgMonth(-1)">◀</button>
+      <span id="lmonth"></span>
+      <button onclick="chgMonth(1)">▶</button>
     </div>
-    <div id="logContent"></div>
+    <div id="lcontent"></div>
   </div>
 
-  <!-- Bottom Nav -->
-  <nav class="bottom-nav">
-    <button class="nav-item active" onclick="switchPage('home')"><span class="nav-icon">🏠</span>首页</button>
-    <button class="nav-item" onclick="switchPage('vote')"><span class="nav-icon">🗳️</span>投票</button>
-    <button class="nav-item" onclick="switchPage('shop')"><span class="nav-icon">🎁</span>宝藏</button>
-    <button class="nav-item" onclick="switchPage('log')"><span class="nav-icon">📜</span>日志</button>
+  <nav class="nav">
+    <button class="nitem active" onclick="goPage('home')"><span class="ni">🏠</span>首页</button>
+    <button class="nitem" onclick="goPage('vote')"><span class="ni">🗳️</span>投票</button>
+    <button class="nitem" onclick="goPage('shop')"><span class="ni">🎁</span>宝藏</button>
+    <button class="nitem" onclick="goPage('log')"><span class="ni">📜</span>日志</button>
   </nav>
 </div>
 
 <!-- Modals -->
-<!-- Philosophy Modal -->
-<div class="modal-overlay hidden" id="philosophyModal">
+<div class="moverlay hide" id="mPhilosophy">
   <div class="modal" style="max-width:400px;">
     <h2>💡 设计理念</h2>
-    <div class="philosophy-content">
-      <p style="font-size:12px;color:var(--text-light);margin-bottom:10px;">奕铭探险家徽章系统，不是积分工资制，而是<strong>人格成长日评分模型</strong>。</p>
-      <h3>🦁 三条成长线</h3>
-      <div class="principle"><div class="principle-title">🦁 勇敢小狮子（情绪徽章）</div><div class="principle-desc">情绪稳定·能听引导·冲突能恢复</div></div>
-      <div class="principle"><div class="principle-title">🐘 合作小象（行为徽章）</div><div class="principle-desc">整体配合·流程顺利·无明显对抗</div></div>
-      <div class="principle"><div class="principle-title">🦅 探索小鹰（探索徽章）</div><div class="principle-desc">主动提问·认真读书·动手尝试</div></div>
-      <h3>📋 六大原则</h3>
-      <div class="principle"><div class="principle-title">① 积分是游戏，不是工资</div><div class="principle-desc">奖励"成长行为"，不奖励"结果"</div></div>
-      <div class="principle"><div class="principle-title">② 多加分，少扣分</div><div class="principle-desc">0/+1/+2三档，前期只加不扣</div></div>
-      <div class="principle"><div class="principle-title">③ 家庭投票仪式</div><div class="principle-desc">每晚3分钟，3票以上得星</div></div>
-      <div class="principle"><div class="principle-title">④ 奖励分三类</div><div class="principle-desc">特权 > 体验 > 物品</div></div>
-      <div class="principle"><div class="principle-title">⑤ 存钱利息机制</div><div class="principle-desc">积累更多有额外奖励，培养延迟满足</div></div>
-      <div class="principle"><div class="principle-title">⑥ 梦想大奖</div><div class="principle-desc">100分目标锚点，长期积累</div></div>
+    <div style="font-size:13px;line-height:1.7;">
+      <p style="font-size:12px;color:var(--text-light);margin-bottom:10px;">不是积分工资制，而是<strong>人格成长日评分模型</strong>。</p>
+      <p style="font-weight:700;margin:10px 0 4px;">🦁 三条成长线</p>
+      <div style="background:var(--bg);border-radius:8px;padding:8px;margin-bottom:6px;font-size:12px;">
+        🦁 <strong>勇敢小狮子</strong>（情绪）— 情绪稳定·能听引导<br>
+        🐘 <strong>合作小象</strong>（行为）— 整体配合·流程顺利<br>
+        🦅 <strong>探索小鹰</strong>（探索）— 主动提问·认真读书
+      </div>
+      <p style="font-weight:700;margin:10px 0 4px;">📋 六大原则</p>
+      <div style="background:var(--bg);border-radius:8px;padding:8px;font-size:12px;line-height:1.8;">
+        ① 积分是游戏，不是工资<br>
+        ② 多加分少扣分，前期只加不扣<br>
+        ③ 家庭投票仪式，3票以上得星<br>
+        ④ 奖励分三类：特权 > 体验 > 物品<br>
+        ⑤ 存钱利息机制，培养延迟满足<br>
+        ⑥ 梦想大奖，长期积累目标
+      </div>
     </div>
-    <div class="modal-btns"><button class="btn-confirm" onclick="closeModal('philosophyModal')">知道了</button></div>
+    <div class="mbtns"><button class="mconfirm" onclick="closeM('mPhilosophy')">知道了</button></div>
   </div>
 </div>
 
-<!-- Settings Modal -->
-<div class="modal-overlay hidden" id="settingsModal">
+<div class="moverlay hide" id="mSettings">
   <div class="modal">
     <h2>⚙️ 管理员设置</h2>
-    <div id="settingsContent"></div>
-    <div class="modal-btns">
-      <button class="btn-cancel" onclick="closeModal('settingsModal')">关闭</button>
-    </div>
+    <div id="scontent2"></div>
+    <div class="mbtns"><button class="mcancel" onclick="closeM('mSettings')">关闭</button></div>
   </div>
 </div>
 
-<!-- Redeem Modal -->
-<div class="modal-overlay hidden" id="redeemModal">
-  <div class="modal redeemed-modal">
-    <div class="reward-preview">
-      <div class="big-icon" id="redeemIcon"></div>
-      <div style="font-size:16px;font-weight:700;margin:6px 0;" id="redeemName"></div>
-      <div class="cost-display" id="redeemCost"></div>
-      <div class="balance-warn" id="redeemWarn"></div>
-    </div>
-    <div class="modal-btns">
-      <button class="btn-cancel" onclick="closeModal('redeemModal')">取消</button>
-      <button class="btn-confirm" id="redeemConfirmBtn" onclick="confirmRedeem()">确认兑换</button>
-    </div>
-  </div>
-</div>
-
-<!-- Reward Edit Modal -->
-<div class="modal-overlay hidden" id="rewardEditModal">
+<div class="moverlay hide" id="mRedeem">
   <div class="modal">
-    <h2 id="rewardModalTitle">编辑奖励</h2>
-    <div class="modal-field">
-      <label>名称</label>
-      <input type="text" id="rewardEditName" placeholder="奖励名称">
+    <h2>兑换确认</h2>
+    <div style="text-align:center;padding:16px;">
+      <div style="font-size:48px;" id="rIcon"></div>
+      <div style="font-size:16px;font-weight:700;margin:6px 0;" id="rName"></div>
+      <div style="font-size:18px;color:var(--primary);font-weight:700;" id="rCost"></div>
+      <div style="font-size:12px;color:var(--text-light);margin-top:8px;" id="rWarn"></div>
     </div>
-    <div class="modal-field">
-      <label>图标（emoji）</label>
-      <input type="text" id="rewardEditIcon" placeholder="⭐" maxlength="4">
+    <div class="mbtns">
+      <button class="mcancel" onclick="closeM('mRedeem')">取消</button>
+      <button class="mconfirm" id="rConfirm" onclick="doRedeem()">确认兑换</button>
     </div>
-    <div class="modal-field">
-      <label>徽章数</label>
-      <input type="number" id="rewardEditCost" placeholder="10" min="1">
-    </div>
-    <div class="modal-field" id="rewardEditCategoryField">
-      <label>分类</label>
-      <select id="rewardEditCategory" style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:14px;">
+  </div>
+</div>
+
+<div class="moverlay hide" id="mReward">
+  <div class="modal">
+    <h2 id="mrTitle">编辑奖励</h2>
+    <div class="mfield"><label>名称</label><input type="text" id="mrName"></div>
+    <div class="mfield"><label>图标（emoji）</label><input type="text" id="mrIcon" maxlength="4"></div>
+    <div class="mfield"><label>徽章数</label><input type="number" id="mrCost" min="1"></div>
+    <div class="mfield" id="mrCatField"><label>分类</label>
+      <select id="mrCat" style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:var(--radius-sm);">
         <option value="privileges">🎫 特权奖励</option>
         <option value="experiences">🎪 体验奖励</option>
         <option value="items">🎁 物品奖励</option>
       </select>
     </div>
-    <div class="modal-btns">
-      <button class="btn-cancel" onclick="closeModal('rewardEditModal')">取消</button>
-      <button class="btn-confirm" onclick="saveRewardEdit()">保存</button>
+    <div class="mbtns">
+      <button class="mcancel" onclick="closeM('mReward')">取消</button>
+      <button class="mconfirm" onclick="saveReward()">保存</button>
     </div>
   </div>
 </div>
 
-<!-- Toast -->
 <div class="toast" id="toast"></div>
-
-<!-- Confetti -->
-<div class="confetti-container" id="confettiContainer"></div>
-
 </div>
 
 <script>
-// ── State ──
 const API = '';
-let state = {
-  info: null,
-  todayData: null,
-  rewards: null,
-  balance: null,
-  redeems: [],
-  currentMember: null,
-  voteSelections: { emotion: null, behavior: null, explore: null },
-  shopEditing: false,
-  currentMonth: new Date().toISOString().slice(0,7),
+let S = {
+  info: null, today: null, rewards: null, balance: null,
+  curMember: null, votes: {emotion:null,behavior:null,explore:null},
+  editing: false, curMonth: new Date().toISOString().slice(0,7),
+  _redeem: null, _editReward: null,
 };
 
-// ── Init ──
-async function init() {
-  showDate();
-  state.info = await api('/api/info');
-  if (state.info) {
-    document.getElementById('headerSubtitle').textContent = (state.info.badgeName||'探险家徽章') + ' · ' + (state.info.childName||'奕铭');
-  }
-  await loadHome();
-  switchPage('home');
-}
-
-function showDate() {
-  const d = new Date();
-  const days = ['日','一','二','三','四','五','六'];
-  document.getElementById('homeDate').textContent = `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日 星期${days[d.getDay()]}`;
-}
-
-// ── API helper ──
-async function api(path, options = {}) {
+async function api(path, opt={}) {
   try {
-    const mergedHeaders = { 'Content-Type': 'application/json', ...(options.headers||{}) };
-    const res = await fetch(API + path, { ...options, headers: mergedHeaders });
-    return await res.json();
-  } catch(e) { toast('网络连接失败，请重试', 'error'); return null; }
+    const h = {'Content-Type':'application/json', ...(opt.headers||{})};
+    const r = await fetch(API+path, {...opt, headers:h});
+    return await r.json();
+  } catch(e) { toast('网络错误'); return null; }
 }
 
-// ── Pages ──
-function switchPage(page) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page' + page.charAt(0).toUpperCase() + page.slice(1)).classList.add('active');
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  event.currentTarget && event.currentTarget.classList.add('active');
-  // reload data
-  if (page === 'home') loadHome();
-  if (page === 'vote') loadVote();
-  if (page === 'shop') loadShop();
-  if (page === 'log') loadLog();
+async function init() {
+  S.info = await api('/api/info');
+  if (S.info) document.getElementById('subtitle').textContent = (S.info.badgeName||'探险家') + ' · ' + (S.info.childName||'奕铭');
+  goPage('home');
+}
+init();
+
+function goPage(p) {
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.getElementById('p'+p.charAt(0).toUpperCase()+p.slice(1)).classList.add('active');
+  document.querySelectorAll('.nitem').forEach(x=>x.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  if(p==='home') loadHome();
+  if(p==='vote') loadVote();
+  if(p==='shop') loadShop();
+  if(p==='log') loadLog();
 }
 
 // ── Home ──
 async function loadHome() {
-  const [todayData, balance] = await Promise.all([
-    api('/api/today'),
-    api('/api/balance'),
-  ]);
-  if (!todayData) return;
-  state.todayData = todayData;
-  state.balance = balance;
-
-  // Totals
-  document.getElementById('homeTotal').textContent = balance.totalWithBonus;
-  document.getElementById('balanceEarned').textContent = balance.totalEarned;
-  document.getElementById('balanceRedeemed').textContent = balance.totalRedeemed;
-  document.getElementById('balanceRemaining').textContent = balance.remaining;
+  const [td, bal] = await Promise.all([api('/api/today'), api('/api/balance')]);
+  if(!td) return;
+  S.today = td; S.balance = bal;
+  document.getElementById('bEarned').textContent = bal.totalEarned;
+  document.getElementById('bRedeemed').textContent = bal.totalRedeemed;
+  document.getElementById('bRemaining').textContent = bal.remaining;
 
   // Badge lines
-  const linesHtml = (state.info?.badgeLines||[]).map(line => {
-    const vc = todayData.voteCounts?.[line.id] || { yes:0, total:0 };
-    const earned = todayData.badgeResults?.[line.id] || 0;
-    const pct = vc.total > 0 ? Math.round(vc.yes / vc.total * 100) : 0;
-    return `<div class="badge-line-card">
-      <div class="earned-badge">${earned ? '⭐' : ''}</div>
-      <div class="animal">${line.icon}</div>
-      <div class="line-name">${line.label}</div>
-      <div class="line-desc">${line.desc}</div>
-      <div class="vote-status ${vc.total >= (state.info?.members?.length||4) ? 'done' : 'waiting'}">
-        ${vc.yes}/${vc.total} 票${vc.yes >= 3 ? ' ✅' : ''}
+  const lines = (S.info?.badgeLines||[]).map(l => {
+    const vc = td.voteCounts?.[l.id]||{yes:0,total:0};
+    const e = td.badgeResults?.[l.id]||0;
+    return `<div class="bline">
+      ${e?'<span class="earned">⭐</span>':''}
+      <div class="animal">${l.icon}</div>
+      <div class="bname">${l.label}</div>
+      <div class="bdesc">${l.desc}</div>
+      <div style="font-size:10px;margin-top:4px;padding:2px 6px;border-radius:8px;display:inline-block;background:${vc.yes>=3?'#E8F5E9':'#FFF3E0'};color:${vc.yes>=3?'#2E7D32':'#E65100'}">
+        ${vc.yes}/${vc.total}票
       </div>
     </div>`;
   }).join('');
-  document.getElementById('homeBadgeLines').innerHTML = linesHtml;
+  document.getElementById('blines').innerHTML = lines;
 
-  // Vote progress
-  const members = state.info?.members || [];
-  const voted = todayData.whoVoted || [];
-  document.getElementById('voteAvatars').innerHTML = members.map(m => {
-    const v = voted.includes(m.id);
-    return `<div class="avatar-item">
-      <div class="avatar-circle ${v?'voted':''}">${m.emoji}</div>
-      <div class="avatar-name">${m.name}${v?'✅':''}</div>
+  // Avatars
+  const mems = S.info?.members||[];
+  document.getElementById('vavatars').innerHTML = mems.map(m => {
+    const v = (td.whoVoted||[]).includes(m.id);
+    return `<div class="vavatar">
+      <div class="vcircle ${v?'voted':''}">${m.emoji}</div>
+      <div class="vname">${m.name}${v?'✅':''}</div>
     </div>`;
   }).join('');
 
   // Today result
-  const resultEl = document.getElementById('todayResult');
-  if (todayData.allVoted) {
-    resultEl.style.display = 'block';
-    const badges = todayData.badgeResults || {};
-    const badgeStr = ['emotion','behavior','explore'].map(k => badges[k] ? (state.info.badgeLines.find(l=>l.id===k)||{}).icon||'⭐' : '').filter(Boolean).join(' ');
-    document.getElementById('todayBadges').textContent = badgeStr || '暂无';
-    document.getElementById('todayDetail').textContent = `今日获得 ${todayData.todayEarned||0} 枚徽章，利息加成 +${todayData.interestBonus||0}`;
-  } else {
-    resultEl.style.display = 'none';
-  }
+  const rEl = document.getElementById('tresult');
+  if(td.allVoted) {
+    rEl.style.display = 'block';
+    const b = td.badgeResults||{};
+    const str = ['emotion','behavior','explore'].map(k=>b[k]?(S.info.badgeLines.find(l=>l.id===k)||{}).icon||'⭐':'').filter(Boolean).join(' ');
+    rEl.innerHTML = `<div style="font-size:12px;color:var(--text-light);">🎉 今日获得</div><div style="font-size:36px;margin:6px 0;">${str||'暂无'}</div><div style="font-size:12px;color:var(--text-light);">今日${td.todayEarned||0}枚，利息+${td.interestBonus||0}</div>`;
+  } else rEl.style.display = 'none';
 
   // Notes
-  const notesEl = document.getElementById('notesPreview');
-  const notes = todayData.allNotes || [];
-  if (notes.length > 0) {
-    notesEl.style.display = 'block';
-    document.getElementById('notesList').innerHTML = notes.map(n => `<div class="note-item"><span class="note-emoji">${n.memberEmoji}</span><div><span class="note-member">${n.memberName}：</span><span class="note-text">${n.note}</span></div></div>`).join('');
-  } else {
-    notesEl.style.display = 'none';
-  }
+  const notes = td.allNotes||[];
+  const nEl = document.getElementById('notesPrev');
+  if(notes.length) {
+    nEl.style.display = 'block';
+    nEl.innerHTML = '<div style="font-size:13px;font-weight:600;margin-bottom:6px;">📝 今日记录</div>' +
+      notes.map(n=>`<div style="font-size:12px;padding:4px 0;border-bottom:1px solid var(--border);"><span style="font-size:16px;">${n.memberEmoji}</span> <strong>${n.memberName}：</strong>${n.note}</div>`).join('');
+  } else nEl.style.display = 'none';
 }
 
 // ── Vote ──
 function loadVote() {
-  state.currentMember = null;
-  state.voteSelections = { emotion: null, behavior: null, explore: null };
-  // Check if already voted
-  const voted = state.todayData?.whoVoted || [];
-  // Member select
-  const members = state.info?.members || [];
-  document.getElementById('memberSelect').innerHTML = members.map(m => {
+  S.curMember = null;
+  S.votes = {emotion:null,behavior:null,explore:null};
+  const voted = S.today?.whoVoted||[];
+  const mems = S.info?.members||[];
+  document.getElementById('mselect').innerHTML = mems.map(m => {
     const v = voted.includes(m.id);
-    return `<div class="member-card ${v?'selected':''}" onclick="selectMember('${m.id}')" id="mc-${m.id}">
-      <div class="mc-emoji">${m.emoji}</div>
-      <div class="mc-name">${m.name}</div>
-      ${v ? '<div style="font-size:10px;color:var(--accent);">已投票</div>' : ''}
+    return `<div class="mcard ${v?'sel':''}" onclick="selMember('${m.id}')" id="mc-${m.id}">
+      <div class="emoji">${m.emoji}</div>
+      <div class="name">${m.name}</div>
+      ${v?'<div style="font-size:10px;color:var(--accent);">已投票</div>':''}
     </div>`;
   }).join('');
-  // Vote lines
-  const lines = state.info?.badgeLines || [];
-  document.getElementById('voteLines').innerHTML = lines.map(line => `
-    <div class="vote-line">
-      <div class="vl-animal">${line.icon}</div>
-      <div class="vl-info">
-        <div class="vl-name">${line.label}</div>
-        <div class="vl-desc">${line.desc}</div>
-      </div>
-      <div class="vote-btns">
-        <button class="vote-btn" id="vote-${line.id}-yes" onclick="setVote('${line.id}',true)">👍</button>
-        <button class="vote-btn" id="vote-${line.id}-no" onclick="setVote('${line.id}',false)">👎</button>
+  document.getElementById('vlines').innerHTML = (S.info?.badgeLines||[]).map(l => `
+    <div class="vline">
+      <div class="vicon">${l.icon}</div>
+      <div class="vinfo"><div class="vname">${l.label}</div><div class="vdesc">${l.desc}</div></div>
+      <div class="vbtns">
+        <button class="vbtn" id="vb-${l.id}-y" onclick="setVote('${l.id}',true)">👍</button>
+        <button class="vbtn" id="vb-${l.id}-n" onclick="setVote('${l.id}',false)">👎</button>
       </div>
     </div>`).join('');
-  document.getElementById('voteNote').value = '';
-  updateSubmitBtn();
+  document.getElementById('vnote').value = '';
+  document.getElementById('vsubmit').disabled = true;
 }
 
-function selectMember(id) {
-  const voted = state.todayData?.whoVoted || [];
-  if (voted.includes(id)) { toast('你已经投过票了！'); return; }
-  state.currentMember = id;
-  document.querySelectorAll('.member-card').forEach(c => c.classList.remove('selected'));
-  document.getElementById('mc-' + id).classList.add('selected');
-  updateSubmitBtn();
+function selMember(id) {
+  if((S.today?.whoVoted||[]).includes(id)) { toast('已投过票了！'); return; }
+  S.curMember = id;
+  document.querySelectorAll('.mcard').forEach(c=>c.classList.remove('sel'));
+  document.getElementById('mc-'+id).classList.add('sel');
+  updSubmit();
 }
 
 function setVote(line, val) {
-  state.voteSelections[line] = val;
-  document.getElementById(`vote-${line}-yes`).classList.toggle('yes', val === true);
-  document.getElementById(`vote-${line}-no`).classList.toggle('no', val === false);
-  updateSubmitBtn();
+  S.votes[line] = val;
+  document.getElementById('vb-'+line+'-y').classList.toggle('yes', val===true);
+  document.getElementById('vb-'+line+'-n').classList.toggle('no', val===false);
+  updSubmit();
 }
 
-function updateSubmitBtn() {
-  const allSet = state.currentMember && state.voteSelections.emotion !== null && state.voteSelections.behavior !== null && state.voteSelections.explore !== null;
-  document.getElementById('submitVoteBtn').disabled = !allSet;
+function updSubmit() {
+  document.getElementById('vsubmit').disabled = !S.curMember || S.votes.emotion===null || S.votes.behavior===null || S.votes.explore===null;
 }
 
 async function submitVote() {
-  const note = document.getElementById('voteNote').value.trim();
-  const res = await api('/api/vote', {
-    method: 'POST',
-    body: JSON.stringify({ memberId: state.currentMember, votes: state.voteSelections, note }),
-  });
-  if (res?.success) {
-    toast('🎉 投票成功！');
-    if (res.allVoted) launchConfetti();
-    await loadHome();
-    switchPage('home');
-  } else {
-    toast(res?.error || '投票失败', 'error');
-  }
+  const res = await api('/api/vote', {method:'POST', body:JSON.stringify({memberId:S.curMember, votes:S.votes, note:document.getElementById('vnote').value.trim()})});
+  if(res?.success) { toast('🎉 投票成功！'); await loadHome(); goPage('home'); }
+  else toast(res?.error||'失败', 'err');
 }
 
 // ── Shop ──
 async function loadShop() {
-  const [rewards, balance] = await Promise.all([
-    api('/api/rewards'),
-    api('/api/balance'),
-  ]);
-  state.rewards = rewards;
-  state.balance = balance;
+  const [rw, bal] = await Promise.all([api('/api/rewards'), api('/api/balance')]);
+  S.rewards = rw; S.balance = bal;
+  document.getElementById('sbEarned').textContent = bal.totalEarned;
+  document.getElementById('sbRedeemed').textContent = bal.totalRedeemed;
+  document.getElementById('sbRemaining').textContent = bal.remaining;
 
-  document.getElementById('shopRemaining').textContent = balance.remaining;
-  document.getElementById('sbEarned').textContent = balance.totalEarned;
-  document.getElementById('sbRedeemed').textContent = balance.totalRedeemed;
-  document.getElementById('sbRemaining').textContent = balance.remaining;
+  renderShop(rw, bal);
 
-  renderShop(rewards, balance);
-
-  // Admin controls
-  const isAdmin = localStorage.getItem('badge_admin') === 'true';
-  document.getElementById('shopAdminBar').style.display = isAdmin ? 'block' : 'none';
-  if (isAdmin) {
-    document.getElementById('shopEditBtn').style.display = state.shopEditing ? 'none' : 'inline-block';
-    document.getElementById('shopAddBtn').style.display = state.shopEditing ? 'inline-block' : 'none';
-    document.getElementById('shopFeatureBtn').style.display = 'inline-block';
+  const isA = localStorage.getItem('badge_admin')==='true';
+  document.getElementById('sadmin').style.display = isA?'flex':'none';
+  if(isA) {
+    document.getElementById('editBtn').style.display = S.editing?'none':'inline-block';
+    document.getElementById('addBtn').style.display = S.editing?'inline-block':'none';
+    document.getElementById('featBtn').style.display = 'inline-block';
   }
 }
 
-function renderShop(data, balance) {
-  if (!data) return;
-  const total = balance ? balance.remaining : 0;
-  const content = document.getElementById('shopContent');
-  let html = '';
-
-  // Featured reward (if set)
-  const featured = (state.info && state.info.featuredReward) ? state.info.featuredReward : null;
-  let featuredReward = null;
-  if (featured) {
-    const cat = data[featured.category];
-    if (cat) featuredReward = cat.find(r => r.id === featured.id);
-  }
-
-  // Build all rewards list with dream
-  const allRewards = [];
-  if (data.dream) allRewards.push({ ...data.dream, _category: 'dream', _isDream: true });
-  ['privileges','experiences','items'].forEach(catKey => {
-    (data[catKey]||[]).forEach(r => allRewards.push({ ...r, _category: catKey }));
-  });
-
-  // Render featured first, then rest
-  const renderRewardCard = (r, showCategory) => {
-    const cat = r._category;
-    const isDream = r._isDream;
-    const earned = total >= r.cost;
-    const pct = Math.min(100, Math.round(total / r.cost * 100));
-    const isFeatured = featured && featured.category === cat && featured.id === r.id;
-    let cls = 'reward-card';
-    if (!earned) cls += ' reward-locked';
-    if (isFeatured) cls += ' featured';
-    let catLabel = '';
-    if (showCategory) {
-      const labels = { dream:'🏆 梦想大奖', privileges:'🎫 特权奖励', experiences:'🎪 体验奖励', items:'🎁 物品奖励' };
-      catLabel = `<div class="shop-cat-header">${labels[cat]||cat}</div>`;
-    }
-    return `${catLabel}<div class="${cls}" onclick="onRewardClick('${cat}','${r.id}',${r.cost},${earned})">
-      ${state.shopEditing ? `<div class="reward-actions"><button class="btn-sm" style="background:#4A90D9;color:#fff;" onclick="event.stopPropagation();editReward('${cat}','${r.id}')">✏️</button><button class="btn-sm" style="background:#E8697C;color:#fff;" onclick="event.stopPropagation();deleteReward('${cat}','${r.id}')">🗑</button></div>` : ''}
-      <div class="reward-icon">${r.icon||'⭐'}</div>
-      <div class="reward-name">${r.name}</div>
-      <div class="reward-cost"><span style="font-size:12px;">🏅</span> ${r.cost}</div>
-      <div class="reward-progress"><div class="reward-progress-bar" style="width:${pct}%;background:${earned?'var(--accent)':'var(--primary)'};"></div></div>
-      <div class="reward-pct">${total}/${r.cost}（${pct}%）</div>
-    </div>`;
-  };
+function renderShop(rw, bal) {
+  const rem = bal?bal.remaining:0;
+  let h = '';
+  // All rewards flat list
+  const all = [];
+  if(rw.dream) all.push({...rw.dream, _cat:'dream'});
+  ['privileges','experiences','items'].forEach(c => (rw[c]||[]).forEach(r => all.push({...r, _cat:c})));
 
   // Featured
-  if (featuredReward) {
-    html += '<div style="margin-bottom:8px;"><strong>⭐ 置顶推荐</strong></div>';
-    html += '<div class="reward-grid">' + renderRewardCard(featuredReward, false) + '</div>';
-    // Remove from allRewards
-    const idx = allRewards.findIndex(r => r._category === featured.category && r.id === featured.id);
-    if (idx >= 0) allRewards.splice(idx, 1);
+  const feat = S.info?.featuredReward;
+  let featR = null;
+  if(feat) featR = all.find(r => r._cat===feat.category && r.id===feat.id);
+  if(featR) {
+    h += '<div style="margin-bottom:8px;"><strong>⭐ 置顶推荐</strong></div><div class="rgid">' + rcard(featR, rem, true) + '</div>';
+    const idx = all.findIndex(r => r._cat===feat.category && r.id===feat.id);
+    if(idx>=0) all.splice(idx,1);
   }
 
-  // All categories
+  // Categories
   const cats = [
-    { key:'dream', name:'🏆 梦想大奖', desc:'长期目标，坚持积累' },
-    { key:'privileges', name:'🎫 特权奖励', desc:'训练自主决策力，比物质更高级' },
-    { key:'experiences', name:'🎪 体验奖励', desc:'体验比玩具更有价值' },
-    { key:'items', name:'🎁 物品奖励', desc:'少量物质奖励，适可而止' },
+    {k:'dream',n:'🏆 梦想大奖',d:'长期目标'},
+    {k:'privileges',n:'🎫 特权奖励',d:'训练自主决策力'},
+    {k:'experiences',n:'🎪 体验奖励',d:'体验比玩具更有价值'},
+    {k:'items',n:'🎁 物品奖励',d:'少量物质奖励'},
   ];
-  cats.forEach(cat => {
-    const items = cat.key === 'dream' ? (data.dream ? [data.dream] : []) : (data[cat.key]||[]);
-    if (items.length === 0 && cat.key !== 'dream') return;
-    if (cat.key === 'dream' && !data.dream) return;
-    html += `<div class="shop-cat-header"><span style="font-size:16px;">${cat.name.split(' ')[0]}</span>${cat.name.split(' ').slice(1).join(' ')}</div>`;
-    html += `<div style="font-size:11px;color:var(--text-light);margin-bottom:8px;">${cat.desc}</div>`;
-    html += '<div class="reward-grid">';
-    items.forEach(item => {
-      // Skip if featured
-      if (featured && featured.category === cat.key && featured.id === item.id) return;
-      html += renderRewardCard({ ...item, _category: cat.key, _isDream: cat.key==='dream' }, false);
+  cats.forEach(c => {
+    let items = c.k==='dream' ? (rw.dream?[rw.dream]:[]) : (rw[c.k]||[]);
+    if(c.k==='dream' && !rw.dream) return;
+    // Skip featured
+    if(feat) items = items.filter(r => !(r._cat===feat.category && r.id===feat.id));
+    if(items.length===0 && c.k!=='dream') return;
+    if(c.k==='dream') items = rw.dream?[rw.dream]:[];
+    h += `<div class="cat-header"><span style="font-size:16px;">${c.n.split(' ')[0]}</span> ${c.n.split(' ').slice(1).join(' ')}</div>`;
+    h += `<div style="font-size:11px;color:var(--text-light);margin-bottom:8px;">${c.d}</div>`;
+    h += '<div class="rgid">';
+    items.forEach(r => {
+      const rr = c.k==='dream' ? {...rw.dream, _cat:'dream'} : {...r, _cat:c.k};
+      h += rcard(rr, rem, false);
     });
-    html += '</div>';
+    h += '</div>';
   });
-
-  content.innerHTML = html;
+  document.getElementById('scontent').innerHTML = h;
 }
 
-function onRewardClick(category, id, cost, earned) {
-  if (!earned) {
-    toast('继续努力💪 还差一点徽章哦！');
-    return;
-  }
-  // Show redeem modal
-  const allRewards = [];
-  if (state.rewards.dream) allRewards.push({ ...state.rewards.dream, _category:'dream' });
-  ['privileges','experiences','items'].forEach(catKey => {
-    (state.rewards[catKey]||[]).forEach(r => allRewards.push({ ...r, _category:catKey }));
-  });
-  const reward = allRewards.find(r => r._category === category && r.id === id);
-  if (!reward) return;
+function rcard(r, rem, feat) {
+  const earned = rem >= r.cost;
+  const pct = Math.min(100, Math.round(rem / r.cost * 100));
+  let cls = 'rcard';
+  if(!earned) cls += ' locked';
+  if(feat) cls += ' featured';
+  return `<div class="${cls}" onclick="onRcard('${r._cat}','${r.id}',${r.cost},${earned})">
+    ${S.editing?'<div style="position:absolute;top:4px;right:4px;"><button onclick="event.stopPropagation();editR(\\'${r._cat}\\',\\'${r.id}\\')" style="font-size:11px;padding:2px 6px;border:1px solid var(--secondary);border-radius:4px;background:#fff;color:var(--secondary);cursor:pointer;">✏️</button> <button onclick="event.stopPropagation();delR(\\'${r._cat}\\',\\'${r.id}\\')" style="font-size:11px;padding:2px 6px;border:1px solid var(--danger);border-radius:4px;background:#fff;color:var(--danger);cursor:pointer;">🗑</button></div>':''}
+    <div class="ricon">${r.icon||'⭐'}</div>
+    <div class="rname">${r.name}</div>
+    <div class="rcost">🏅 ${r.cost}</div>
+    <div class="rprog"><div class="rprogbar" style="width:${pct}%;background:${earned?'var(--accent)':'var(--primary)'};"></div></div>
+    <div class="rpct">${rem}/${r.cost}（${pct}%）</div>
+  </div>`;
+}
 
-  document.getElementById('redeemIcon').textContent = reward.icon||'⭐';
-  document.getElementById('redeemName').textContent = reward.name;
-  document.getElementById('redeemCost').textContent = `需要 ${reward.cost} 🏅`;
-  const remaining = state.balance.remaining;
-  if (remaining < reward.cost) {
-    document.getElementById('redeemWarn').textContent = `徽章不足！剩余 ${remaining}，需要 ${reward.cost}`;
-    document.getElementById('redeemConfirmBtn').disabled = true;
+function onRcard(cat, id, cost, earned) {
+  if(!earned) { toast('继续努力💪 还差一点徽章哦！'); return; }
+  S._redeem = {category:cat, id, cost};
+  const rw = S.rewards;
+  let r = null;
+  if(cat==='dream') r = rw.dream;
+  else r = (rw[cat]||[]).find(x=>x.id===id);
+  if(!r) return;
+  document.getElementById('rIcon').textContent = r.icon||'⭐';
+  document.getElementById('rName').textContent = r.name;
+  document.getElementById('rCost').textContent = `需要 ${r.cost} 🏅`;
+  const rem = S.balance.remaining;
+  if(rem < r.cost) {
+    document.getElementById('rWarn').textContent = `徽章不足！剩余${rem}，需要${r.cost}`;
+    document.getElementById('rConfirm').disabled = true;
   } else {
-    document.getElementById('redeemWarn').textContent = `兑换后剩余 ${remaining - reward.cost} 🏅`;
-    document.getElementById('redeemWarn').style.color = 'var(--text-light)';
-    document.getElementById('redeemConfirmBtn').disabled = false;
+    document.getElementById('rWarn').textContent = `兑换后剩余 ${rem - r.cost} 🏅`;
+    document.getElementById('rWarn').style.color = 'var(--text-light)';
+    document.getElementById('rConfirm').disabled = false;
   }
-  state._redeemReward = { category, id, cost: reward.cost, name: reward.name };
-  document.getElementById('redeemModal').classList.remove('hidden');
+  document.getElementById('mRedeem').classList.remove('hide');
 }
 
-async function confirmRedeem() {
-  const r = state._redeemReward;
-  if (!r) return;
-  const isAdmin = localStorage.getItem('badge_admin') === 'true';
-  const pwd = isAdmin ? localStorage.getItem('badge_admin_pwd') || '' : '';
-  if (!isAdmin) {
-    toast('需要管理员密码才能兑换，请在设置中登录', 'error');
-    closeModal('redeemModal');
-    return;
-  }
-  const res = await api('/api/redeem', {
-    method: 'POST',
-    body: JSON.stringify({ rewardId: r.id, rewardName: r.name, cost: r.cost, category: r.category, password: pwd }),
-  });
-  if (res?.success) {
-    toast('🎉 兑换成功！');
-    closeModal('redeemModal');
-    await loadShop();
-    await loadHome();
+async function doRedeem() {
+  const r = S._redeem;
+  if(!r) return;
+  const pwd = localStorage.getItem('badge_admin_pwd')||'';
+  if(!pwd) { toast('需要管理员密码', 'err'); closeM('mRedeem'); return; }
+  const res = await api('/api/redeem', {method:'POST', headers:{'x-admin-password':pwd}, body:JSON.stringify({rewardId:r.id, rewardName:r.name||'', cost:r.cost, category:r.category})});
+  if(res?.success) { toast('🎉 兑换成功！'); closeM('mRedeem'); await loadShop(); await loadHome(); }
+  else toast(res?.error||'失败', 'err');
+}
+
+// ── Shop edit ──
+function toggleEdit() { S.editing = !S.editing; loadShop(); }
+
+function showAdd() {
+  S._editReward = null;
+  document.getElementById('mrTitle').textContent = '添加奖励';
+  document.getElementById('mrName').value = '';
+  document.getElementById('mrIcon').value = '⭐';
+  document.getElementById('mrCost').value = '';
+  document.getElementById('mrCatField').style.display = 'block';
+  document.getElementById('mrCat').value = 'privileges';
+  document.getElementById('mReward').classList.remove('hide');
+}
+
+function editR(cat, id) {
+  let r = null;
+  if(cat==='dream') r = S.rewards.dream;
+  else r = (S.rewards[cat]||[]).find(x=>x.id===id);
+  if(!r) return;
+  S._editReward = {category:cat, id};
+  document.getElementById('mrTitle').textContent = '编辑奖励';
+  document.getElementById('mrName').value = r.name;
+  document.getElementById('mrIcon').value = r.icon||'⭐';
+  document.getElementById('mrCost').value = r.cost;
+  document.getElementById('mrCatField').style.display = cat==='dream'?'none':'block';
+  if(cat!=='dream') document.getElementById('mrCat').value = cat;
+  document.getElementById('mReward').classList.remove('hide');
+}
+
+async function saveReward() {
+  const name = document.getElementById('mrName').value.trim();
+  const icon = document.getElementById('mrIcon').value.trim()||'⭐';
+  const cost = parseInt(document.getElementById('mrCost').value);
+  if(!name||!cost) { toast('名称和徽章数必填', 'err'); return; }
+  const ed = S._editReward;
+  const pwd = localStorage.getItem('badge_admin_pwd')||'';
+  let cat, reward;
+  if(ed) {
+    cat = ed.category;
+    reward = {id:ed.id, name, icon, cost};
   } else {
-    toast(res?.error || '兑换失败', 'error');
+    cat = document.getElementById('mrCat').value;
+    reward = {id:cat[0]+Date.now(), name, icon, cost};
   }
+  const res = await api('/api/rewards', {method:'POST', headers:{'x-admin-password':pwd}, body:JSON.stringify({category:cat, reward})});
+  if(res?.success) { toast('保存成功！'); closeM('mReward'); await loadShop(); }
+  else toast(res?.error||'失败', 'err');
 }
 
-// ── Shop Editing ──
-function toggleShopEditing() {
-  state.shopEditing = !state.shopEditing;
-  loadShop();
+async function delR(cat, id) {
+  if(!confirm('确定删除？')) return;
+  const pwd = localStorage.getItem('badge_admin_pwd')||'';
+  const res = await api(`/api/rewards/${cat}/${id}`, {method:'DELETE', headers:{'x-admin-password':pwd}});
+  if(res?.success) { toast('已删除'); await loadShop(); }
+  else toast(res?.error||'失败', 'err');
 }
 
-function showAddReward() {
-  state._editingReward = null;
-  document.getElementById('rewardModalTitle').textContent = '添加奖励';
-  document.getElementById('rewardEditName').value = '';
-  document.getElementById('rewardEditIcon').value = '⭐';
-  document.getElementById('rewardEditCost').value = '';
-  document.getElementById('rewardEditCategoryField').style.display = 'block';
-  document.getElementById('rewardEditCategory').value = 'privileges';
-  document.getElementById('rewardEditModal').classList.remove('hidden');
-}
-
-function editReward(category, id) {
-  const data = state.rewards;
-  let reward = null;
-  if (category === 'dream') {
-    reward = data.dream;
+function showFeature() {
+  // Build list from current rewards
+  const rw = S.rewards;
+  const all = [];
+  if(rw.dream) all.push({...rw.dream, _cat:'dream', _name:rw.dream.name+'(梦想大奖)'});
+  ['privileges','experiences','items'].forEach(c => (rw[c]||[]).forEach(r => all.push({...r, _cat:c})));
+  const opts = all.map((r,i) => `${i+1}. ${r.icon||'⭐'} ${r.name}（${r.cost}徽章）`).join('\n');
+  const choice = prompt(`输入要置顶的奖励编号（输入0取消置顶）：\n\n${opts}`, '1');
+  if(choice===null) return;
+  const idx = parseInt(choice)-1;
+  const pwd = localStorage.getItem('badge_admin_pwd')||'';
+  if(idx>=0 && idx<all.length) {
+    const r = all[idx];
+    api('/api/settings', {method:'PUT', headers:{'x-admin-password':pwd}, body:JSON.stringify({featuredReward:{category:r._cat, id:r.id}})})
+      .then(res => { if(res?.success) { toast('已置顶！'); S.info.featuredReward={category:r._cat,id:r.id}; loadShop(); }});
   } else {
-    reward = (data[category]||[]).find(r => r.id === id);
-  }
-  if (!reward) return;
-  state._editingReward = { category, id };
-  document.getElementById('rewardModalTitle').textContent = '编辑奖励';
-  document.getElementById('rewardEditName').value = reward.name;
-  document.getElementById('rewardEditIcon').value = reward.icon||'⭐';
-  document.getElementById('rewardEditCost').value = reward.cost;
-  if (category === 'dream') {
-    document.getElementById('rewardEditCategoryField').style.display = 'none';
-  } else {
-    document.getElementById('rewardEditCategoryField').style.display = 'block';
-    document.getElementById('rewardEditCategory').value = category;
-  }
-  document.getElementById('rewardEditModal').classList.remove('hidden');
-}
-
-async function saveRewardEdit() {
-  const name = document.getElementById('rewardEditName').value.trim();
-  const icon = document.getElementById('rewardEditIcon').value.trim() || '⭐';
-  const cost = parseInt(document.getElementById('rewardEditCost').value);
-  if (!name || !cost) { toast('名称和徽章数必填', 'error'); return; }
-  const editing = state._editingReward;
-  const isAdmin = localStorage.getItem('badge_admin') === 'true';
-  const pwd = isAdmin ? localStorage.getItem('badge_admin_pwd') || '' : '';
-  const headers = pwd ? { 'x-admin-password': pwd } : {};
-  let category, reward;
-  if (editing) {
-    category = editing.category;
-    reward = { id: editing.id, name, icon, cost };
-  } else {
-    category = document.getElementById('rewardEditCategory').value;
-    reward = { id: category[0] + Date.now(), name, icon, cost };
-  }
-  const res = await api('/api/rewards', {
-    method: 'POST',
-    headers,
-    body: JSON.stringify({ category, reward }),
-  });
-  if (res?.success) {
-    toast('保存成功！');
-    closeModal('rewardEditModal');
-    await loadShop();
-  } else {
-    toast(res?.error || '保存失败', 'error');
-  }
-}
-
-async function deleteReward(category, id) {
-  if (!confirm('确定删除这个奖励？')) return;
-  const isAdmin = localStorage.getItem('badge_admin') === 'true';
-  const pwd = isAdmin ? localStorage.getItem('badge_admin_pwd') || '' : '';
-  const res = await api(`/api/rewards/${category}/${id}`, {
-    method: 'DELETE',
-    headers: pwd ? { 'x-admin-password': pwd } : {},
-  });
-  if (res?.success) {
-    toast('已删除');
-    await loadShop();
-  } else {
-    toast(res?.error || '删除失败', 'error');
-  }
-}
-
-function showFeatureReward() {
-  // Simple prompt: select from all rewards
-  const allRewards = [];
-  if (state.rewards.dream) allRewards.push({ ...state.rewards.dream, _category:'dream', _name: state.rewards.dream.name + '（梦想大奖）' });
-  ['privileges','experiences','items'].forEach(catKey => {
-    (state.rewards[catKey]||[]).forEach(r => allRewards.push({ ...r, _category:catKey }));
-  });
-  const options = allRewards.map((r,i) => `${i+1}. ${r.icon||'⭐'} ${r.name}（${r.cost}徽章）`).join('\n');
-  const choice = prompt(`输入要置顶的奖励编号（输入0取消置顶）：\n\n${options}`, '1');
-  if (choice === null) return;
-  const idx = parseInt(choice) - 1;
-  if (idx >= 0 && idx < allRewards.length) {
-    const r = allRewards[idx];
-    // Save to settings
-    const isAdmin = localStorage.getItem('badge_admin') === 'true';
-    const pwd = isAdmin ? localStorage.getItem('badge_admin_pwd') || '' : '';
-    api('/api/settings', {
-      method: 'PUT',
-      headers: pwd ? { 'x-admin-password': pwd } : {},
-      body: JSON.stringify({ featuredReward: { category: r._category, id: r.id } }),
-    }).then(res => {
-      if (res?.success) {
-        toast('已设置置顶奖励！');
-        state.info.featuredReward = { category: r._category, id: r.id };
-        loadShop();
-      }
-    });
-  } else if (idx === -1 || choice === '0') {
-    // Clear featured
-    const isAdmin = localStorage.getItem('badge_admin') === 'true';
-    const pwd = isAdmin ? localStorage.getItem('badge_admin_pwd') || '' : '';
-    api('/api/settings', {
-      method: 'PUT',
-      headers: pwd ? { 'x-admin-password': pwd } : {},
-      body: JSON.stringify({ featuredReward: null }),
-    }).then(res => {
-      if (res?.success) {
-        toast('已取消置顶');
-        state.info.featuredReward = null;
-        loadShop();
-      }
-    });
+    api('/api/settings', {method:'PUT', headers:{'x-admin-password':pwd}, body:JSON.stringify({featuredReward:null})})
+      .then(res => { if(res?.success) { toast('已取消置顶'); S.info.featuredReward=null; loadShop(); }});
   }
 }
 
 // ── Log ──
 async function loadLog() {
-  document.getElementById('logMonthDisplay').textContent = state.currentMonth;
-  const res = await api('/api/history?month=' + state.currentMonth);
-  if (!res) return;
-  const content = document.getElementById('logContent');
-  if (res.history.length === 0) {
-    content.innerHTML = '<div style="text-align:center;color:var(--text-light);padding:30px;">本月还没有徽章记录</div>';
-    return;
-  }
+  document.getElementById('lmonth').textContent = S.curMonth;
+  const res = await api('/api/history?month='+S.curMonth);
+  if(!res) return;
+  const content = document.getElementById('lcontent');
+  if(!res.history?.length) { content.innerHTML = '<div style="text-align:center;color:var(--text-light);padding:30px;">暂无记录</div>'; return; }
   content.innerHTML = res.history.map(h => {
-    const badges = h.badges || {};
-    const badgeStrs = [];
-    (state.info?.badgeLines||[]).forEach(l => { if (badges[l.id]) badgeStrs.push(l.icon + l.label); });
-    const notesHtml = (h.notes||[]).map(n => `<div class="log-note">${n.emoji} <strong>${n.member}：</strong>${n.note}</div>`).join('');
-    return `<div class="log-day-card">
-      <div class="log-day-header">
-        <span class="log-day-date">${h.date}</span>
-        <span class="log-day-total">${'⭐'.repeat(h.total)}${'☆'.repeat(3-h.total)}</span>
+    const b = h.badges||{};
+    const strs = [];
+    (S.info?.badgeLines||[]).forEach(l => { if(b[l.id]) strs.push(l.icon+' '+l.label); });
+    const notes = (h.notes||[]).map(n => `<div style="font-size:11px;color:var(--text-light);">${n.emoji} <strong>${n.member}：</strong>${n.note}</div>`).join('');
+    return `<div class="lday">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+        <span style="font-size:13px;font-weight:600;">${h.date}</span>
+        <span style="font-size:18px;">${'⭐'.repeat(h.total)}${'☆'.repeat(3-h.total)}</span>
       </div>
-      <div class="log-day-badges">${badgeStrs.join('  ') || '暂无徽章'}</div>
-      ${notesHtml ? '<div class="log-day-notes">' + notesHtml + '</div>' : ''}
+      <div style="font-size:12px;color:var(--text-light);">${strs.join('  ')||'暂无'}</div>
+      ${notes?'<div style="border-top:1px solid var(--border);padding-top:6px;margin-top:6px;">'+notes+'</div>':''}
     </div>`;
   }).join('');
 }
 
-function changeMonth(delta) {
-  const [y, m] = state.currentMonth.split('-').map(Number);
-  const d = new Date(y, m - 1 + delta);
-  state.currentMonth = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0');
+function chgMonth(d) {
+  const [y,m] = S.curMonth.split('-').map(Number);
+  const dt = new Date(y, m-1+d);
+  S.curMonth = dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0');
   loadLog();
 }
 
 // ── Settings ──
 function showSettings() {
-  const isAdmin = localStorage.getItem('badge_admin') === 'true';
-  if (isAdmin) {
-    loadSettingsForAdmin();
-  } else {
-    showAdminLogin();
+  if(localStorage.getItem('badge_admin')==='true') loadSettings();
+  else {
+    const pwd = prompt('请输入管理员密码：');
+    if(pwd===null) return;
+    api('/api/auth/check', {method:'POST', body:JSON.stringify({password:pwd})}).then(res => {
+      if(res?.valid) { localStorage.setItem('badge_admin','true'); localStorage.setItem('badge_admin_pwd', pwd); toast('登录成功！'); loadSettings(); }
+      else toast('密码错误', 'err');
+    });
   }
 }
 
-function showAdminLogin() {
-  const pwd = prompt('请输入管理员密码：');
-  if (pwd === null) return;
-  api('/api/auth/check', { method: 'POST', body: JSON.stringify({ password: pwd }) }).then(res => {
-    if (res?.valid) {
-      localStorage.setItem('badge_admin', 'true');
-      localStorage.setItem('badge_admin_pwd', pwd);
-      toast('管理员登录成功！');
-      loadSettingsForAdmin();
-    } else {
-      toast('密码错误', 'error');
-    }
-  });
-}
-
-async function loadSettingsForAdmin() {
-  const isAdmin = localStorage.getItem('badge_admin') === 'true';
-  const pwd = localStorage.getItem('badge_admin_pwd') || '';
-  const res = await api('/api/settings?' + (pwd ? 'pwd=' + encodeURIComponent(pwd) : ''));
-  if (!res) { toast('获取设置失败', 'error'); return; }
-  const info = state.info || {};
-  document.getElementById('settingsContent').innerHTML = `
-    <div class="modal-field">
-      <label>孩子名字</label>
-      <input type="text" id="settingName" value="${res.childName||'奕铭'}">
-    </div>
-    <div class="modal-field">
-      <label>孩子年龄</label>
-      <input type="text" id="settingAge" value="${res.childAge||'3岁半'}">
-    </div>
-    <div class="modal-field">
-      <label>徽章名称</label>
-      <input type="text" id="settingBadgeName" value="${res.badgeName||'探险家徽章'}">
-    </div>
-    <div class="modal-field">
-      <label>利息规则（满N枚加M枚）</label>
-      <input type="number" id="settingInterestThreshold" value="${res.interestRate?.threshold||30}" style="width:60px;display:inline-block;">枚 加 <input type="number" id="settingInterestBonus" value="${res.interestRate?.bonus||3}" style="width:60px;display:inline-block;">枚
-    </div>
-    <div class="modal-field">
-      <label>修改管理员密码</label>
-      <input type="password" id="settingNewPwd" placeholder="留空则不修改">
-    </div>
-    <div class="modal-btns">
-      <button class="btn-confirm" onclick="saveSettings('${pwd}')">保存设置</button>
-    </div>
+async function loadSettings() {
+  const pwd = localStorage.getItem('badge_admin_pwd')||'';
+  const res = await api('/api/settings?'+(pwd?`pwd=${encodeURIComponent(pwd)}`:''));
+  if(!res) return;
+  document.getElementById('scontent2').innerHTML = `
+    <div class="mfield"><label>孩子名字</label><input type="text" id="sName" value="${res.childName||'奕铭'}"></div>
+    <div class="mfield"><label>孩子年龄</label><input type="text" id="sAge" value="${res.childAge||'3岁半'}"></div>
+    <div class="mfield"><label>徽章名称</label><input type="text" id="sBadge" value="${res.badgeName||'探险家徽章'}"></div>
+    <div class="mfield"><label>利息规则（满N枚加M枚）</label><input type="number" id="sIt" value="${res.interestRate?.threshold||30}" style="width:60px;display:inline-block;">枚 加 <input type="number" id="sIb" value="${res.interestRate?.bonus||3}" style="width:60px;display:inline-block;">枚</div>
+    <div class="mfield"><label>新密码（留空不修改）</label><input type="password" id="sPwd"></div>
+    <div class="mbtns"><button class="mconfirm" onclick="saveSettings('${pwd}')">保存</button></div>
   `;
-  document.getElementById('settingsModal').classList.remove('hidden');
+  document.getElementById('mSettings').classList.remove('hide');
 }
 
 async function saveSettings(pwd) {
-  const childName = document.getElementById('settingName').value.trim();
-  const childAge = document.getElementById('settingAge').value.trim();
-  const badgeName = document.getElementById('settingBadgeName').value.trim();
-  const newPwd = document.getElementById('settingNewPwd').value;
-  const interestThreshold = parseInt(document.getElementById('settingInterestThreshold').value) || 30;
-  const interestBonus = parseInt(document.getElementById('settingInterestBonus').value) || 3;
-  const body = { childName, childAge, badgeName, interestRate: { threshold: interestThreshold, bonus: interestBonus } };
-  if (newPwd) body.adminPassword = newPwd;
-  const res = await api('/api/settings', {
-    method: 'PUT',
-    headers: pwd ? { 'x-admin-password': pwd } : {},
-    body: JSON.stringify(body),
-  });
-  if (res?.success) {
-    toast('设置保存成功！');
-    if (newPwd) {
-      localStorage.setItem('badge_admin_pwd', newPwd);
-      toast('密码已更新，下次请用新密码登录');
-    }
-    closeModal('settingsModal');
-    init();
-  } else {
-    toast(res?.error || '保存失败', 'error');
-  }
+  const body = {
+    childName: document.getElementById('sName').value.trim(),
+    childAge: document.getElementById('sAge').value.trim(),
+    badgeName: document.getElementById('sBadge').value.trim(),
+    interestRate: {threshold:parseInt(document.getElementById('sIt').value)||30, bonus:parseInt(document.getElementById('sIb').value)||3},
+  };
+  const newPwd = document.getElementById('sPwd').value;
+  if(newPwd) body.adminPassword = newPwd;
+  const res = await api('/api/settings', {method:'PUT', headers:{'x-admin-password':pwd}, body:JSON.stringify(body)});
+  if(res?.success) {
+    toast('保存成功！');
+    if(newPwd) { localStorage.setItem('badge_admin_pwd', newPwd); toast('密码已更新'); }
+    closeM('mSettings'); init();
+  } else toast(res?.error||'失败', 'err');
 }
 
-// ── Philosophy ──
-function showPhilosophy() {
-  document.getElementById('philosophyModal').classList.remove('hidden');
-}
-
-// ── Modals ──
-function closeModal(id) {
-  document.getElementById(id).classList.add('hidden');
-}
+// ── Modal ──
+function closeM(id) { document.getElementById(id).classList.add('hide'); }
+function showPhilosophy() { document.getElementById('mPhilosophy').classList.remove('hide'); }
 
 // ── Toast ──
 function toast(msg, type) {
   const el = document.getElementById('toast');
   el.textContent = msg;
-  el.style.background = type === 'error' ? '#E8697C' : '#333';
+  el.style.background = type==='err'?'#E8697C':'#333';
   el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), 2500);
+  setTimeout(()=>el.classList.remove('show'), 2500);
 }
-
-// ── Confetti ──
-function launchConfetti() {
-  const container = document.getElementById('confettiContainer');
-  const colors = ['#F5A623','#4A90D9','#7ED321','#E8697C','#FF9F43','#9B59B6'];
-  for (let i = 0; i < 60; i++) {
-    const c = document.createElement('div');
-    c.className = 'confetti';
-    c.style.left = Math.random() * 100 + '%';
-    c.style.top = '-10px';
-    c.style.background = colors[Math.floor(Math.random() * colors.length)];
-    c.style.transform = `rotate(${Math.random()*360}deg)`;
-    c.style.animation = `confettiFall ${1.5 + Math.random()*2}s ease-in forwards`;
-    c.style.animationDelay = Math.random() * 0.5 + 's';
-    container.appendChild(c);
-  }
-  setTimeout(() => container.innerHTML = '', 4000);
-}
-
-// ── CSS for confetti animation ──
-const style = document.createElement('style');
-style.textContent = `@keyframes confettiFall { 0%{transform:translateY(0) rotate(0deg);opacity:1;} 100%{transform:translateY(100vh) rotate(720deg);opacity:0;} }`;
-document.head.appendChild(style);
-
-// ── Start ──
-init();
 </script>
 </body>
 </html>
