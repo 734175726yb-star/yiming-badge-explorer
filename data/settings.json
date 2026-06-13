@@ -1,0 +1,12 @@
+{
+  "badgeName": "探险家徽章",
+  "childName": "奕铭",
+  "childAge": "3岁半",
+  "adminPassword": "yiming2024",
+  "interestRate": {
+    "threshold": 30,
+    "bonus": 3
+  },
+  "dailyVoteDeadline": "23:59",
+  "featuredReward": null
+}

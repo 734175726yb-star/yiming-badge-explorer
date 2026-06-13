@@ -174,17 +174,27 @@ header .sub { font-size: 11px; opacity: 0.9; margin-top: 2px; }
 .vline .vinfo { flex: 1; }
 .vline .vname { font-size: 14px; font-weight: 700; }
 .vline .vdesc { font-size: 10px; color: var(--text-light); }
-.vbtns { display: flex; gap: 8px; }
+.vbtns { display: flex; gap: 12px; }
 .vbtn {
-  width: 46px; height: 46px; border-radius: 50%;
-  border: 2.5px solid var(--border); background: var(--card);
-  font-size: 22px; cursor: pointer; transition: all 0.2s;
+  width: 52px; height: 52px; border-radius: 50%;
+  border: 3px solid #E0E0E0; background: var(--card);
+  font-size: 26px; cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0; line-height: 1;
 }
-.vbtn:active { transform: scale(0.9); }
-.vbtn.yes { border-color: var(--leaf); }
-.vbtn.yes.active { background: #E8F5E9; }
-.vbtn.no { border-color: var(--pink); }
-.vbtn.no.active { background: #FCE4EC; }
+.vbtn:active { transform: scale(0.85); }
+.vbtn.yes { border-color: #C8E6C9; }
+.vbtn.yes.active { 
+  background: #C8E6C9; border-color: #43A047; 
+  box-shadow: 0 0 16px rgba(67,160,71,0.45);
+  transform: scale(1.12);
+}
+.vbtn.no { border-color: #FFCDD2; }
+.vbtn.no.active { 
+  background: #FFCDD2; border-color: #E53935; 
+  box-shadow: 0 0 16px rgba(229,57,53,0.45);
+  transform: scale(1.12);
+}
 
 .note-wrap {
   background: var(--card); border-radius: var(--radius);
@@ -716,7 +726,7 @@ function loadVote() {
       '<div class="vinfo"><div class="vname">' + l.label + '</div><div class="vdesc">' + l.desc + '</div></div>' +
       '<div class="vbtns">' +
         '<button class="vbtn yes" id="vb-' + l.id + '-y" onclick="setVote(\'' + l.id + '\',true)" title="做得很棒！">👍</button>' +
-        '<button class="vbtn no" id="vb-' + l.id + '-n" onclick="setVote(\'' + l.id + '\',false)" title="继续加油！">💪</button>' +
+        '<button class="vbtn no" id="vb-' + l.id + '-n" onclick="setVote(\'' + l.id + '\',false)" title="继续加油！">👎</button>' +
       '</div>' +
     '</div>';
   }).join('');

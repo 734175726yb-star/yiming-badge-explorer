@@ -1,11 +1,13 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 
 const app = express();
 const PORT = process.env.PORT || 3456;
 const DATA_DIR = path.join(__dirname, 'data');
 const DEFAULT_ADMIN_PASSWORD = 'yiming2024';
+const GIT_TOKEN = process.env.GIT_TOKEN || '';
 
 app.use(express.json({ limit: '10mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -18,7 +20,60 @@ const load = (name, fallback) => {
   try { return JSON.parse(fs.readFileSync(p, 'utf8')); }
   catch { fs.writeFileSync(p, JSON.stringify(fallback, null, 2)); return fallback; }
 };
-const save = (name, data) => fs.writeFileSync(path.join(DATA_DIR, name), JSON.stringify(data, null, 2));
+
+// ── Git-based persistence ──
+let _syncTimer = null;
+
+function setupGit() {
+  if (!GIT_TOKEN) return false;
+  try {
+    const repoUrl = 'https://x-access-token:' + GIT_TOKEN + '@github.com/734175726yb-star/yiming-badge-explorer.git';
+    execSync('git remote set-url origin "' + repoUrl + '" 2>/dev/null || git remote add origin "' + repoUrl + '"', { cwd: __dirname, stdio: 'pipe' });
+    execSync('git config user.email "badge-bot@yiming.local"', { cwd: __dirname, stdio: 'pipe' });
+    execSync('git config user.name "Badge Bot"', { cwd: __dirname, stdio: 'pipe' });
+    console.log('[sync] Git configured for auto-backup');
+    return true;
+  } catch(e) {
+    console.log('[sync] Git setup failed, running without auto-backup');
+    return false;
+  }
+}
+
+function pullData() {
+  if (!GIT_TOKEN) return;
+  try {
+    execSync('git pull origin main --rebase 2>/dev/null', { cwd: __dirname, stdio: 'pipe', timeout: 10000 });
+    console.log('[sync] Pulled latest data from GitHub');
+  } catch(e) {
+    // Silent fail on pull (first deploy may have no remote setup)
+  }
+}
+
+function syncToGit() {
+  if (!GIT_TOKEN) return;
+  if (_syncTimer) clearTimeout(_syncTimer);
+  _syncTimer = setTimeout(() => {
+    try {
+      execSync('git pull origin main --rebase 2>/dev/null', { cwd: __dirname, stdio: 'pipe', timeout: 10000 });
+      execSync('git add data/*.json 2>/dev/null', { cwd: __dirname, stdio: 'pipe' });
+      execSync('git diff --cached --quiet 2>/dev/null', { cwd: __dirname, stdio: 'pipe' });
+    } catch(e) {
+      // diff exits with 1 if there are changes — that's expected
+      try {
+        execSync('git commit -m "data: auto-backup ' + today() + '"', { cwd: __dirname, stdio: 'pipe', timeout: 5000 });
+        execSync('git push origin main 2>/dev/null', { cwd: __dirname, stdio: 'pipe', timeout: 15000 });
+        console.log('[sync] Data backed up to GitHub');
+      } catch(e2) {
+        console.log('[sync] Push failed:', (e2.stderr||'').toString().substring(0, 80));
+      }
+    }
+  }, 3000); // debounce 3s
+}
+
+const save = (name, data) => {
+  fs.writeFileSync(path.join(DATA_DIR, name), JSON.stringify(data, null, 2));
+  syncToGit();
+};
 const today = () => {
   const d = new Date();
   return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
@@ -390,7 +445,19 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+// ── Init: restore data from GitHub, then start server ──
+const _gitReady = setupGit();
+if (_gitReady) pullData();
+
+// Reload data after pull
+votesDB = load('votes.json', {});
+badgesDB = load('badges.json', {});
+redeemsDB = load('redeems.json', []);
+rewardsDB = load('rewards.json', defaultRewards);
+settingsDB = load('settings.json', defaultSettings);
+
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🏴‍☠️ 奕铭探险家徽章系统 V2 已启航！端口: ${PORT}`);
-  console.log(`   http://localhost:${PORT}`);
+  console.log('⭐ 奕铭探险家徽章系统 V2 已启航！端口:', PORT);
+  console.log('   http://localhost:' + PORT);
+  console.log(_gitReady ? '🔗 数据自动备份到 GitHub 已启用' : '⚠️  未配置 GIT_TOKEN，数据不会自动备份');
 });
