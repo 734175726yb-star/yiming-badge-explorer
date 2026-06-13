@@ -56,6 +56,7 @@ const defaultSettings = {
   adminPassword: DEFAULT_ADMIN_PASSWORD,
   interestRate: { threshold: 30, bonus: 3 },
   dailyVoteDeadline: '23:59',
+  featuredReward: null, // { category, id } - 置顶显示的奖励
 };
 
 const members = [
@@ -76,12 +77,32 @@ let votesDB = load('votes.json', {});
 let rewardsDB = load('rewards.json', defaultRewards);
 let settingsDB = load('settings.json', defaultSettings);
 let badgesDB = load('badges.json', {}); // { "2026-06-13": { "emotion":1, "behavior":1, "explore":0 } }
+let redeemsDB = load('redeems.json', []); // [ { date, rewardId, rewardName, cost, category } ]
 
 // ── Auth middleware ──
 function adminAuth(req, res, next) {
   const pwd = req.headers['x-admin-password'] || req.query.pwd || '';
   if (pwd === settingsDB.adminPassword) return next();
   res.status(403).json({ error: '需要管理员密码' });
+}
+
+// ── Helper: calculate badge balance ──
+function calcBalance() {
+  // Total earned (all-time, including interest)
+  let totalEarned = 0;
+  Object.values(badgesDB).forEach(day => {
+    totalEarned += (day.emotion || 0) + (day.behavior || 0) + (day.explore || 0);
+  });
+  const interestBonus = Math.floor(totalEarned / settingsDB.interestRate.threshold) * settingsDB.interestRate.bonus;
+  const totalWithBonus = totalEarned + interestBonus;
+
+  // Total redeemed
+  let totalRedeemed = 0;
+  redeemsDB.forEach(r => { totalRedeemed += (r.cost || 0); });
+
+  const remaining = Math.max(0, totalWithBonus - totalRedeemed);
+
+  return { totalEarned, totalWithBonus, totalRedeemed, remaining, interestBonus };
 }
 
 // ── API Routes ──
@@ -136,6 +157,9 @@ app.get('/api/today', (req, res) => {
   // Add interest bonus
   const interestBonus = Math.floor(allTimeTotal / settingsDB.interestRate.threshold) * settingsDB.interestRate.bonus;
 
+  // Redeemed badges
+  const balance = calcBalance();
+
   res.json({
     date: td,
     votes: dayVotes,
@@ -143,8 +167,9 @@ app.get('/api/today', (req, res) => {
     whoVoted,
     badgeResults: dayBadges,
     todayEarned: (dayBadges.emotion||0) + (dayBadges.behavior||0) + (dayBadges.explore||0),
-    allTimeTotal: allTimeTotal + interestBonus,
+    allTimeTotal: balance.totalWithBonus,
     interestBonus,
+    remaining: balance.remaining,
     allNotes,
     membersVoted: whoVoted.length,
     membersTotal: members.length,
@@ -229,6 +254,37 @@ app.get('/api/notes/:date', (req, res) => {
     }
   });
   res.json({ date: req.params.date, notes });
+});
+
+// ── Balance & Redeem API ──
+app.get('/api/balance', (req, res) => {
+  const balance = calcBalance();
+  res.json(balance);
+});
+
+app.post('/api/redeem', (req, res) => {
+  const { rewardId, rewardName, cost, category, password } = req.body;
+  if (password !== settingsDB.adminPassword) {
+    return res.status(403).json({ error: '需要管理员密码才能兑换' });
+  }
+  const balance = calcBalance();
+  if (balance.remaining < cost) {
+    return res.status(400).json({ error: '徽章不足，无法兑换' });
+  }
+  redeemsDB.push({
+    date: today(),
+    rewardId,
+    rewardName,
+    cost,
+    category,
+    time: new Date().toISOString(),
+  });
+  save('redeems.json', redeemsDB);
+  res.json({ success: true, balance: calcBalance() });
+});
+
+app.get('/api/redeems', (req, res) => {
+  res.json(redeemsDB);
 });
 
 // ── Rewards API ──
