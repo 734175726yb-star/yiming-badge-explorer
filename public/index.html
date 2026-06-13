@@ -256,6 +256,22 @@ header .sub { font-size: 11px; opacity: 0.9; margin-top: 2px; }
   background: linear-gradient(135deg, #FFF8E1, #FFECB3);
 }
 
+/* Edit/delete buttons on reward cards */
+.rcard-actions {
+  position: absolute; top: 4px; right: 4px;
+  display: flex; gap: 3px; z-index: 5;
+}
+.rcard-btn {
+  font-size: 12px; padding: 2px 7px;
+  border-radius: 6px; cursor: pointer;
+  border: 1.5px solid transparent;
+  background: #fff; line-height: 1.4;
+  transition: transform 0.15s;
+}
+.rcard-btn:active { transform: scale(0.9); }
+.rcard-edit { color: #4FC3F7; border-color: #4FC3F7; }
+.rcard-del  { color: #EF5350; border-color: #EF5350; }
+
 .cat-header {
   font-size: 15px; font-weight: 800; margin: 18px 0 4px;
   display: flex; align-items: center; gap: 6px;
@@ -828,6 +844,12 @@ function renderShop(rw, bal) {
   });
 
   document.getElementById('scontent').innerHTML = h;
+  // Bind delegated click handler ONCE
+  var sc = document.getElementById('scontent');
+  if (!sc._boundClick) {
+    sc.addEventListener('click', handleShopClick);
+    sc._boundClick = true;
+  }
 }
 
 function renderRcard(r, rem, feat) {
@@ -837,31 +859,61 @@ function renderRcard(r, rem, feat) {
   if (!earned) cls += ' locked';
   if (feat) cls += ' featured';
 
-  // Safely encode cat and id for attribute
-  var catAttr = (r._cat||'');
-  var idAttr = (r.id||'');
-  var safeOnclick = 'onRcard(\'' + escAttr(catAttr) + '\',\'' + escAttr(idAttr) + '\',' + (r.cost||0) + ',' + (earned?'true':'false') + ')';
+  // Use data- attributes (safe) instead of inline onclick (fragile)
+  var catAttr = escHtml(r._cat||'');
+  var idAttr  = escHtml(r.id||'');
+  var costVal = String(r.cost||0);
 
   var eb = '';
   if (S.editing) {
-    eb = '<div style="position:absolute;top:4px;right:4px;">' +
-      '<button onclick="event.stopPropagation();editR(\'' + escAttr(catAttr) + '\',\'' + escAttr(idAttr) + '\')" style="font-size:11px;padding:2px 6px;border:1.5px solid #4FC3F7;border-radius:5px;background:#fff;color:#4FC3F7;cursor:pointer;margin-right:2px;">✏️</button>' +
-      '<button onclick="event.stopPropagation();delR(\'' + escAttr(catAttr) + '\',\'' + escAttr(idAttr) + '\')" style="font-size:11px;padding:2px 6px;border:1.5px solid #EF5350;border-radius:5px;background:#fff;color:#EF5350;cursor:pointer;">🗑</button>' +
+    eb = '<div class="rcard-actions">' +
+      '<button class="rcard-btn rcard-edit" data-cat="' + catAttr + '" data-id="' + idAttr + '" title="编辑">✏️</button>' +
+      '<button class="rcard-btn rcard-del"  data-cat="' + catAttr + '" data-id="' + idAttr + '" title="删除">🗑</button>' +
       '</div>';
   }
 
-  return '<div class="' + cls + '" onclick="' + safeOnclick + '">' +
+  return '<div class="' + cls + '" data-cat="' + catAttr + '" data-id="' + idAttr + '" data-cost="' + costVal + '" data-earned="' + (earned?'1':'0') + '">' +
     eb +
-    '<div class="ricon">' + (r.icon||'⭐') + '</div>' +
-    '<div class="rname">' + (r.name||'宝藏') + '</div>' +
-    '<div class="rcost">🏅 ' + r.cost + ' 枚</div>' +
+    '<div class="ricon">' + escHtml(r.icon||'⭐') + '</div>' +
+    '<div class="rname">' + escHtml(r.name||'宝藏') + '</div>' +
+    '<div class="rcost">🏅 ' + costVal + ' 枚</div>' +
     '<div class="rprog"><div class="rprogbar" style="width:' + pct + '%;background:' + (earned?'var(--leaf)':'var(--sun)') + ';"></div></div>' +
     '<div class="rpct">' + rem + '/' + r.cost + '（' + pct + '%）</div>' +
   '</div>';
 }
 
-function escAttr(s) {
-  return (s||'').replace(/\\/g,'\\\\').replace(/'/g,'\\\'');
+// HTML-escape for safe embedding in attributes
+function escHtml(s) {
+  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+// Delegate clicks on shop content (replaces all inline onclick on cards)
+function handleShopClick(evt) {
+  // Find clicked element
+  var tgt = evt.target;
+
+  // 1) Edit/Delete buttons — highest priority
+  var btn = tgt.closest('.rcard-btn');
+  if (btn) {
+    evt.stopPropagation();
+    evt.preventDefault();
+    var cat = btn.getAttribute('data-cat');
+    var id  = btn.getAttribute('data-id');
+    if (btn.classList.contains('rcard-edit')) editR(cat, id);
+    else delR(cat, id);
+    return;
+  }
+
+  // 2) Reward card itself — redeem flow
+  var card = tgt.closest('.rcard');
+  if (card) {
+    var cat   = card.getAttribute('data-cat');
+    var id    = card.getAttribute('data-id');
+    var cost  = parseInt(card.getAttribute('data-cost'))||0;
+    var earned = card.getAttribute('data-earned') === '1';
+    onRcard(cat, id, cost, earned);
+    return;
+  }
 }
 
 function onRcard(cat, id, cost, earned) {
@@ -1088,7 +1140,7 @@ async function loadSettings() {
       '</div>' +
     '</div>' +
     '<div class="mfield"><label>🔒 新密码（留空不修改）</label><input type="password" id="sPwd" placeholder="输入新密码"></div>' +
-    '<div class="mbtns"><button class="mconfirm" onclick="saveSettings(\'' + escAttr(pwd) + '\')">保存 ✅</button></div>';
+    '<div class="mbtns"><button class="mconfirm" onclick="saveSettings(\'' + escHtml(pwd) + '\')">保存 ✅</button></div>';
   document.getElementById('mSettings').classList.remove('hide');
 }
 
